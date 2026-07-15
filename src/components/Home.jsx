@@ -28,8 +28,7 @@ import {
   GiPaintBrush,
   GiFlowerEmblem,
   GiFlowerPot,
-  GiAmphora,
-  GiClothes
+  GiAmphora
 } from 'react-icons/gi';
 
 import { 
@@ -59,13 +58,13 @@ const HOME_DATA = {
     { icon: <GiSewingNeedle />, title: "Hand Embroidery", desc: "Traditional Aari, Zardosi, and French knot stitches meticulously crafted by master artisans." },
     { icon: <GiPaintBrush />, title: "Fabric Painting", desc: "Hand-painted botanical and traditional motifs using colorfast, organic dyes on rich silk." },
     { icon: <FiLayers />, title: "Custom Stitching", desc: "Bespoke tailoring engineered to accentuate your unique silhouette with haute couture precision." },
-    { icon: <GiThreads />, title: "Blouse Designs", desc: "Statement necklines, intricate back motifs, and heavily embroidered sleeve borders for bridal wear." },
+    {  icon: <GiPaintBrush />, title: "Blouse Designs", desc: "Statement necklines, intricate back motifs, and heavily embroidered sleeve borders for bridal wear." },
     { icon: <GiFlowerPot />, title: "Home Décor", desc: "Luxury throw cushions, embroidered wall hoops, and ornamental table runners." },
-    { icon: <GiNeedleThread />, title: "Custom Orders", desc: "Monogrammed keepsakes, personalized anniversary hoops, and family heirloom pieces." }
+    { icon: <GiAmphora />, title: "Custom Orders", desc: "Monogrammed keepsakes, personalized anniversary hoops, and family heirloom pieces." }
   ],
   features: [
     { icon: <FiHeart />, title: "Handmade with Love", desc: "Crafted with patience and emotional dedication in every thread." },
-    { icon: <GiThreads />, title: "Premium Materials", desc: "Pure mulberry silks, high-grade linen, and long-staple cotton threads." },
+    { icon: <GiPaintBrush />, title: "Premium Materials", desc: "Pure mulberry silks, high-grade linen, and long-staple cotton threads." },
     { icon: <GiSewingNeedle />, title: "Custom Designs", desc: "Your unique inspiration brought to life with precise artistic renditions." },
     { icon: <FiAward />, title: "Skilled Craftsmanship", desc: "Generational artisans bringing centuries of Indian heritage to light." },
     { icon: <FiCheckCircle />, title: "Quality Finishing", desc: "Flawless border tucks, secure knots, and impeccable lining fabric." },
@@ -226,7 +225,7 @@ const HeroSection = ({ heroTextRef, heroImageRef, heroBadgeRef }) => (
           <img src={HOME_DATA.images.hero} alt="Artisan hands stitching floral embroidery hoop" className="hero-main-img" />
           <div className="hero-image-frame"></div>
           <div className="hero-floating-badge" ref={heroBadgeRef}>
-            <div className="badge-icon"><GiThreads /></div>
+            <div className="badge-icon">  <GiSewingNeedle /></div>
             <div className="badge-text">
               <strong>Silk & Cotton Threads</strong>
               <span>Traditional Handiwork</span>
