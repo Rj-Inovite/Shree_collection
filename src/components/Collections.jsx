@@ -53,36 +53,36 @@ const CATEGORIES = [
 ];
 
 const GALLERY_ITEMS = [
-  { id: 1, category: "Floral Embroidery", title: "Vintage Rose Hoop", desc: "Delicate French knots on pristine linen backing.", img: "https://images.unsplash.com/photo-1613987549117-13c4781b32d3?auto=format&fit=crop&q=80&w=800", height: "400px" },
-  { id: 2, category: "Bridal Designs", title: "Royal Zardosi Blouse", desc: "Gilded metallic threads woven with precision beads.", img: "https://images.unsplash.com/photo-1595959183075-c1d0a161b0c6?auto=format&fit=crop&q=80&w=800", height: "520px" },
+  { id: 1, category: "Floral Embroidery", title: "Vintage Rose Hoop", desc: "Delicate French knots on pristine linen backing.", img: "https://i.pinimg.com/236x/c6/cb/22/c6cb22ab0f3e087bbe2a0ff17dc602ec.jpg", height: "400px" },
+  { id: 2, category: "Bridal Designs", title: "Royal Zardosi Blouse", desc: "Gilded metallic threads woven with precision beads.", img: "https://d1311wbk6unapo.cloudfront.net/NushopCatalogue/tr:f-webp,w-600,fo-auto/68d12eb8f9f785e1e2bb946f/cat_img/Beautiful_Patch_Work_Designer_Khadi_Handwork_Blouse_MCXEF68754_2025-12-26_1.jpeg", height: "520px" },
   { id: 3, category: "Fabric Painting", title: "Lotus Bloom Dupatta", desc: "Water-resistant fine hand strokes on silk threads.", img: "https://images.unsplash.com/photo-1550581190-9c1c48d21d6c?auto=format&fit=crop&q=80&w=800", height: "460px" },
-  { id: 4, category: "Cushion Covers", title: "Marigold Harmony Cover", desc: "Chunky textured Crewel work on raw cotton.", img: "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&q=80&w=800", height: "380px" },
-  { id: 5, category: "Sarees", title: "Kantha Weave Silk Saree", desc: "Stunning running-stitch border depicting rural folklore.", img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=800", height: "540px" },
-  { id: 6, category: "Kids Collection", title: "Playful Elephant Romper", desc: "Hypoallergenic soft organic cotton with cute animal silhouettes.", img: "https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&q=80&w=800", height: "420px" },
-  { id: 7, category: "Personalized Gifts", title: "Aniversary Keepsake Hoop", desc: "Floral monogram stitched with personalized celebration dates.", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800", height: "480px" },
-  { id: 8, category: "Bedsheets", title: "Mandala Garden Sheet", desc: "Symmetrical heavy stitch patterns for your elegant sanctuary.", img: "https://images.unsplash.com/photo-1605647540924-852290f6b0d5?auto=format&fit=crop&q=80&w=800", height: "360px" },
-  { id: 9, category: "Home Décor", title: "Wildflower Table Runner", desc: "Detailed chain stitches depicting lush botanical meadows.", img: "https://images.unsplash.com/photo-1565193298564-ae98e2491267?auto=format&fit=crop&q=80&w=800", height: "500px" },
-  { id: 10, category: "Festival Collection", title: "Golden Diya Wall Banner", desc: "Splendid festive embroidery with sequence highlights.", img: "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&q=80&w=800", height: "440px" },
-  { id: 11, category: "Custom Orders", title: "Peacock Whispers Hoop", desc: "Intricate blue and emerald satin stitch blend.", img: "https://images.unsplash.com/photo-1572085312730-23a6b6ec8fc1?auto=format&fit=crop&q=80&w=800", height: "490px" },
-  { id: 12, category: "Blouse Collection", title: "Bridal Crimson Choli", desc: "Classic heavy thread embroidery and pearl borders.", img: "https://images.unsplash.com/photo-1610030469668-93535c17b6b3?auto=format&fit=crop&q=80&w=800", height: "430px" }
+  { id: 4, category: "Cushion Covers", title: "Marigold Harmony Cover", desc: "Chunky textured Crewel work on raw cotton.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiH0HHg90eNoo-YRaDPPLvMbUBFU9yZR_MyzZSna8ViABmORccb-WHYuo&s=10", height: "380px" },
+  { id: 5, category: "Sarees", title: "Kantha Weave Silk Saree", desc: "Stunning running-stitch border depicting rural folklore.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6EuPE3Nr0FO9JEyekMCZYWrgbC0bmaVm-TPFyYQm5ujIiaaOfu6WHtOQ&s=10", height: "540px" },
+  { id: 6, category: "Kids Collection", title: "Playful Elephant Romper", desc: "Hypoallergenic soft organic cotton with cute animal silhouettes.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzCjeHerHzsqEovyun96WHGXZuw_sA7WbCTJKEu6mQrQ&s=10", height: "420px" },
+  { id: 7, category: "Personalized Gifts", title: "Aniversary Keepsake Hoop", desc: "Floral monogram stitched with personalized celebration dates.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnI25sqsiWAMjBinWJxJk89eSMihhwSCt2TqJjjzDqNaTqktjox5QEK5Ww&s=10", height: "480px" },
+  { id: 8, category: "Bedsheets", title: "Mandala Garden Sheet", desc: "Symmetrical heavy stitch patterns for your elegant sanctuary.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDkHUTyY9ZVGZfXSJ95aZmVWX7dgsXWABJHvOD3nH3iR11kFY1yCfBt5Jj&s=10", height: "360px" },
+  { id: 9, category: "Home Décor", title: "Wildflower Table Runner", desc: "Detailed chain stitches depicting lush botanical meadows.", img: "https://i.pinimg.com/236x/8c/d1/d7/8cd1d7458c2cc2a192100f48a082f788.jpg", height: "500px" },
+  { id: 10, category: "Festival Collection", title: "Golden Diya Wall Banner", desc: "Splendid festive embroidery with sequence highlights.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrLDVaQNIMwJbjDA5vCz9o0vkJTaNkKc4imB_dfufH4A&s", height: "440px" },
+  { id: 11, category: "Custom Orders", title: "Peacock Whispers Hoop", desc: "Intricate blue and emerald satin stitch blend.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiH0HHg90eNoo-YRaDPPLvMbUBFU9yZR_MyzZSna8ViABmORccb-WHYuo&s=10", height: "490px" },
+  { id: 12, category: "Blouse Collection", title: "Bridal Crimson Choli", desc: "Classic heavy thread embroidery and pearl borders.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzY7nTDSNXSwgB2o-5KtWhQ5HikU0QTdMpqGvTrV-11Xi9WPtHqTXeyg0&s=10", height: "430px" }
 ];
 
 const FEATURED_SLIDER = [
-  { title: "The Royal Heritage Line", desc: "Regal hand-painted fabrics combined with heavy Aari embroidery borders, crafted over 120 artisan hours.", img: "https://images.unsplash.com/photo-1595959183075-c1d0a161b0c6?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Meadow Whispers", desc: "Soft pastel threads detailing spring blossoms onto raw organic linens, bringing nature right to your home.", img: "https://images.unsplash.com/photo-1613987549117-13c4781b32d3?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Ethereal Bridal Coutures", desc: "Bespoke bridal wear featuring intricate gold bullion work, custom tailored to weave your unique wedding narrative.", img: "https://images.unsplash.com/photo-1610030469668-93535c17b6b3?auto=format&fit=crop&q=80&w=1200" }
+  { title: "The Royal Heritage Line", desc: "Regal hand-painted fabrics combined with heavy Aari embroidery borders, crafted over 120 artisan hours.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7KRkY9u8NghX8Y3MxUHsl70cPukfU2E8woy9Zw6ExsA&s=10" },
+  { title: "Meadow Whispers", desc: "Soft pastel threads detailing spring blossoms onto raw organic linens, bringing nature right to your home.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvEIeAdtGEy5aPy_Rky6P2qqr9JGr8plZBzX9a1fvkZ-aFRxdE4KLPuW1n&s=10" },
+  { title: "Ethereal Bridal Coutures", desc: "Bespoke bridal wear featuring intricate gold bullion work, custom tailored to weave your unique wedding narrative.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd2W1X9WSzXPFDWEPeIwk4OzVtupcxmbXA5Knk8cmhQw&s=10" }
 ];
 
 const BEHIND_THE_CRAFT_TIMELINE = [
-  { step: "01", title: "Thread Selection", desc: "We handpick long-staple cotton threads and high-luster silk skeins globally to ensure brilliant sheen and lifetime durability.", img: "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&q=80&w=600" },
-  { step: "02", title: "Sketch Preparation", desc: "Our designs begin as pencil concepts, delicately transferred to premium cloth sheets with strict symmetry markers.", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=600" },
-  { step: "03", title: "Expert Needlework", desc: "With hours of immense focus, artisans construct perfect knots, satin flats, and exquisite bead layouts.", img: "https://images.unsplash.com/photo-1572085312730-23a6b6ec8fc1?auto=format&fit=crop&q=80&w=600" },
-  { step: "04", title: "Finishing & Wash", desc: "Fabrics are gently stretched, carefully washed, steamed, and framed inside fine organic woods or tailored into heavy apparel.", img: "https://images.unsplash.com/photo-1565193298564-ae98e2491267?auto=format&fit=crop&q=80&w=600" }
+  { step: "01", title: "Thread Selection", desc: "We handpick long-staple cotton threads and high-luster silk skeins globally to ensure brilliant sheen and lifetime durability.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUkv4S0MfZYwdiYsJER_PEdGuH1rZn_RTTw2ha4Z0GY4a--Gh9eb3WQbBX&s=10" },
+  { step: "02", title: "Sketch Preparation", desc: "Our designs begin as pencil concepts, delicately transferred to premium cloth sheets with strict symmetry markers.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzutxQWM-PVTtF4r3KeryosnwOFHBJ3OoPzgndwiN8UA&s=10" },
+  { step: "03", title: "Expert Needlework", desc: "With hours of immense focus, artisans construct perfect knots, satin flats, and exquisite bead layouts.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrLDVaQNIMwJbjDA5vCz9o0vkJTaNkKc4imB_dfufH4A&s=10" },
+  { step: "04", title: "Finishing & Wash", desc: "Fabrics are gently stretched, carefully washed, steamed, and framed inside fine organic woods or tailored into heavy apparel.", img: "https://i.pinimg.com/236x/c7/d7/9a/c7d79ab0cc338e0262e9309bf0130cd9.jpg" }
 ];
 
 const CUSTOMER_FAVORITES = [
-  { title: "The Sovereign Peacock Hoop", badge: "Best Seller", desc: "Stunning rich blues blended with genuine emerald green threads.", img: "https://images.unsplash.com/photo-1572085312730-23a6b6ec8fc1?auto=format&fit=crop&q=80&w=400" },
-  { title: "Gilded Ivory Cushion", badge: "Highly Rated", desc: "Luxury textured cushion featuring subtle gold leaf and custom chain stitching.", img: "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&q=80&w=400" },
+  { title: "The Sovereign Peacock Hoop", badge: "Best Seller", desc: "Stunning rich blues blended with genuine emerald green threads.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrLDVaQNIMwJbjDA5vCz9o0vkJTaNkKc4imB_dfufH4A&s=10" },
+  { title: "Gilded Ivory Cushion", badge: "Highly Rated", desc: "Luxury textured cushion featuring subtle gold leaf and custom chain stitching.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiH0HHg90eNoo-YRaDPPLvMbUBFU9yZR_MyzZSna8ViABmORccb-WHYuo&s=10" },
   { title: "Monogrammed Linen Frame", badge: "Perfect Gift", desc: "Delicate customizable initials surrounded by classic English spring wreaths.", img: "https://images.unsplash.com/photo-1613987549117-13c4781b32d3?auto=format&fit=crop&q=80&w=400" }
 ];
 
@@ -437,35 +437,7 @@ export default function Collections() {
         </div>
       </section>
 
-      {/* --- FOOTER --- */}
-      <footer className="collections-footer">
-        <div className="container footer-layout">
-          <div className="col-logo">
-            <h3>Shree Collection</h3>
-            <p>Creating luxury embroidery pieces, customizable floral art hoops, and heirloom quality handloom work designed to survive generations.</p>
-          </div>
-          <div className="col-menu">
-            <h4>Quick Links</h4>
-            <ul>
-              <li><a href="#home">Home</a></li>
-              <li><a href="#collections" className="active">Collections</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div>
-          <div className="col-socials">
-            <h4>Reach Us</h4>
-            <span className="contact-phone">📞 +91 9923062181</span>
-            <div className="social-row-items">
-              <a href="https://www.instagram.com/shree_collection_art?igsh=ZW10MGt3MnJxa2M4" target="_blank" rel="noopener noreferrer"><InstagramIcon /></a>
-              <a href="https://youtube.com/@shree_hand_embroidery?si=yQ1gxB9E4spQr-pC" target="_blank" rel="noopener noreferrer"><YouTubeIcon /></a>
-            </div>
-          </div>
-        </div>
-        <div className="footer-copyright-row">
-          <p>&copy; 2026 Shree Collection. Crafted with Love.</p>
-        </div>
-      </footer>
-
+      
     </div>
   );
 }

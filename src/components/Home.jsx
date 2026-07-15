@@ -50,9 +50,9 @@ gsap.registerPlugin(ScrollTrigger);
 // ============================================================================
 const HOME_DATA = {
   images: {
-    hero: "https://images.unsplash.com/photo-1613987549117-13c4781b32d3?auto=format&fit=crop&q=80&w=1200",
-    handsStitching: "https://images.unsplash.com/photo-1572085312730-23a6b6ec8fc1?auto=format&fit=crop&q=80&w=1000",
-    ctaBg: "https://images.unsplash.com/photo-1595959183075-c1d0a161b0c6?auto=format&fit=crop&q=80&w=1600"
+    hero: "https://in.pinterest.com/pin/849913760961513640/",
+    handsStitching: "https://in.pinterest.com/pin/4594445771489893504/",
+    ctaBg: "https://in.pinterest.com/pin/61502351158617302/"
   },
   services: [
     { icon: <GiSewingNeedle />, title: "Hand Embroidery", desc: "Traditional Aari, Zardosi, and French knot stitches meticulously crafted by master artisans." },
@@ -71,12 +71,12 @@ const HOME_DATA = {
     { icon: <FiClock />, title: "Timely Delivery", desc: "Rigorous milestone tracking ensuring on-schedule dispatches worldwide." }
   ],
   masonryCollections: [
-    { id: 1, type: "tall", tag: "Hoop Art", title: "Floral Collection", img: "https://images.unsplash.com/photo-1613987549117-13c4781b32d3?auto=format&fit=crop&q=80&w=800" },
-    { id: 2, type: "wide", tag: "Couture", title: "Bridal Collection", img: "https://images.unsplash.com/photo-1595959183075-c1d0a161b0c6?auto=format&fit=crop&q=80&w=800" },
-    { id: 3, type: "standard", tag: "Living", title: "Cushion Covers", img: "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&q=80&w=800" },
-    { id: 4, type: "standard", tag: "Linen", title: "Bedsheets", img: "https://images.unsplash.com/photo-1605647540924-852290f6b0d5?auto=format&fit=crop&q=80&w=800" },
-    { id: 5, type: "wide", tag: "Personalized", title: "Personalized Gifts", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800" },
-    { id: 6, type: "tall", tag: "Festive", title: "Festival Collection", img: "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&q=80&w=800" }
+    { id: 1, type: "tall", tag: "Hoop Art", title: "Floral Collection", img: "https://in.pinterest.com/pin/849913760961513640/" },
+    { id: 2, type: "wide", tag: "Couture", title: "Bridal Collection", img: "https://in.pinterest.com/pin/4594445771489893504/" },
+    { id: 3, type: "standard", tag: "Living", title: "Cushion Covers", img: "https://in.pinterest.com/pin/61502351158617302/" },
+    { id: 4, type: "standard", tag: "Linen", title: "Bedsheets", img: "https://in.pinterest.com/pin/849913760961513640/" },
+    { id: 5, type: "wide", tag: "Personalized", title: "Personalized Gifts", img: "https://in.pinterest.com/pin/4594445771489893504/" },
+    { id: 6, type: "tall", tag: "Festive", title: "Festival Collection", img: "https://in.pinterest.com/pin/61502351158617302/" }
   ],
   timeline: [
     { num: "01", title: "Idea", desc: "We map out your vision, color palettes, and motif references." },
@@ -87,10 +87,10 @@ const HOME_DATA = {
     { num: "06", title: "Delivery", desc: "Hand-wrapped in luxury eco-friendly keepsake packaging." }
   ],
   masterpieces: [
-    { title: "The Royal Lotus Hoop", category: "Botanical Hoops", img: "https://images.unsplash.com/photo-1613987549117-13c4781b32d3?auto=format&fit=crop&q=80&w=800" },
-    { title: "Crimson Zardosi Bridal Choli", category: "Bridal Apparel", img: "https://images.unsplash.com/photo-1595959183075-c1d0a161b0c6?auto=format&fit=crop&q=80&w=800" },
-    { title: "Peacock Whispers Silk Cushion", category: "Luxury Living", img: "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&q=80&w=800" },
-    { title: "Heritage Gold Mandala Sheet", category: "Fine Bedding", img: "https://images.unsplash.com/photo-1605647540924-852290f6b0d5?auto=format&fit=crop&q=80&w=800" }
+    { title: "The Royal Lotus Hoop", category: "Botanical Hoops", img:"https://in.pinterest.com/pin/3659243441955957/" },
+    { title: "Crimson Zardosi Bridal Choli", category: "Bridal Apparel", img: "https://in.pinterest.com/pin/4594445771489893504/" },
+    { title: "Peacock Whispers Silk Cushion", category: "Luxury Living", img: "https://in.pinterest.com/pin/61502351158617302/" },
+    { title: "Heritage Gold Mandala Sheet", category: "Fine Bedding", img: "https://in.pinterest.com/pin/849913760961513640/" }
   ],
   testimonials: [
     { name: "Ananya Deshmukh", city: "Pune", text: "The embroidery on my bridal blouse was absolute perfection. Every guest asked where I got it customized!", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150" },
@@ -98,10 +98,10 @@ const HOME_DATA = {
     { name: "Meera Nair", city: "Bangalore", text: "Truly international luxury quality with a warm Indian soul. Shree Collection is now my go-to for bespoke gifts.", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150" }
   ],
   instagramGallery: [
-    "https://images.unsplash.com/photo-1613987549117-13c4781b32d3?auto=format&fit=crop&q=80&w=500",
-    "https://images.unsplash.com/photo-1595959183075-c1d0a161b0c6?auto=format&fit=crop&q=80&w=500",
-    "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&q=80&w=500",
-    "https://images.unsplash.com/photo-1572085312730-23a6b6ec8fc1?auto=format&fit=crop&q=80&w=500"
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOna0Ry5IP-ywiDJFk-O2EF3X1BurWzlGWQyM-WTDR_Q&s=10",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlH7QRA23qaWidNdY194J_xntZ3xlfNrCYuhDeaMFkSQ&s=10",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzCjeHerHzsqEovyun96WHGXZuw_sA7WbCTJKEu6mQrQ&s=10",
+    "https://miro.medium.com/v2/resize:fit:1400/0*kfKOCDi-C9pI_kq2.png"
   ]
 };
 

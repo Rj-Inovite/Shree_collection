@@ -3,27 +3,30 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import './Navbar.css';
 
-// --- Self-Contained SVG Icons ---
-const LogoEmbroideryIcon = () => (
-  <svg className="logo-stitch-icon" width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Concentric Gold Hoops */}
-    <circle cx="50" cy="50" r="42" stroke="#D4AF37" strokeWidth="2" strokeDasharray="3 3" />
-    <circle cx="50" cy="50" r="38" stroke="#D4AF37" strokeWidth="1" />
-    {/* Stylized Indian Floral Motif (Stitch-style) */}
-    <path d="M50 20 C52 35 65 38 80 38 C65 42 62 55 50 80 C38 55 35 42 20 38 C35 38 48 35 50 20Z" fill="#C65D3D" opacity="0.85" />
-    <path d="M50 30 C51 40 60 42 70 42 C60 44 58 52 50 70 C42 52 40 44 30 42 C40 42 49 40 50 30Z" fill="#D4AF37" />
-    <circle cx="50" cy="50" r="5" fill="#FAF4EC" />
+// --- SVGs & Luxury Iconography ---
+const LuxuryLogoEmblem = () => (
+  <svg className="logo-stitch-icon" width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    {/* Outer Gold Ornamental Ring */}
+    <circle cx="50" cy="50" r="46" stroke="#D4AF37" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.85" />
+    <circle cx="50" cy="50" r="40" stroke="#D4AF37" strokeWidth="1" />
+    <circle cx="50" cy="50" r="37" stroke="#C65D3D" strokeWidth="0.8" opacity="0.6" />
+    
+    {/* Central Royal Zardosi Star / Flower Motif */}
+    <path d="M50 18 C53 34 66 37 82 37 C66 41 63 54 50 82 C37 54 34 41 18 37 C34 37 47 34 50 18Z" fill="#C65D3D" opacity="0.9" />
+    <path d="M50 28 C52 38 60 40 70 40 C60 42 58 50 50 70 C42 50 40 42 30 40 C40 40 48 38 50 28Z" fill="#D4AF37" />
+    <circle cx="50" cy="50" r="5" fill="#FAF4EC" stroke="#4B2F25" strokeWidth="1" />
   </svg>
 );
 
-const WhatsAppIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+const SearchIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="11" cy="11" r="8" />
+    <line x1="21" y1="21" x2="16.65" y2="16.65" />
   </svg>
 );
 
 const InstagramIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
@@ -31,45 +34,50 @@ const InstagramIcon = () => (
 );
 
 const YouTubeIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
     <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
+  </svg>
+);
+
+const CloseIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18"></line>
+    <line x1="6" y1="6" x2="18" y2="18"></line>
   </svg>
 );
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const location = useLocation();
 
-  // Track window scroll to change background design styles dynamically
+  // Scroll handler for transparent to frosted glass shift
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
+      setIsScrolled(window.scrollY > 30);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Gracefully close drawer if Escape key is pressed
+  // Keyboard accessibility
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') setIsDrawerOpen(false);
+      if (e.key === 'Escape') {
+        setIsDrawerOpen(false);
+        setIsSearchOpen(false);
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Handle outside click closures on Mobile view
   const handleOverlayClick = (e) => {
     if (e.target.classList.contains('mobile-drawer-overlay')) {
       setIsDrawerOpen(false);
     }
-  };
-
-  const triggerWhatsAppInquiry = () => {
-    const waText = encodeURIComponent("Hello Shree Collection! I am visiting your digital boutique and would love to place a premium custom embroidery design inquiry.");
-    window.open(`https://wa.me/919923062181?text=${waText}`, '_blank');
   };
 
   const navItems = [
@@ -78,7 +86,7 @@ export default function Navbar() {
     { name: 'Contact', path: '/contact' }
   ];
 
-  // Framer Motion Animation Variants
+  // Motion animation variants
   const sidebarVariants = {
     closed: { x: '100%', transition: { type: 'spring', stiffness: 350, damping: 35 } },
     open: { x: 0, transition: { type: 'spring', stiffness: 300, damping: 30 } }
@@ -90,24 +98,27 @@ export default function Navbar() {
   };
 
   const singleLinkVariants = {
-    open: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 100 } },
-    closed: { opacity: 0, y: 25 }
+    open: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 120 } },
+    closed: { opacity: 0, y: 20 }
   };
 
   return (
     <>
       <header className={`shree-nav-header ${isScrolled ? 'scrolled-glass' : ''}`}>
+        {/* Subtle Ornamental Top Gold Thread Filament */}
         <div className="nav-gold-accent-line"></div>
+        
         <div className="nav-wrapper-container">
           
-          {/* --- LEFT: LOGO --- */}
+          {/* --- LEFT: REFINED BRAND LOGO --- */}
           <NavLink to="/" className="brand-logo-container" aria-label="Shree Collection Home">
             <div className="logo-icon-wrapper">
-              <LogoEmbroideryIcon />
+              <LuxuryLogoEmblem />
             </div>
             <div className="brand-text-block">
               <span className="brand-shree">Shree</span>
-              <span className="brand-collection">Collection</span>
+              <span className="brand-collection">COLLECTION</span>
+              <span className="brand-subtitle-tag">Handcrafted Atelier</span>
             </div>
           </NavLink>
 
@@ -122,7 +133,6 @@ export default function Navbar() {
                   className={({ isActive }) => `nav-item-anchor ${isActive ? 'active' : ''}`}
                 >
                   {item.name}
-                  {/* Elegant active marker flourish */}
                   {isActive && (
                     <motion.div 
                       layoutId="activeIndicator" 
@@ -137,23 +147,23 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* --- RIGHT: BUTTON --- */}
+          {/* --- RIGHT: AMBIENT ACTIONS & MENU TOGGLE --- */}
           <div className="nav-right-actions">
+            
             <button 
-              onClick={triggerWhatsAppInquiry} 
-              className="premium-wa-pill-btn"
-              aria-label="Inquire on WhatsApp"
+              onClick={() => setIsSearchOpen(!isSearchOpen)} 
+              className="nav-action-circle-btn" 
+              aria-label="Search Collections"
             >
-              <WhatsAppIcon />
-              <span className="wa-text">Custom Inquiry</span>
+              <SearchIcon />
             </button>
 
-            {/* --- MOBILE HAMBURGER BUTTON --- */}
+            {/* Mobile Animated Hamburger */}
             <button 
               onClick={() => setIsDrawerOpen(!isDrawerOpen)} 
               className="mobile-hamburger-btn"
               aria-expanded={isDrawerOpen}
-              aria-label="Toggle Navigation Menu"
+              aria-label="Toggle Menu"
             >
               <div className={`hamburger-box ${isDrawerOpen ? 'morph' : ''}`}>
                 <span className="ham-line line-top"></span>
@@ -165,6 +175,27 @@ export default function Navbar() {
 
         </div>
       </header>
+
+      {/* --- QUICK OVERLAY SEARCH BAR --- */}
+      <AnimatePresence>
+        {isSearchOpen && (
+          <motion.div 
+            className="search-bar-overlay"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="search-input-container">
+              <SearchIcon />
+              <input type="text" placeholder="Search bridal motifs, hoops, cushion art..." autoFocus />
+              <button className="search-close-btn" onClick={() => setIsSearchOpen(false)}>
+                <CloseIcon />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* --- FLOATING MOBILE DRAWER --- */}
       <AnimatePresence>
@@ -183,24 +214,23 @@ export default function Navbar() {
               animate="open"
               exit="closed"
             >
-              {/* Internal Decorative corner flourish inside drawer */}
               <div className="drawer-corner-stitch-top"></div>
               <div className="drawer-corner-stitch-bottom"></div>
 
-              {/* Drawer Top Header */}
+              {/* Drawer Brand Header */}
               <div className="drawer-header">
                 <div className="brand-logo-container">
-                  <LogoEmbroideryIcon />
+                  <LuxuryLogoEmblem />
                   <div className="brand-text-block">
                     <span className="brand-shree text-brown">Shree</span>
-                    <span className="brand-collection text-brown">Collection</span>
+                    <span className="brand-collection text-brown">COLLECTION</span>
                   </div>
                 </div>
               </div>
 
               <hr className="drawer-divider" />
 
-              {/* Drawer Nav links */}
+              {/* Nav Menu */}
               <motion.nav 
                 className="drawer-navigation-menu"
                 variants={linkContainerVariants}
@@ -218,13 +248,8 @@ export default function Navbar() {
                 ))}
               </motion.nav>
 
-              {/* Drawer Actions */}
+              {/* Drawer Footer Details */}
               <div className="drawer-footer-actions">
-                <button onClick={triggerWhatsAppInquiry} className="premium-wa-pill-btn w-100">
-                  <WhatsAppIcon />
-                  <span>Custom Inquiry</span>
-                </button>
-
                 <div className="drawer-socials">
                   <a href="https://www.instagram.com/shree_collection_art?igsh=ZW10MGt3MnJxa2M4" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                     <InstagramIcon />
@@ -235,7 +260,7 @@ export default function Navbar() {
                 </div>
 
                 <div className="drawer-craft-notice">
-                  <span>© 2026 Shree Collection • Handcrafted Art</span>
+                  <span>© 2026 Shree Collection • Luxury Handcraft</span>
                 </div>
               </div>
 

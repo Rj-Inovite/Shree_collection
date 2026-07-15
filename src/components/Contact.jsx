@@ -119,23 +119,23 @@ Message: ${formData.message}`;
   ];
 
   const testimonials = [
-    { name: "Anjali Mehta", review: "The embroidery exceeded my expectations. Every stitch was perfect.", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200&h=200" },
-    { name: "Priya Sharma", review: "The fabric painting is incredibly detailed and beautiful.", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200&h=200" },
-    { name: "Kiran Deshmukh", review: "Excellent finishing and amazing quality.", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200&h=200" },
-    { name: "Riya Patil", review: "Beautiful handmade work with great attention to detail.", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=200&h=200" },
-    { name: "Sneha Rao", review: "Highly recommended for custom embroidery.", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200&h=200" },
-    { name: "Aditi Joshi", review: "My blouse turned out exactly how I imagined.", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200&h=200" }
+    { name: "Anjali Mehta", review: "The embroidery exceeded my expectations. Every stitch was perfect.", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyFMEOm9tA8YA9K4cfSkKOIuoMJV97DPQJDUfpN3g8fA&s=10" },
+    { name: "Priya Sharma", review: "The fabric painting is incredibly detailed and beautiful.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrLDVaQNIMwJbjDA5vCz9o0vkJTaNkKc4imB_dfufH4A&s" },
+    { name: "Kiran Deshmukh", review: "Excellent finishing and amazing quality.", img: "https://i.pinimg.com/236x/75/6c/9e/756c9e501f9543d088a067cde56f90fd.jpg" },
+    { name: "Riya Patil", review: "Beautiful handmade work with great attention to detail.", img: "https://i.pinimg.com/236x/f4/43/ca/f443caaceb1ddaf53e0cdbd11549bdd2.jpg" },
+    { name: "Sneha Rao", review: "Highly recommended for custom embroidery.", img: "https://i.pinimg.com/236x/43/2a/2e/432a2e13e893d63db5c11594b4af2d31.jpg" },
+    { name: "Aditi Joshi", review: "My blouse turned out exactly how I imagined.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqrWr_ClfDYCbF9sBTT9yc9AlmGFWla8cVXlCWPXy6Lg&s=10" }
   ];
 
   const galleryImages = [
-    "https://images.unsplash.com/photo-1613987549117-13c4781b32d3?auto=format&fit=crop&q=80&w=300",
-    "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&q=80&w=300",
-    "https://images.unsplash.com/photo-1605647540924-852290f6b0d5?auto=format&fit=crop&q=80&w=300",
-    "https://images.unsplash.com/photo-1572085312730-23a6b6ec8fc1?auto=format&fit=crop&q=80&w=300",
-    "https://images.unsplash.com/photo-1595959183075-c1d0a161b0c6?auto=format&fit=crop&q=80&w=300",
-    "https://images.unsplash.com/photo-1550581190-9c1c48d21d6c?auto=format&fit=crop&q=80&w=300",
-    "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&q=80&w=300",
-    "https://images.unsplash.com/photo-1565193298564-ae98e2491267?auto=format&fit=crop&q=80&w=300"
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2qV_o9PhkzrAkSqsN-c3wWKMpJVZCOaN7eMw2Zy_K8w&s=10",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD4VIXdZKF2E0zns6SmZ73dykEg7cogdEH0rSGkUA8og&s=10",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7L5htVQwpAdwxIrbWVMcA8NbFSU9-A6p6kJnN5ih0Dg&s=10",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGq2NhZD_r19J9J2TcO-pJVIHAgMZYoACpzcF0V_N2dQ&s=10",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXFidDo9XGkrWrB_8nVj63DxVvwGR3xs7tb8fqOY_xbQ&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzY7nTDSNXSwgB2o-5KtWhQ5HikU0QTdMpqGvTrV-11Xi9WPtHqTXeyg0&s=10",
+    "https://i.pinimg.com/236x/fe/4e/4f/fe4e4f6bf460c0b2211629039dd2b634.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiH0HHg90eNoo-YRaDPPLvMbUBFU9yZR_MyzZSna8ViABmORccb-WHYuo&s=10"
   ];
 
   const faqs = [
@@ -519,34 +519,7 @@ Message: ${formData.message}`;
         </div>
       </section>
 
-      {/* --- FOOTER --- */}
-      <footer className="luxury-footer">
-        <div className="container footer-grid">
-          <div className="footer-brand">
-            <h3>Shree Collection</h3>
-            <p>Finely curated custom embroidery, luxury fabric art, and stunning personal stitches crafted with absolute perfection.</p>
-          </div>
-          <div className="footer-links">
-            <h4>Quick Links</h4>
-            <ul>
-              <li><a href="#home">Home</a></li>
-              <li><a href="#collections">Collections</a></li>
-              <li><a href="#contact" className="active-foot">Contact</a></li>
-            </ul>
-          </div>
-          <div className="footer-contacts">
-            <h4>Get In Touch</h4>
-            <p>📞 +91 9923062181</p>
-            <div className="social-footer-row">
-              <a href="https://www.instagram.com/shree_collection_art?igsh=ZW10MGt3MnJxa2M4" target="_blank" rel="noopener noreferrer"><InstagramIcon /></a>
-              <a href="https://youtube.com/@shree_hand_embroidery?si=yQ1gxB9E4spQr-pC" target="_blank" rel="noopener noreferrer"><YouTubeIcon /></a>
-            </div>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <p>&copy; 2026 Shree Collection. Crafted with Love.</p>
-        </div>
-      </footer>
+     
 
     </div>
   );
