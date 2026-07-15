@@ -1,0 +1,397 @@
+/* --- LUXURY COLOR PALETTE & FONTS --- */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,700;1,300&family=Montserrat:wght@300;400;600&display=swap');
+
+:root {
+  --nav-cream: #FAF4EC;
+  --nav-ivory: #F8EFE6;
+  --nav-burnt-orange: #C65D3D;
+  --nav-terracotta: #B85A32;
+  --nav-gold: #D4AF37;
+  --nav-brown: #4B2F25;
+  --nav-olive: #6F7D4E;
+  
+  --serif-font: 'Cormorant Garamond', Georgia, serif;
+  --sans-font: 'Montserrat', Helvetica, Arial, sans-serif;
+}
+
+/* --- BASE NAVBAR HEADER --- */
+.shree-nav-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  background: transparent;
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.nav-gold-accent-line {
+  height: 3px;
+  background: linear-gradient(90deg, var(--nav-burnt-orange) 0%, var(--nav-gold) 50%, var(--nav-olive) 100%);
+  width: 100%;
+}
+
+/* Frosted glass state on scroll */
+.shree-nav-header.scrolled-glass {
+  background: rgba(250, 244, 236, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+  box-shadow: 0 10px 40px rgba(75, 47, 37, 0.06);
+}
+
+.nav-wrapper-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.2rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* --- LOGO SECTION --- */
+.brand-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+  user-select: none;
+}
+
+.logo-icon-wrapper {
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.brand-logo-container:hover .logo-icon-wrapper {
+  transform: scale(1.1) rotate(15deg);
+}
+
+.brand-text-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-shree {
+  font-family: var(--serif-font);
+  font-size: 2.1rem;
+  font-weight: 500;
+  color: var(--nav-brown);
+  line-height: 0.85;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+}
+
+.brand-collection {
+  font-family: var(--sans-font);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--nav-olive);
+  letter-spacing: 4px;
+  margin-top: 0.15rem;
+}
+
+.brand-logo-container:hover .brand-shree {
+  color: var(--nav-burnt-orange);
+}
+
+/* --- DESKTOP LINKS --- */
+.desktop-navigation-links {
+  display: flex;
+  align-items: center;
+  gap: 3.5rem;
+}
+
+.nav-item-anchor {
+  position: relative;
+  font-family: var(--sans-font);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--nav-brown);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 0.6rem 0;
+  transition: color 0.3s ease, letter-spacing 0.3s ease;
+}
+
+.nav-item-anchor:hover {
+  color: var(--nav-burnt-orange);
+  letter-spacing: 2.5px;
+}
+
+/* Golden underline grows from center on hover */
+.nav-item-anchor::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 1.5px;
+  background-color: var(--nav-gold);
+  transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1), left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.nav-item-anchor:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Active Navlink styling with Framer Motion stitch node */
+.nav-item-anchor.active {
+  color: var(--nav-burnt-orange);
+  font-weight: 600;
+}
+
+.active-gold-stitch-line {
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--nav-gold);
+  box-shadow: 0 0 6px rgba(212, 175, 55, 0.6);
+  display: flex;
+  justify-content: center;
+}
+
+.micro-stitch-node {
+  width: 4px;
+  height: 4px;
+  background-color: var(--nav-burnt-orange);
+  border-radius: 50%;
+  position: absolute;
+  top: -1px;
+}
+
+/* --- WHATSAPP PILL BUTTON --- */
+.premium-wa-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: linear-gradient(135deg, var(--nav-burnt-orange) 0%, var(--nav-terracotta) 100%);
+  color: white;
+  border: 1.5px solid var(--nav-gold);
+  border-radius: 50px;
+  padding: 0.7rem 1.6rem;
+  font-family: var(--sans-font);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(184, 90, 50, 0.2);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.premium-wa-pill-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(184, 90, 50, 0.35);
+  background: linear-gradient(135deg, var(--nav-terracotta) 0%, var(--nav-burnt-orange) 100%);
+  border-color: #ffffff;
+}
+
+/* --- MOBILE MENU INTERACTIVES --- */
+.nav-right-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.mobile-hamburger-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.hamburger-box {
+  width: 28px;
+  height: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.ham-line {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--nav-gold);
+  border-radius: 4px;
+  transition: all 0.4s cubic-bezier(0.77, 0.2, 0.05, 1);
+}
+
+/* Hamburger to 'X' animation */
+.hamburger-box.morph .line-top {
+  transform: translateY(9px) rotate(45deg);
+  background-color: var(--nav-burnt-orange);
+}
+
+.hamburger-box.morph .line-mid {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.hamburger-box.morph .line-bot {
+  transform: translateY(-9px) rotate(-45deg);
+  background-color: var(--nav-burnt-orange);
+}
+
+/* --- FLOATING DRAWER OVERLAY --- */
+.mobile-drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9990;
+  background: rgba(75, 47, 37, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mobile-side-drawer {
+  position: relative;
+  width: 85%;
+  max-width: 420px;
+  height: 100%;
+  background: var(--nav-cream);
+  border-left: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: -15px 0 40px rgba(0,0,0,0.12);
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Drawer Decorative Elements (Embroidery details) */
+.drawer-corner-stitch-top {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 60px;
+  height: 60px;
+  border-top: 1.5px dashed var(--nav-gold);
+  border-right: 1.5px dashed var(--nav-gold);
+  opacity: 0.5;
+}
+
+.drawer-corner-stitch-bottom {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  width: 60px;
+  height: 60px;
+  border-bottom: 1.5px dashed var(--nav-gold);
+  border-left: 1.5px dashed var(--nav-gold);
+  opacity: 0.5;
+}
+
+.drawer-header {
+  margin-bottom: 2rem;
+}
+
+.drawer-header .brand-shree {
+  font-size: 2.2rem;
+}
+
+.text-brown {
+  color: var(--nav-brown);
+}
+
+.drawer-divider {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--nav-gold), transparent);
+  margin-bottom: 2.5rem;
+}
+
+.drawer-navigation-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  flex-grow: 1;
+}
+
+.drawer-link-item {
+  font-family: var(--serif-font);
+  font-size: 2rem;
+  color: var(--nav-brown);
+  text-decoration: none;
+  font-weight: 300;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.drawer-link-item:hover,
+.drawer-link-item.active-drawer-item {
+  color: var(--nav-burnt-orange);
+  padding-left: 0.5rem;
+  font-weight: 500;
+}
+
+/* Drawer footer alignments */
+.drawer-footer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+}
+
+.w-100 {
+  width: 100%;
+  justify-content: center;
+}
+
+.drawer-socials {
+  display: flex;
+  gap: 1.8rem;
+}
+
+.drawer-socials a {
+  color: var(--nav-brown);
+  transition: color 0.3s;
+}
+
+.drawer-socials a:hover {
+  color: var(--nav-burnt-orange);
+}
+
+.drawer-craft-notice {
+  font-family: var(--sans-font);
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--nav-olive);
+}
+
+/* --- RESPONSIVENESS AND COLLAPSIBILITY --- */
+@media (max-width: 1024px) {
+  .nav-wrapper-container {
+    padding: 1rem 2rem;
+  }
+  .desktop-navigation-links {
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .desktop-navigation-links {
+    display: none;
+  }
+  .premium-wa-pill-btn .wa-text {
+    display: none; /* Icon-only on Tablet/Mobile navigation to avoid overcrowding */
+  }
+  .premium-wa-pill-btn {
+    padding: 0.7rem;
+    border-radius: 50%;
+  }
+  .mobile-hamburger-btn {
+    display: block;
+  }
+}
