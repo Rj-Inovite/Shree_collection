@@ -331,107 +331,95 @@ const Contact = () => {
             Let&apos;s Create Something Beautiful Together
           </motion.h1>
           <motion.p className="ct-hero__subtitle" variants={fadeUp} custom={2}>
-            </motion.p>
+            .
+          </motion.p>
         </motion.div>
       </section>
 
-      
       {/* ================================================================
-          CONTACT FORM
+          CONTACT INFORMATION — two cards
       ================================================================= */}
-      <section className="ct-form-section">
-        <GlowBlobs variant="form" />
-        <div className="ct-section__header">
-          <Eyebrow>Custom Orders</Eyebrow>
-          <motion.h2
-            className="ct-section__title"
-            variants={fadeUp}
+      <section className="ct-info">
+        <GlowBlobs variant="info" />
+        <div className="ct-info__grid">
+          <motion.div
+            className="ct-info-card"
+            variants={fadeLeft}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.4 }}
+            viewport={{ once: true, amount: 0.3 }}
           >
-            Send Us Your Custom Order
-          </motion.h2>
-        </div>
+            <Eyebrow>Reach Us Directly</Eyebrow>
+            <h2 className="ct-info-card__title">Contact Information</h2>
 
-        <motion.form
-          className="ct-form"
-          onSubmit={handleSubmit}
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
-          <div className="ct-form__row">
-            <FormField
-              id="fullName"
-              label="Full Name"
-              icon={FaUser}
-              value={formData.fullName}
-              onChange={handleChange}
-            />
-            <FormField
-              id="phone"
-              label="Phone Number"
-              type="tel"
-              icon={FaPhoneAlt}
-              value={formData.phone}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="ct-form__row">
-            <FormField
-              id="email"
-              label="Email Address"
-              type="email"
-              icon={FaEnvelope}
-              value={formData.email}
-              onChange={handleChange}
-            />
-            <FormField
-              id="subject"
-              label="Subject"
-              icon={FaTag}
-              value={formData.subject}
-              onChange={handleChange}
-            />
-          </div>
-          <FormField
-            id="message"
-            label="Your Message"
-            icon={FaCommentDots}
-            value={formData.message}
-            onChange={handleChange}
-            textarea
-          />
+            <a href={`tel:${PHONE_TEL}`} className="ct-contact-row">
+              <span className="ct-contact-row__icon">
+                <FaPhoneAlt />
+              </span>
+              <div>
+                <strong>Phone Number</strong>
+                <span>{PHONE_DISPLAY}</span>
+              </div>
+            </a>
 
-          <div className="ct-form__actions">
-            <button type="submit" className="ct-btn ct-btn--primary ct-btn--stitched">
-              <FaPaperPlane /> Send Message
-            </button>
+            <a
+              href={INSTAGRAM_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ct-contact-row"
+            >
+              <span className="ct-contact-row__icon">
+                <FaInstagram />
+              </span>
+              <div>
+                <strong>Instagram</strong>
+                <span>{INSTAGRAM_HANDLE}</span>
+              </div>
+            </a>
+
+            <a
+              href={YOUTUBE_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ct-contact-row"
+            >
+              <span className="ct-contact-row__icon">
+                <FaYoutube />
+              </span>
+              <div>
+                <strong>YouTube</strong>
+                <span>{YOUTUBE_NAME}</span>
+              </div>
+            </a>
+
             <a
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="ct-btn ct-btn--whatsapp ct-btn--stitched"
+              className="ct-btn ct-btn--whatsapp ct-info-card__cta"
             >
-              <FaWhatsapp /> WhatsApp Us
+              <FaWhatsapp /> Chat on WhatsApp
             </a>
-          </div>
+          </motion.div>
 
-          <AnimatePresence>
-            {submitted && (
-              <motion.p
-                className="ct-form__success"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-              >
-                Thank you — your message has been received. We&apos;ll be in touch soon!
-              </motion.p>
-            )}
-          </AnimatePresence>
-        </motion.form>
+          <motion.div
+            className="ct-info-visual"
+            variants={fadeRight}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <div className="ct-info-visual__frame">
+              <img
+                src={IMG.illustration}
+                alt="A smiling artisan hand-stitching colourful floral embroidery in a wooden hoop"
+              />
+            </div>
+            <span className="ct-info-visual__petal ct-info-visual__petal--1" />
+            <span className="ct-info-visual__petal ct-info-visual__petal--2" />
+            <span className="ct-info-visual__petal ct-info-visual__petal--3" />
+          </motion.div>
+        </div>
       </section>
 
       <OrnamentalDivider />
