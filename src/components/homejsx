@@ -73,58 +73,54 @@ gsap.registerPlugin(ScrollTrigger);
    ==========================================================================*/
 const IMAGES = {
   heroEmbroidery:
-    "https://images.unsplash.com/photo-1610030181087-540f14c1e2f6?q=80&w=1600&auto=format&fit=crop",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6EuPE3Nr0FO9JEyekMCZYWrgbC0bmaVm-TPFyYQm5ujIiaaOfu6WHtOQ&s=10",
   heroTextureOverlay:
-    "https://images.unsplash.com/photo-1618220179428-22790b461013?q=80&w=1200&auto=format&fit=crop",
+    "https://i.etsystatic.com/18203011/r/il/7d977c/2446728862/il_fullxfull.2446728862_mhpr.jpg",
   handsStitching:
-    "https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?q=80&w=1400&auto=format&fit=crop",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQac-4SIVwhk77B7bbZ0AscK-Bmc90HK4M5r-OvelkHCDrBCxZ0jxjqGqvb&s=10",
   threadsCloseup:
-    "https://images.unsplash.com/photo-1592878849122-facb97520f9b?q=80&w=1200&auto=format&fit=crop",
+    "https://i.pinimg.com/236x/b1/65/40/b165400c375518ea8e42421032535cbb.jpg",
   floralCollection:
-    "https://images.unsplash.com/photo-1600369672771-4a6f3f6d0b5f?q=80&w=1200&auto=format&fit=crop",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzCjeHerHzsqEovyun96WHGXZuw_sA7WbCTJKEu6mQrQ&s=10",
   bridalCollection:
     "https://images.unsplash.com/photo-1610030180922-6c85ed88a49b?q=80&w=1200&auto=format&fit=crop",
   cushionCovers:
-    "https://images.unsplash.com/photo-1616627561950-9f746e330187?q=80&w=1200&auto=format&fit=crop",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4QqlvGbnynE9rU7I7XZnyyekuldoi5O1xf2qDP3X3lrl57R1_1WHqFDvX&s=10",
   bedsheets:
-    "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1200&auto=format&fit=crop",
+    "https://i.pinimg.com/originals/39/7f/36/397f36b37457a0e06cd2f35e9bd04d4e.jpg",
   personalizedGifts:
-    "https://images.unsplash.com/photo-1512909006721-3d6018887383?q=80&w=1200&auto=format&fit=crop",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjuo43HKlyVPCXAJIkOdEDuu4z71hBs3MneesBg4m5EYt7XPdxvtkxuG6U&s=10",
   festivalCollection:
-    "https://images.unsplash.com/photo-1583391733956-6c78276477e2?q=80&w=1200&auto=format&fit=crop",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnTUI5CpaUMtt7sXf0xmeeEA1bVOaiEXwwm13q80FRUZeQQZJ9WlTDwPk&s=10",
   masterpiece1:
-    "https://images.unsplash.com/photo-1617331721458-bd3bd3f9c7f8?q=80&w=1200&auto=format&fit=crop",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSl41Tg3VT7STu6vNma_x8kIRmUdLmo_awQXVXGbwxsHWOwOs8x0OvoJIia&s=10",
   masterpiece2:
-    "https://images.unsplash.com/photo-1600180758890-6e392a7fc4b0?q=80&w=1200&auto=format&fit=crop",
+    "https://i.pinimg.com/236x/b0/5c/1d/b05c1d3eaba3961a2597a0a108698a6b.jpg",
   masterpiece3:
-    "https://images.unsplash.com/photo-1611933772280-e21bbf49c0b9?q=80&w=1200&auto=format&fit=crop",
+    "https://m.media-amazon.com/images/I/619KOs4YPHL._AC_UY1100_.jpg",
   masterpiece4:
-    "https://images.unsplash.com/photo-1594736797933-d0f06ba0a7d4?q=80&w=1200&auto=format&fit=crop",
+    "https://hyderabad.ksethnic.com/blouse/2025/03/maroon-silk-blouse-with-intricate-handwork-1.webp",
   ctaBackground:
-    "https://images.unsplash.com/photo-1600166898405-da9535204843?q=80&w=1800&auto=format&fit=crop",
+    "https://www.embroiderywale.com/wp-content/uploads/2025/07/JMD031-1-1300x1733.jpg",
   artisanWorkspace:
-    "https://images.unsplash.com/photo-1595341595379-cf1cd0fb7fb4?q=80&w=1400&auto=format&fit=crop",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScwIyCGVNcHfrVEvw_3s2mM4D1SM73Lwz0ITT5oagKFlStAnvyklcp0yk&s=10",
   insta1:
-    "https://images.unsplash.com/photo-1591369822096-ffd140ec948f?q=80&w=600&auto=format&fit=crop",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmQc4Ojpq-_HSqHwKBo3iSwb-IR3UpRho9IP_aA3J0aJlel-77_uYeXL8&s=10",
   insta2:
-    "https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=600&auto=format&fit=crop",
+    "https://in.pinterest.com/afrozj123456789/kurti-embroidery-design/",
   insta3:
-    "https://images.unsplash.com/photo-1617093727343-374698b1b08d?q=80&w=600&auto=format&fit=crop",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQH9kG_H4DssqwgJk-qeGCmODEgMTXgzkx-8ASEJVSF2MGVE1jYas-bnMfc&s=10",
   insta4:
-    "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=600&auto=format&fit=crop",
+    "https://i.etsystatic.com/40940983/r/il/fda88f/8050752194/il_340x270.8050752194_m17o.jpg",
   insta5:
-    "https://images.unsplash.com/photo-1600431521340-491eca880813?q=80&w=600&auto=format&fit=crop",
+    "https://i.pinimg.com/736x/ac/9f/47/ac9f47e99d994862f951948fb9dbc165.jpg",
   insta6:
-    "https://images.unsplash.com/photo-1613310023042-ad79320c00ff?q=80&w=600&auto=format&fit=crop",
-  insta7:
-    "https://images.unsplash.com/photo-1622470953794-aa9c70b0fb9d?q=80&w=600&auto=format&fit=crop",
-  insta8:
-    "https://images.unsplash.com/photo-1618375569909-3c8616cf7733?q=80&w=600&auto=format&fit=crop",
-  testimonial1: "https://randomuser.me/api/portraits/women/68.jpg",
-  testimonial2: "https://randomuser.me/api/portraits/women/44.jpg",
-  testimonial3: "https://randomuser.me/api/portraits/men/32.jpg",
-  testimonial4: "https://randomuser.me/api/portraits/women/26.jpg",
-  testimonial5: "https://randomuser.me/api/portraits/women/52.jpg",
+    "https://i.pinimg.com/736x/66/cb/b9/66cbb95adbba173a515e2b7a4a268cc7.jpg",
+  testimonial1: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJB-gi_ZfEo8_7cMA1ppZtFi4fnhRra_t0S4jkvE9kvzKN85pdhOmTUrb1&s=10",
+  testimonial2: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR58pFTPl1Gvz70QlvZ68z-DPnzkkKs8-JgI17z2RDiK6Vg-Ap7scbHePw&s=10",
+  testimonial3: "https://miro.medium.com/v2/resize:fit:1400/0*kfKOCDi-C9pI_kq2.png",
+  testimonial4: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMK8tAfBZoFlLzFFs-DxvXV-SFRJ3IW454iF0wJ2OQqF9v1argeTlm1bU&s=10",
+  testimonial5: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRv3Rz0tLWu9MRBojHpqhAJI52ME5WY6sxHUs6YylxqD6LcXKgv3dC2jIS9&s=10",
 };
 
 /* ============================================================================
