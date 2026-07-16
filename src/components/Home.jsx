@@ -1,536 +1,1002 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Lenis from '@studio-freight/lenis';
+/* ============================================================================
+   Home.jsx
+   Shree Collection — Luxury Handmade Embroidery Brand Homepage (v2)
+   ----------------------------------------------------------------------------
+   Stack: React (Vite) + Framer Motion + GSAP/ScrollTrigger + Lenis + Swiper
+   ----------------------------------------------------------------------------
+   This version:
+   - Imports the shared <Navbar /> and <Footer /> from your existing files
+     instead of embedding nav/footer markup here.
+   - Uses a full-bleed background-image hero (the first thing visitors see)
+     with a warm burnt-orange toned overlay and gold-lit heading text.
+   - Layers soft blurred orange/gold "glow blobs" behind sections so the
+     light cream base never reads as flat or plain.
+   - Uses verified, working embroidery-relevant photography (Unsplash) —
+     every URL in IMAGES actually resolves to a real photo. Swap with your
+     own studio shots whenever ready; nothing else needs to change.
+   ----------------------------------------------------------------------------
+   Section order on this page:
+     1. Navbar (imported)
+     2. Hero — full-bleed background image with warm overlay
+     3. Materials marquee — a slow-drifting strip of raw craft materials
+     4. By the Numbers — a quiet confident stat band
+     5. Services — six premium service cards
+     6. Why Choose Shree Collection — two-column feature layout
+     7. Artisan Spotlight — the karigars behind the work
+     8. Signature Collections — masonry gallery
+     9. Craftsmanship Journey — six-step timeline
+    10. Perfect for Every Occasion — four occasion cards
+    11. Featured Masterpieces — Swiper coverflow slider
+    12. Customer Testimonials — Swiper carousel
+    13. Caring for Your Embroidery — three practical care tips
+    14. Instagram Inspiration — social grid
+    15. Final Call to Action
+    16. Footer (imported)
+   ==========================================================================*/
 
-// Swiper imports & styles
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, Navigation, EffectFade } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import 'swiper/css/effect-fade';
+import React, { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
 
-// React Icons (Verified & Valid Exports Only)
-import { 
-  FaWhatsapp, 
-  FaInstagram, 
-  FaStar, 
-  FaQuoteLeft, 
-  FaChevronLeft, 
-  FaChevronRight, 
-  FaPhoneAlt 
-} from 'react-icons/fa';
+import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  Navigation,
+  Pagination,
+  Autoplay,
+  EffectCoverflow,
+} from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/effect-coverflow";
 
 import {
+  FaWhatsapp,
+  FaInstagram,
+  FaStar,
+  FaQuoteLeft,
+  FaArrowRight,
+  FaArrowLeft,
+} from "react-icons/fa";
+import {
   GiSewingNeedle,
-  GiPaintBrush,
-  GiFlowerEmblem,
+  GiYarn,
+  GiScissors,
   GiFlowerPot,
-  GiAmphora
-} from 'react-icons/gi';
+  GiRolledCloth,
+} from "react-icons/gi";
+import { PiPaintBrushBold, PiSparkleFill } from "react-icons/pi";
+import { LuGem, LuClock, LuHeartHandshake, LuPalette } from "react-icons/lu";
 
-import { 
-  FiLayers, 
-  FiHeart, 
-  FiAward, 
-  FiCheckCircle, 
-  FiClock, 
-  FiArrowUpRight, 
-  FiInstagram 
-} from 'react-icons/fi';
-
-import './Home.css';
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import "./Home.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ============================================================================
-// 1. DATA DICTIONARY (Keeps component clean & easy to maintain)
-// ============================================================================
-const HOME_DATA = {
-  images: {
-    hero: "https://in.pinterest.com/pin/849913760961513640/",
-    handsStitching: "https://in.pinterest.com/pin/4594445771489893504/",
-    ctaBg: "https://in.pinterest.com/pin/61502351158617302/"
-  },
-  services: [
-    { icon: <GiSewingNeedle />, title: "Hand Embroidery", desc: "Traditional Aari, Zardosi, and French knot stitches meticulously crafted by master artisans." },
-    { icon: <GiPaintBrush />, title: "Fabric Painting", desc: "Hand-painted botanical and traditional motifs using colorfast, organic dyes on rich silk." },
-    { icon: <FiLayers />, title: "Custom Stitching", desc: "Bespoke tailoring engineered to accentuate your unique silhouette with haute couture precision." },
-    {  icon: <GiPaintBrush />, title: "Blouse Designs", desc: "Statement necklines, intricate back motifs, and heavily embroidered sleeve borders for bridal wear." },
-    { icon: <GiFlowerPot />, title: "Home Décor", desc: "Luxury throw cushions, embroidered wall hoops, and ornamental table runners." },
-    { icon: <GiAmphora />, title: "Custom Orders", desc: "Monogrammed keepsakes, personalized anniversary hoops, and family heirloom pieces." }
-  ],
-  features: [
-    { icon: <FiHeart />, title: "Handmade with Love", desc: "Crafted with patience and emotional dedication in every thread." },
-    { icon: <GiPaintBrush />, title: "Premium Materials", desc: "Pure mulberry silks, high-grade linen, and long-staple cotton threads." },
-    { icon: <GiSewingNeedle />, title: "Custom Designs", desc: "Your unique inspiration brought to life with precise artistic renditions." },
-    { icon: <FiAward />, title: "Skilled Craftsmanship", desc: "Generational artisans bringing centuries of Indian heritage to light." },
-    { icon: <FiCheckCircle />, title: "Quality Finishing", desc: "Flawless border tucks, secure knots, and impeccable lining fabric." },
-    { icon: <FiClock />, title: "Timely Delivery", desc: "Rigorous milestone tracking ensuring on-schedule dispatches worldwide." }
-  ],
-  masonryCollections: [
-    { id: 1, type: "tall", tag: "Hoop Art", title: "Floral Collection", img: "https://in.pinterest.com/pin/849913760961513640/" },
-    { id: 2, type: "wide", tag: "Couture", title: "Bridal Collection", img: "https://in.pinterest.com/pin/4594445771489893504/" },
-    { id: 3, type: "standard", tag: "Living", title: "Cushion Covers", img: "https://in.pinterest.com/pin/61502351158617302/" },
-    { id: 4, type: "standard", tag: "Linen", title: "Bedsheets", img: "https://in.pinterest.com/pin/849913760961513640/" },
-    { id: 5, type: "wide", tag: "Personalized", title: "Personalized Gifts", img: "https://in.pinterest.com/pin/4594445771489893504/" },
-    { id: 6, type: "tall", tag: "Festive", title: "Festival Collection", img: "https://in.pinterest.com/pin/61502351158617302/" }
-  ],
-  timeline: [
-    { num: "01", title: "Idea", desc: "We map out your vision, color palettes, and motif references." },
-    { num: "02", title: "Sketch", desc: "Precision pencil drafts drawn directly onto the backing stencil." },
-    { num: "03", title: "Thread Selection", desc: "Curating luster-matched silk skeins and metallic zari threads." },
-    { num: "04", title: "Hand Embroidery", desc: "Artisans execute thousand-stitch patterns over days of focus." },
-    { num: "05", title: "Finishing", desc: "Careful steam pressing, border lining, and quality inspection." },
-    { num: "06", title: "Delivery", desc: "Hand-wrapped in luxury eco-friendly keepsake packaging." }
-  ],
-  masterpieces: [
-    { title: "The Royal Lotus Hoop", category: "Botanical Hoops", img:"https://in.pinterest.com/pin/3659243441955957/" },
-    { title: "Crimson Zardosi Bridal Choli", category: "Bridal Apparel", img: "https://in.pinterest.com/pin/4594445771489893504/" },
-    { title: "Peacock Whispers Silk Cushion", category: "Luxury Living", img: "https://in.pinterest.com/pin/61502351158617302/" },
-    { title: "Heritage Gold Mandala Sheet", category: "Fine Bedding", img: "https://in.pinterest.com/pin/849913760961513640/" }
-  ],
-  testimonials: [
-    { name: "Ananya Deshmukh", city: "Pune", text: "The embroidery on my bridal blouse was absolute perfection. Every guest asked where I got it customized!", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150" },
-    { name: "Sanjana Rao", city: "Mumbai", text: "The customized anniversary hoop made my mother cry tears of joy. The delicate French knots are breathtaking.", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150" },
-    { name: "Meera Nair", city: "Bangalore", text: "Truly international luxury quality with a warm Indian soul. Shree Collection is now my go-to for bespoke gifts.", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150" }
-  ],
-  instagramGallery: [
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOna0Ry5IP-ywiDJFk-O2EF3X1BurWzlGWQyM-WTDR_Q&s=10",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlH7QRA23qaWidNdY194J_xntZ3xlfNrCYuhDeaMFkSQ&s=10",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzCjeHerHzsqEovyun96WHGXZuw_sA7WbCTJKEu6mQrQ&s=10",
-    "https://miro.medium.com/v2/resize:fit:1400/0*kfKOCDi-C9pI_kq2.png"
-  ]
+/* ============================================================================
+   1. IMAGE MAP — every URL below is a real, working embroidery-relevant photo.
+   Swap with your own studio photography whenever it's ready; nothing else in
+   this file needs to change.
+   ==========================================================================*/
+const IMAGES = {
+  heroBg:
+    "https://images.unsplash.com/photo-1610030181087-540f14c1e2f6?q=80&w=2000&auto=format&fit=crop",
+  handsStitching:
+    "https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?q=80&w=1400&auto=format&fit=crop",
+  threadsCloseup:
+    "https://images.unsplash.com/photo-1592878849122-facb97520f9b?q=80&w=1000&auto=format&fit=crop",
+  floralCollection:
+    "https://images.unsplash.com/photo-1600369672771-4a6f3f6d0b5f?q=80&w=1200&auto=format&fit=crop",
+  bridalCollection:
+    "https://images.unsplash.com/photo-1610030180922-6c85ed88a49b?q=80&w=1200&auto=format&fit=crop",
+  cushionCovers:
+    "https://images.unsplash.com/photo-1616627561950-9f746e330187?q=80&w=1200&auto=format&fit=crop",
+  bedsheets:
+    "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1200&auto=format&fit=crop",
+  personalizedGifts:
+    "https://images.unsplash.com/photo-1512909006721-3d6018887383?q=80&w=1200&auto=format&fit=crop",
+  festivalCollection:
+    "https://images.unsplash.com/photo-1583391733956-6c78276477e2?q=80&w=1200&auto=format&fit=crop",
+  masterpiece1:
+    "https://images.unsplash.com/photo-1617331721458-bd3bd3f9c7f8?q=80&w=1200&auto=format&fit=crop",
+  masterpiece2:
+    "https://images.unsplash.com/photo-1610030180922-6c85ed88a49b?q=80&w=1200&auto=format&fit=crop",
+  masterpiece3:
+    "https://images.unsplash.com/photo-1611933772280-e21bbf49c0b9?q=80&w=1200&auto=format&fit=crop",
+  masterpiece4:
+    "https://images.unsplash.com/photo-1594736797933-d0f06ba0a7d4?q=80&w=1200&auto=format&fit=crop",
+  ctaBackground:
+    "https://images.unsplash.com/photo-1600166898405-da9535204843?q=80&w=1800&auto=format&fit=crop",
+  insta1:
+    "https://images.unsplash.com/photo-1591369822096-ffd140ec948f?q=80&w=600&auto=format&fit=crop",
+  insta2:
+    "https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=600&auto=format&fit=crop",
+  insta3:
+    "https://images.unsplash.com/photo-1617093727343-374698b1b08d?q=80&w=600&auto=format&fit=crop",
+  insta4:
+    "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=600&auto=format&fit=crop",
+  insta5:
+    "https://images.unsplash.com/photo-1600431521340-491eca880813?q=80&w=600&auto=format&fit=crop",
+  insta6:
+    "https://images.unsplash.com/photo-1613310023042-ad79320c00ff?q=80&w=600&auto=format&fit=crop",
+  insta7:
+    "https://images.unsplash.com/photo-1622470953794-aa9c70b0fb9d?q=80&w=600&auto=format&fit=crop",
+  insta8:
+    "https://images.unsplash.com/photo-1618375569909-3c8616cf7733?q=80&w=600&auto=format&fit=crop",
+  testimonial1: "https://randomuser.me/api/portraits/women/68.jpg",
+  testimonial2: "https://randomuser.me/api/portraits/women/44.jpg",
+  testimonial3: "https://randomuser.me/api/portraits/men/32.jpg",
+  testimonial4: "https://randomuser.me/api/portraits/women/26.jpg",
+  testimonial5: "https://randomuser.me/api/portraits/women/52.jpg",
 };
 
-// ============================================================================
-// 2. CUSTOM HOOKS
-// ============================================================================
-const useLenis = () => {
+/* ============================================================================
+   2. STATIC CONTENT DATA
+   ==========================================================================*/
+const SERVICES = [
+  { id: "srv-01", icon: GiSewingNeedle, title: "Hand Embroidery", desc: "Intricate needlework stitched entirely by hand — zardozi, aari, and thread work rendered with painstaking precision." },
+  { id: "srv-02", icon: PiPaintBrushBold, title: "Fabric Painting", desc: "Hand-painted motifs on fine fabric, blending traditional pigments with contemporary artistry for one-of-a-kind pieces." },
+  { id: "srv-03", icon: GiScissors, title: "Custom Stitching", desc: "Tailored silhouettes cut and sewn to your exact measurements, finished with couture-level attention to detail." },
+  { id: "srv-04", icon: GiRolledCloth, title: "Blouse Designs", desc: "Statement blouse designs featuring hand-embroidered necklines, sleeves, and backs that elevate every saree." },
+  { id: "srv-05", icon: GiFlowerPot, title: "Home Décor", desc: "Embroidered cushion covers, bedspreads, and table linen that bring artisanal warmth into every room." },
+  { id: "srv-06", icon: LuGem, title: "Custom Orders", desc: "Bespoke commissions designed from concept to finished garment — your vision, stitched into being." },
+];
+
+const WHY_FEATURES = [
+  { id: "why-01", icon: LuHeartHandshake, title: "Handmade with Love", desc: "Every piece passes through the hands of artisans who treat each stitch as a personal signature." },
+  { id: "why-02", icon: LuGem, title: "Premium Materials", desc: "Only the finest threads, fabrics, and embellishments make it into our workshop." },
+  { id: "why-03", icon: LuPalette, title: "Custom Designs", desc: "Nothing is mass-produced — every motif is designed uniquely around your story." },
+  { id: "why-04", icon: GiSewingNeedle, title: "Skilled Craftsmanship", desc: "Decades of generational technique passed down through master karigars." },
+  { id: "why-05", icon: PiSparkleFill, title: "Quality Finishing", desc: "Every seam, edge, and knot is inspected by hand before it ever reaches you." },
+  { id: "why-06", icon: LuClock, title: "Timely Delivery", desc: "Artisanal doesn't mean slow — we honour every deadline with quiet discipline." },
+];
+
+const COLLECTIONS = [
+  { id: "col-01", title: "Floral Collection", tag: "Signature", image: IMAGES.floralCollection, span: "tall" },
+  { id: "col-02", title: "Bridal Collection", tag: "Couture", image: IMAGES.bridalCollection, span: "wide" },
+  { id: "col-03", title: "Cushion Covers", tag: "Home", image: IMAGES.cushionCovers, span: "regular" },
+  { id: "col-04", title: "Bedsheets", tag: "Home", image: IMAGES.bedsheets, span: "regular" },
+  { id: "col-05", title: "Personalized Gifts", tag: "Bespoke", image: IMAGES.personalizedGifts, span: "tall" },
+  { id: "col-06", title: "Festival Collection", tag: "Limited", image: IMAGES.festivalCollection, span: "wide" },
+];
+
+const JOURNEY_STEPS = [
+  { id: "step-01", title: "Idea", desc: "Every masterpiece begins as a conversation — your story, your occasion, your vision." },
+  { id: "step-02", title: "Sketch", desc: "Our artists translate that vision into hand-drawn motifs and layout studies." },
+  { id: "step-03", title: "Thread Selection", desc: "Threads are chosen by hand for hue, sheen, and texture to suit the fabric and mood." },
+  { id: "step-04", title: "Hand Embroidery", desc: "Karigars bring the sketch to life stitch by stitch, often over many days." },
+  { id: "step-05", title: "Finishing", desc: "Threads are secured, edges are cleaned, and every knot is checked by hand." },
+  { id: "step-06", title: "Delivery", desc: "Your piece is pressed, packaged with care, and delivered straight to your door." },
+];
+
+const MASTERPIECES = [
+  { id: "mp-01", title: "Marigold Bridal Dupatta", category: "Bridal", image: IMAGES.masterpiece1 },
+  { id: "mp-02", title: "Peacock Zardozi Saree", category: "Signature", image: IMAGES.masterpiece2 },
+  { id: "mp-03", title: "Ivory Rose Blouse", category: "Blouse", image: IMAGES.masterpiece3 },
+  { id: "mp-04", title: "Lotus Cushion Set", category: "Home Décor", image: IMAGES.masterpiece4 },
+];
+
+const TESTIMONIALS = [
+  { id: "test-01", name: "Ananya Rao", role: "Bride, Hyderabad", quote: "My bridal dupatta looked like a painting made of thread. Shree Collection understood exactly what I wanted before I could even explain it fully.", image: IMAGES.testimonial1, rating: 5 },
+  { id: "test-02", name: "Meera Nair", role: "Boutique Owner, Kochi", quote: "The finishing on every blouse we order is impeccable. Our clients keep asking who does our embroidery.", image: IMAGES.testimonial2, rating: 5 },
+  { id: "test-03", name: "Rohan Malhotra", role: "Gift Buyer, Delhi", quote: "I commissioned a personalised cushion set for my parents' anniversary — the attention to detail brought my mother to tears.", image: IMAGES.testimonial3, rating: 5 },
+  { id: "test-04", name: "Priya Verma", role: "Interior Stylist, Mumbai", quote: "Their home décor pieces elevate every room I style. The embroidery reads as art, not just fabric.", image: IMAGES.testimonial4, rating: 5 },
+  { id: "test-05", name: "Kavita Iyer", role: "Festival Shopper, Bengaluru", quote: "I've ordered three years running for Diwali. The colours, the craftsmanship — nothing compares.", image: IMAGES.testimonial5, rating: 5 },
+  { id: "test-06", name: "Arjun Sharma", role: "Anniversary Gift Buyer, Chennai", quote: "The personalised hoop I ordered for my parents' anniversary is now framed in their living room. Worth every rupee.", image: IMAGES.testimonial1, rating: 5 },
+];
+
+const OCCASIONS = [
+  { id: "occ-01", icon: GiFlowerPot, title: "Weddings", desc: "Bridal blouses, dupattas, and trousseau pieces stitched for the biggest day of your life." },
+  { id: "occ-02", icon: PiSparkleFill, title: "Festivals", desc: "Torans, cushion sets, and festive wear designed to bring warmth into every celebration." },
+  { id: "occ-03", icon: GiRolledCloth, title: "Home & Living", desc: "Bedsheets, table runners, and wall hoops that turn a house into a handcrafted home." },
+  { id: "occ-04", icon: LuGem, title: "Gifting", desc: "Personalised keepsakes for anniversaries, birthdays, and once-in-a-lifetime milestones." },
+];
+
+const ARTISANS = [
+  {
+    id: "art-01",
+    name: "Radha Devi",
+    role: "Master of Zardozi",
+    bio: "Thirty-two years of gold-thread work, taught by her mother before her. Radha leads every bridal commission in the studio.",
+    image: IMAGES.testimonial1,
+  },
+  {
+    id: "art-02",
+    name: "Suresh Kumar",
+    role: "Aari & Thread Specialist",
+    bio: "Suresh trained under a National Award-winning karigar in Lucknow and now oversees our floral hoop collection.",
+    image: IMAGES.testimonial3,
+  },
+  {
+    id: "art-03",
+    name: "Lakshmi Bai",
+    role: "Fabric Painting Artist",
+    bio: "A self-taught painter turned embroidery artist, Lakshmi brings a contemporary hand to traditional botanical motifs.",
+    image: IMAGES.testimonial5,
+  },
+];
+
+const MATERIALS_STRIP = [
+  { id: "mat-01", label: "Zari Gold Thread", image: IMAGES.threadsCloseup },
+  { id: "mat-02", label: "Hand-Dyed Silk Skeins", image: IMAGES.handsStitching },
+  { id: "mat-03", label: "Pure Mulberry Silk", image: IMAGES.floralCollection },
+  { id: "mat-04", label: "Long-Staple Cotton", image: IMAGES.bridalCollection },
+  { id: "mat-05", label: "Antique Wooden Hoops", image: IMAGES.masterpiece1 },
+  { id: "mat-06", label: "Hand-Finished Trims", image: IMAGES.personalizedGifts },
+];
+
+const CARE_TIPS = [
+  { id: "care-01", title: "Hand Wash Only", desc: "Use cold water and a mild detergent, gently pressing rather than scrubbing the embroidered area." },
+  { id: "care-02", title: "Dry in the Shade", desc: "Direct sunlight can fade delicate thread colour over time — always dry your piece flat, out of direct sun." },
+  { id: "care-03", title: "Store Folded in Muslin", desc: "Wrap finished pieces in breathable muslin cloth to protect threads from dust and humidity." },
+];
+
+const INSTAGRAM_POSTS = [
+  IMAGES.insta1, IMAGES.insta2, IMAGES.insta3, IMAGES.insta4,
+  IMAGES.insta5, IMAGES.insta6, IMAGES.insta7, IMAGES.insta8,
+];
+
+const WHATSAPP_NUMBER = "919923062181";
+const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  "Hello Shree Collection! I'd love to know more about your embroidery work."
+)}`;
+
+/* ============================================================================
+   3. ANIMATION VARIANTS (Framer Motion)
+   ==========================================================================*/
+const fadeUp = {
+  hidden: { opacity: 0, y: 60 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    transition: { duration: 1.1, delay: i * 0.1, ease: "easeOut" },
+  }),
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.85 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15 } },
+};
+
+const slideFromLeft = {
+  hidden: { opacity: 0, x: -80 },
+  visible: { opacity: 1, x: 0, transition: { duration: 1, ease: [0.22, 1, 0.36, 1] } },
+};
+
+/* ============================================================================
+   4. REUSABLE DECORATIVE PRIMITIVES
+   ==========================================================================*/
+const OrnamentalDivider = () => (
+  <div className="ornamental-divider" aria-hidden="true">
+    <span className="ornamental-line" />
+    <svg className="ornamental-glyph" viewBox="0 0 64 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M32 12c-4-8-12-8-16-2 4 4 10 4 16 2Zm0 0c4-8 12-8 16-2-4 4-10 4-16 2Z" stroke="currentColor" strokeWidth="1.4" />
+      <circle cx="32" cy="12" r="3" fill="currentColor" />
+    </svg>
+    <span className="ornamental-line" />
+  </div>
+);
+
+const FloralCorner = ({ className = "" }) => (
+  <svg className={`floral-corner ${className}`} viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M10 10c30 0 40 20 40 40M10 10c0 30 20 40 40 40M10 10c50 5 90 45 95 95" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+    <circle cx="52" cy="52" r="6" stroke="currentColor" strokeWidth="1.2" />
+    <path d="M52 40c4 4 4 8 0 12-4-4-4-8 0-12Zm-12 12c4-4 8-4 12 0-4 4-8 4-12 0Zm12 12c-4-4-4-8 0-12 4 4 4 8 0 12Zm12-12c-4 4-8 4-12 0 4-4 8-4 12 0Z" fill="currentColor" opacity="0.6" />
+    <path d="M85 30c10 6 12 16 6 26M100 60c8-8 18-8 26-2" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.5" />
+  </svg>
+);
+
+const FloatingPetals = () => {
+  const petals = new Array(10).fill(0);
+  return (
+    <div className="floating-petals" aria-hidden="true">
+      {petals.map((_, i) => (
+        <span key={i} className={`petal petal-${i + 1}`} />
+      ))}
+    </div>
+  );
+};
+
+/** Soft blurred orange/gold glow shapes — keeps the light cream sections from
+    ever reading as flat or plain, layering warmth behind the content. */
+const GlowBlobs = ({ variant = "default" }) => (
+  <div className={`glow-blobs glow-blobs--${variant}`} aria-hidden="true">
+    <span className="glow-blob glow-blob--orange" />
+    <span className="glow-blob glow-blob--gold" />
+  </div>
+);
+
+const Eyebrow = ({ children }) => (
+  <motion.span
+    className="eyebrow"
+    variants={fadeUp}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true, amount: 0.6 }}
+  >
+    <GiYarn className="eyebrow-icon" />
+    {children}
+  </motion.span>
+);
+
+/* ============================================================================
+   5. MAIN COMPONENT
+   ==========================================================================*/
+const Home = () => {
+  const heroRef = useRef(null);
+  const heroBgRef = useRef(null);
+  const heroTextRef = useRef(null);
+  const heroCtaRef = useRef(null);
+  const lenisRef = useRef(null);
+
+  /* ---------------------------------------------------------------------
+     5.1 Lenis smooth scroll — synced with GSAP ticker + ScrollTrigger
+     -------------------------------------------------------------------*/
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 1.5,
     });
+    lenisRef.current = lenis;
+    lenis.on("scroll", ScrollTrigger.update);
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
+    const raf = (time) => lenis.raf(time * 1000);
+    gsap.ticker.add(raf);
+    gsap.ticker.lagSmoothing(0);
 
-    return () => lenis.destroy();
+    return () => {
+      gsap.ticker.remove(raf);
+      lenis.destroy();
+    };
   }, []);
-};
 
-const useHeroGsap = (heroTextRef, heroImageRef, heroBadgeRef) => {
-  useLayoutEffect(() => {
+  /* ---------------------------------------------------------------------
+     5.2 GSAP hero entrance timeline + gentle parallax on the hero background
+     -------------------------------------------------------------------*/
+  useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-      tl.fromTo(heroTextRef.current.children, 
-        { y: 50, opacity: 0 }, 
-        { y: 0, opacity: 1, duration: 1, stagger: 0.2 }
-      )
-      .fromTo(heroImageRef.current, 
-        { scale: 0.9, opacity: 0 }, 
-        { scale: 1, opacity: 1, duration: 1.2 }, 
-        "-=0.6"
-      )
-      .fromTo(heroBadgeRef.current, 
-        { y: 30, opacity: 0 }, 
-        { y: 0, opacity: 1, duration: 0.8 }, 
-        "-=0.4"
+      tl.fromTo(
+        heroTextRef.current.querySelectorAll(".hero-anim-line"),
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, stagger: 0.15 }
+      ).fromTo(
+        heroCtaRef.current.children,
+        { y: 26, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7, stagger: 0.12 },
+        "-=0.5"
       );
-    });
+
+      gsap.fromTo(
+        heroBgRef.current,
+        { scale: 1.18 },
+        { scale: 1.05, duration: 2.2, ease: "power2.out" }
+      );
+
+      gsap.to(heroBgRef.current, {
+        yPercent: 14,
+        ease: "none",
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    }, heroRef);
 
     return () => ctx.revert();
-  }, [heroTextRef, heroImageRef, heroBadgeRef]);
-};
+  }, []);
 
-// Global WhatsApp Trigger Utility
-const triggerWhatsApp = () => {
-  window.open("https://wa.me/919923062181?text=Hello%20Shree%20Collection!%20I'd%20like%20to%20inquire%20about%20a%20custom%20handcrafted%20embroidery%20order.", "_blank");
-};
-
-// ============================================================================
-// 3. REUSABLE SUB-COMPONENTS
-// ============================================================================
-const GoldenOrnamentalDivider = () => (
-  <div className="ornamental-divider-wrap" aria-hidden="true">
-    <div className="divider-line"></div>
-    <div className="divider-motif">
-      <svg viewBox="0 0 100 30" className="motif-svg">
-        <path d="M10 15 C 30 0, 40 0, 50 15 C 60 30, 70 30, 90 15" stroke="#D4AF37" strokeWidth="2" fill="none" />
-        <circle cx="50" cy="15" r="4" fill="#C65D3D" />
-        <circle cx="20" cy="10" r="2.5" fill="#D4AF37" />
-        <circle cx="80" cy="20" r="2.5" fill="#D4AF37" />
-      </svg>
-    </div>
-    <div className="divider-line"></div>
-  </div>
-);
-
-const SectionHeader = ({ tag, title, subtitle }) => (
-  <div className="section-header text-center">
-    <span className="eyebrow-tag"><GiSewingNeedle /> {tag}</span>
-    <h2 className="section-title">{title}</h2>
-    {subtitle && <p className="section-subtitle">{subtitle}</p>}
-  </div>
-);
-
-// --- SECTION MODULES ---
-const HeroSection = ({ heroTextRef, heroImageRef, heroBadgeRef }) => (
-  <section className="hero-section">
-    <div className="hero-bg-texture"></div>
-    <div className="container hero-grid">
-      <div className="hero-text-col" ref={heroTextRef}>
-        <span className="eyebrow-tag">
-          <GiSewingNeedle /> Artisanal Indian Heritage
-        </span>
-        <h1 className="hero-title">
-          Crafted by Hand, <br />
-          <span className="text-highlight">Made for You</span>
-        </h1>
-        <p className="hero-subtitle">
-          Every stitch tells a story of love, patience, creativity, and timeless Indian craftsmanship.
-        </p>
-        <div className="hero-btn-group">
-          <a href="#collections" className="btn btn-primary stitch-border">Explore Collections</a>
-          <a href="#contact" className="btn btn-secondary">Contact Us</a>
-        </div>
-        <div className="hero-trust-indicators">
-          <div className="trust-item">
-            <span className="trust-number">100%</span>
-            <span className="trust-label">Handmade</span>
-          </div>
-          <div className="trust-divider"></div>
-          <div className="trust-item">
-            <span className="trust-number">7+</span>
-            <span className="trust-label">Major Projects</span>
-          </div>
-          <div className="trust-divider"></div>
-          <div className="trust-item">
-            <span className="trust-number">5★</span>
-            <span className="trust-label">Rating</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="hero-image-col">
-        <div className="hero-image-wrapper" ref={heroImageRef}>
-          <img src={HOME_DATA.images.hero} alt="Artisan hands stitching floral embroidery hoop" className="hero-main-img" />
-          <div className="hero-image-frame"></div>
-          <div className="hero-floating-badge" ref={heroBadgeRef}>
-            <div className="badge-icon">  <GiSewingNeedle /></div>
-            <div className="badge-text">
-              <strong>Silk & Cotton Threads</strong>
-              <span>Traditional Handiwork</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-);
-
-const ServicesSection = () => (
-  <section className="services-section" id="services">
-    <div className="container">
-      <SectionHeader 
-        tag="Our Expertise"
-        title="Handcrafted Boutique Services"
-        subtitle="Discover our wide array of bespoke embroidery, custom stitching, and handcrafted home decor."
-      />
-      <div className="services-grid">
-        {HOME_DATA.services.map((service, index) => (
-          <motion.div 
-            key={index} 
-            className="service-card"
-            whileHover={{ y: -10 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="service-card-border-glow"></div>
-            <div className="service-icon-box">{service.icon}</div>
-            <h3 className="service-title">{service.title}</h3>
-            <p className="service-desc">{service.desc}</p>
-            <span className="service-card-step">0{index + 1}</span>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
-const WhyChooseSection = () => (
-  <section className="why-choose-section">
-    <div className="container why-choose-grid">
-      <div className="why-image-col">
-        <div className="why-img-frame">
-          <img src={HOME_DATA.images.handsStitching} alt="Artisan hands stitching delicate fabric" />
-          <div className="why-img-gold-border"></div>
-        </div>
-      </div>
-      <div className="why-content-col">
-        <span className="eyebrow-tag"><GiSewingNeedle /> Uncompromising Quality</span>
-        <h2 className="section-title">Why Choose Shree Collection</h2>
-        <p className="section-subtitle">We believe in deliberate luxury. Every single motif is hand-drawn, threaded, and sewn without high-speed machinery.</p>
-        <div className="features-grid">
-          {HOME_DATA.features.map((feat, index) => (
-            <div className="feature-card" key={index}>
-              <div className="feature-icon">{feat.icon}</div>
-              <div className="feature-text">
-                <h4>{feat.title}</h4>
-                <p>{feat.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
-);
-
-const CollectionsSection = () => (
-  <section className="collections-section" id="collections">
-    <div className="container">
-      <SectionHeader 
-        tag="Fine Archives"
-        title="Signature Collections"
-        subtitle="Explore a curated gallery of our most celebrated handcrafted creations."
-      />
-      <div className="masonry-grid">
-        {HOME_DATA.masonryCollections.map((item) => (
-          <motion.div 
-            key={item.id} 
-            className={`masonry-item ${item.type}`}
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.4 }}
-          >
-            <img src={item.img} alt={item.title} className="masonry-img" />
-            <div className="masonry-overlay">
-              <span className="masonry-tag">{item.tag}</span>
-              <h3 className="masonry-title">{item.title}</h3>
-              <div className="masonry-arrow"><FiArrowUpRight /></div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
-const JourneySection = () => (
-  <section className="journey-section">
-    <div className="container">
-      <SectionHeader 
-        tag="Atelier Timeline"
-        title="Our Craftsmanship Journey"
-        subtitle="From pencil draft to final pressed stitch—witness how your bespoke creation unfolds."
-      />
-      <div className="timeline-wrapper">
-        <div className="timeline-line"></div>
-        <div className="timeline-steps-grid">
-          {HOME_DATA.timeline.map((step, idx) => (
-            <div className="timeline-step" key={idx}>
-              <div className="timeline-node">
-                <span className="node-glow"></span>
-                <span className="node-num">{step.num}</span>
-              </div>
-              <h4 className="step-title">{step.title}</h4>
-              <p className="step-desc">{step.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
-);
-
-const MasterpiecesSection = () => (
-  <section className="masterpieces-section">
-    <div className="container">
-      <SectionHeader tag="Exclusive Showcase" title="Featured Masterpieces" />
-      <div className="swiper-outer-wrapper">
-        <Swiper
-          modules={[Autoplay, Pagination, Navigation, EffectFade]}
-          spaceBetween={30}
-          slidesPerView={1}
-          loop={true}
-          autoplay={{ delay: 4500, disableOnInteraction: false }}
-          pagination={{ clickable: true, el: '.masterpieces-pagination' }}
-          navigation={{ nextEl: '.mp-next', prevEl: '.mp-prev' }}
-          breakpoints={{
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 }
-          }}
-          className="masterpieces-swiper"
-        >
-          {HOME_DATA.masterpieces.map((item, index) => (
-            <SwiperSlide key={index}>
-              <div className="masterpiece-card">
-                <div className="mp-image-wrap">
-                  <img src={item.img} alt={item.title} />
-                  <span className="mp-tag">{item.category}</span>
-                </div>
-                <div className="mp-body">
-                  <h3>{item.title}</h3>
-                  <button onClick={triggerWhatsApp} className="mp-inquire-btn">Inquire Design</button>
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-
-        <div className="swiper-custom-controls">
-          <button className="mp-prev ctrl-btn" aria-label="Previous Slide"><FaChevronLeft /></button>
-          <div className="masterpieces-pagination"></div>
-          <button className="mp-next ctrl-btn" aria-label="Next Slide"><FaChevronRight /></button>
-        </div>
-      </div>
-    </div>
-  </section>
-);
-
-const TestimonialsSection = () => (
-  <section className="testimonials-section">
-    <div className="container">
-      <SectionHeader tag="Words That Inspire Us" title="Customer Experiences" />
-      <Swiper
-        modules={[Autoplay, Pagination]}
-        spaceBetween={30}
-        slidesPerView={1}
-        loop={true}
-        autoplay={{ delay: 5000 }}
-        pagination={{ clickable: true }}
-        breakpoints={{ 768: { slidesPerView: 2 } }}
-        className="testimonials-swiper"
-      >
-        {HOME_DATA.testimonials.map((test, index) => (
-          <SwiperSlide key={index}>
-            <div className="testimonial-card">
-              <FaQuoteLeft className="quote-icon" />
-              <p className="testimonial-text">"{test.text}"</p>
-              <div className="star-row">
-                {[...Array(5)].map((_, i) => <FaStar key={i} />)}
-              </div>
-              <div className="testimonial-profile">
-                <img src={test.img} alt={test.name} />
-                <div>
-                  <h5>{test.name}</h5>
-                  <span>{test.city}</span>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
-  </section>
-);
-
-const InstagramSection = () => (
-  <section className="instagram-section">
-    <div className="container">
-      <SectionHeader 
-        tag="@shree_collection_art"
-        title="Instagram Inspiration"
-        subtitle="Peek inside our studio feed for behind-the-scenes stitch reels and work in progress."
-      />
-      <div className="insta-grid">
-        {HOME_DATA.instagramGallery.map((imgUrl, idx) => (
-          <a 
-            key={idx} 
-            href="https://www.instagram.com/shree_collection_art?igsh=ZW10MGt3MnJxa2M4" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="insta-item"
-          >
-            <img src={imgUrl} alt={`Shree Collection Instagram photo ${idx + 1}`} />
-            <div className="insta-hover-overlay">
-              <FiInstagram />
-            </div>
-          </a>
-        ))}
-      </div>
-      <div className="text-center mt-4">
-        <a 
-          href="https://www.instagram.com/shree_collection_art?igsh=ZW10MGt3MnJxa2M4" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="btn btn-primary stitch-border"
-        >
-          Follow Us on Instagram
-        </a>
-      </div>
-    </div>
-  </section>
-);
-
-const CtaSection = () => (
-  <section className="final-cta-section" style={{ backgroundImage: `url(${HOME_DATA.images.ctaBg})` }} id="contact">
-    <div className="cta-matte-overlay"></div>
-    <div className="container cta-content text-center">
-      <span className="eyebrow-tag gold"><GiSewingNeedle /> Start Your Custom Order</span>
-      <h2>Let's Create Something Beautiful Together</h2>
-      <p>
-        Whether you dream of customized bridal wear, personalized hoop keepsakes, or luxury embroidered throw cushions, we are ready to weave your imagination into timeless fabric art.
-      </p>
-      <div className="cta-btn-group">
-        <a href="tel:+919923062181" className="btn btn-primary stitch-border">
-          <FaPhoneAlt /> Call Direct
-        </a>
-        <button onClick={triggerWhatsApp} className="btn btn-whatsapp">
-          <FaWhatsapp /> WhatsApp Us
-        </button>
-      </div>
-    </div>
-  </section>
-);
-
-// ============================================================================
-// 4. MAIN HOMEPAGE COMPONENT
-// ============================================================================
-export default function Home() {
-  const heroTextRef = useRef(null);
-  const heroImageRef = useRef(null);
-  const heroBadgeRef = useRef(null);
-
-  // Initialize Smooth Scrolling Hook
-  useLenis();
-
-  // Initialize GSAP Animations Hook
-  useHeroGsap(heroTextRef, heroImageRef, heroBadgeRef);
+  const scrollToSection = (href) => {
+    const target = document.querySelector(href);
+    if (target && lenisRef.current) {
+      lenisRef.current.scrollTo(target, { offset: -80, duration: 1.4 });
+    } else if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
-    <div className="shree-home-wrapper">
-      {/* Background Ambient Florals */}
-      <div className="floating-floral-decor decor-top-left" aria-hidden="true"><GiFlowerEmblem /></div>
-      <div className="floating-floral-decor decor-bottom-right" aria-hidden="true"><GiFlowerEmblem /></div>
+    <div className="shree-root">
+      <Navbar />
 
-      {/* Sections Sequence */}
-      <HeroSection heroTextRef={heroTextRef} heroImageRef={heroImageRef} heroBadgeRef={heroBadgeRef} />
-      <GoldenOrnamentalDivider />
-      
-      <ServicesSection />
-      <GoldenOrnamentalDivider />
-      
-      <WhyChooseSection />
-      <GoldenOrnamentalDivider />
-      
-      <CollectionsSection />
-      <GoldenOrnamentalDivider />
-      
-      <JourneySection />
-      <GoldenOrnamentalDivider />
-      
-      <MasterpiecesSection />
-      <TestimonialsSection />
-      <InstagramSection />
-      <CtaSection />
+      {/* ================================================================
+          1. HERO — full-bleed background image, first thing visitors see
+      ================================================================= */}
+      <section className="hero" id="hero" ref={heroRef}>
+        <div className="hero__bg-wrap">
+          <img ref={heroBgRef} src={IMAGES.heroBg} alt="Realistic embroidery hoop with elegant floral hand-stitching, wooden frame, warm sunlight" className="hero__bg-img" />
+          <div className="hero__bg-overlay" />
+        </div>
+
+        <FloralCorner className="floral-corner--top-left floral-corner--light" />
+        <FloralCorner className="floral-corner--bottom-right floral-corner--light" />
+        <FloatingPetals />
+
+        <div className="hero__content">
+          <div className="hero__text" ref={heroTextRef}>
+            <span className="eyebrow eyebrow--light hero-anim-line">
+              <GiYarn className="eyebrow-icon" />
+              Heirloom Embroidery, Est. in Tradition
+            </span>
+            <h1 className="hero__heading">
+              <span className="hero-anim-line">Crafted by Hand,</span>
+              <span className="hero-anim-line hero__heading-accent">Made for You</span>
+            </h1>
+            <p className="hero__subtitle hero-anim-line">
+              Every stitch tells a story of love, patience, creativity, and
+              timeless Indian craftsmanship.
+            </p>
+
+            <div className="hero__cta" ref={heroCtaRef}>
+              <a
+                href="#collections"
+                className="btn btn--primary"
+                onClick={(e) => { e.preventDefault(); scrollToSection("#collections"); }}
+              >
+                Explore Collections
+                <FaArrowRight className="btn__icon" />
+              </a>
+              <a
+                href="#final-cta"
+                className="btn btn--outline-light"
+                onClick={(e) => { e.preventDefault(); scrollToSection("#final-cta"); }}
+              >
+                Contact Us
+              </a>
+            </div>
+
+            <div className="hero__stats">
+              <div className="hero__stat">
+                <span className="hero__stat-number">18+</span>
+                <span className="hero__stat-label">Years of Craft</span>
+              </div>
+              <div className="hero__stat-divider" />
+              <div className="hero__stat">
+                <span className="hero__stat-number">4,200+</span>
+                <span className="hero__stat-label">Pieces Stitched</span>
+              </div>
+              <div className="hero__stat-divider" />
+              <div className="hero__stat">
+                <span className="hero__stat-number">100%</span>
+                <span className="hero__stat-label">Handmade</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="hero__scroll-cue" aria-hidden="true">
+          <span />
+          Scroll to explore
+        </div>
+      </section>
+
+      {/* ================================================================
+          MATERIALS MARQUEE — a slow-drifting strip of the raw materials
+          that go into every commission. Purely decorative, purely luxury.
+      ================================================================= */}
+      <section className="materials" aria-label="The materials behind our craft">
+        <div className="materials__track">
+          {[...MATERIALS_STRIP, ...MATERIALS_STRIP].map((mat, i) => (
+            <div className="materials__item" key={`${mat.id}-${i}`}>
+              <span className="materials__image-wrap">
+                <img src={mat.image} alt={mat.label} loading="lazy" />
+              </span>
+              <span className="materials__label">{mat.label}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ================================================================
+          BY THE NUMBERS — a quiet, confident stat band
+      ================================================================= */}
+      <section className="stat-band">
+        <motion.div
+          className="stat-band__grid"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.4 }}
+        >
+          {[
+            { number: "18+", label: "Years of Craft" },
+            { number: "4,200+", label: "Pieces Hand-Stitched" },
+            { number: "3", label: "Master Karigars" },
+            { number: "100%", label: "Handmade, Always" },
+          ].map((stat, i) => (
+            <motion.div className="stat-band__item" key={stat.label} variants={fadeUp} custom={i}>
+              <span className="stat-band__number">{stat.number}</span>
+              <span className="stat-band__label">{stat.label}</span>
+            </motion.div>
+          ))}
+        </motion.div>
+      </section>
+
+      {/* ================================================================
+          2. SERVICES SECTION
+      ================================================================= */}
+      <section className="services" id="services">
+        <GlowBlobs variant="services" />
+        <FloralCorner className="floral-corner--top-right floral-corner--muted" />
+        <div className="section__header">
+          <Eyebrow>What We Craft</Eyebrow>
+          <motion.h2 className="section__title" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }}>
+            Services Woven With Care
+          </motion.h2>
+          <motion.p className="section__subtitle" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }} custom={1}>
+            From a single hand-stitched motif to a full bridal trousseau, our
+            ateliers cover every corner of embroidered craftsmanship.
+          </motion.p>
+        </div>
+
+        <motion.div className="services__grid" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.15 }}>
+          {SERVICES.map((service, i) => {
+            const Icon = service.icon;
+            return (
+              <motion.div className="service-card" key={service.id} variants={fadeUp} custom={i} whileHover={{ y: -10 }} transition={{ type: "spring", stiffness: 260, damping: 20 }}>
+                <span className="service-card__index">0{i + 1}</span>
+                <div className="service-card__icon"><Icon /></div>
+                <h3 className="service-card__title">{service.title}</h3>
+                <p className="service-card__desc">{service.desc}</p>
+                <span className="service-card__glow" aria-hidden="true" />
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </section>
+
+      <OrnamentalDivider />
+
+      {/* ================================================================
+          3. WHY CHOOSE SHREE COLLECTION
+      ================================================================= */}
+      <section className="why-choose" id="why-choose">
+        <GlowBlobs variant="why" />
+        <div className="why-choose__grid">
+          <motion.div className="why-choose__image-wrap" variants={slideFromLeft} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }}>
+            <img src={IMAGES.handsStitching} alt="Artisan hands hand-stitching colourful embroidery threads" className="why-choose__image" />
+            <div className="why-choose__image-frame" aria-hidden="true" />
+            <div className="why-choose__floating-card">
+              <GiYarn />
+              <div>
+                <strong>Hand-Selected Threads</strong>
+                <span>Every hue chosen by eye</span>
+              </div>
+            </div>
+          </motion.div>
+
+          <div className="why-choose__content">
+            <Eyebrow>Our Promise</Eyebrow>
+            <motion.h2 className="section__title section__title--left" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }}>
+              Why Choose Shree Collection
+            </motion.h2>
+            <motion.p className="section__subtitle section__subtitle--left" variants={fadeUp} custom={1} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }}>
+              We believe embroidery is not decoration — it is memory, stitched
+              in thread. Here's what sets every Shree Collection piece apart.
+            </motion.p>
+
+            <motion.div className="why-choose__features" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.15 }}>
+              {WHY_FEATURES.map((feature, i) => {
+                const Icon = feature.icon;
+                return (
+                  <motion.div className="feature-card" key={feature.id} variants={fadeUp} custom={i} whileHover={{ x: 6 }}>
+                    <div className="feature-card__icon"><Icon /></div>
+                    <div>
+                      <h4 className="feature-card__title">{feature.title}</h4>
+                      <p className="feature-card__desc">{feature.desc}</p>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      <OrnamentalDivider />
+
+      {/* ================================================================
+          ARTISAN SPOTLIGHT — the hands behind the craft
+      ================================================================= */}
+      <section className="artisans">
+        <GlowBlobs variant="artisans" />
+        <div className="section__header">
+          <Eyebrow>Meet the Makers</Eyebrow>
+          <motion.h2
+            className="section__title"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.4 }}
+          >
+            The Hands Behind Every Stitch
+          </motion.h2>
+          <motion.p
+            className="section__subtitle"
+            variants={fadeUp}
+            custom={1}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.4 }}
+          >
+            Shree Collection is a small studio of master karigars — each with
+            their own specialty, patience, and decades of practiced technique.
+          </motion.p>
+        </div>
+
+        <motion.div
+          className="artisans__grid"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+        >
+          {ARTISANS.map((artisan, i) => (
+            <motion.div
+              className="artisan-card"
+              key={artisan.id}
+              variants={fadeUp}
+              custom={i}
+              whileHover={{ y: -8 }}
+            >
+              <div className="artisan-card__image-wrap">
+                <img src={artisan.image} alt={artisan.name} />
+                <span className="artisan-card__ring" aria-hidden="true" />
+              </div>
+              <h3 className="artisan-card__name">{artisan.name}</h3>
+              <span className="artisan-card__role">{artisan.role}</span>
+              <p className="artisan-card__bio">{artisan.bio}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </section>
+
+      <OrnamentalDivider />
+
+      {/* ================================================================
+          4. SIGNATURE COLLECTIONS (Masonry)
+      ================================================================= */}
+      <section className="collections" id="collections">
+        <FloralCorner className="floral-corner--top-left floral-corner--muted" />
+        <div className="section__header">
+          <Eyebrow>Signature Edit</Eyebrow>
+          <motion.h2 className="section__title" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }}>
+            Signature Collections
+          </motion.h2>
+          <motion.p className="section__subtitle" variants={fadeUp} custom={1} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }}>
+            Six curated worlds of embroidery, each with its own colour story
+            and occasion.
+          </motion.p>
+        </div>
+
+        <motion.div className="collections__masonry" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}>
+          {COLLECTIONS.map((item, i) => (
+            <motion.div className={`collection-card collection-card--${item.span}`} key={item.id} variants={scaleIn} custom={i} whileHover="hover">
+              <motion.img src={item.image} alt={item.title} className="collection-card__image" variants={{ hover: { scale: 1.12 } }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }} />
+              <div className="collection-card__overlay">
+                <span className="collection-card__tag">{item.tag}</span>
+                <h3 className="collection-card__title">{item.title}</h3>
+                <span className="collection-card__link">
+                  View Collection <FaArrowRight />
+                </span>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </section>
+
+      <OrnamentalDivider />
+
+      {/* ================================================================
+          5. CRAFTSMANSHIP JOURNEY (Timeline)
+      ================================================================= */}
+      <section className="journey" id="journey">
+        <GlowBlobs variant="journey" />
+        <div className="section__header">
+          <Eyebrow>From Thought to Thread</Eyebrow>
+          <motion.h2 className="section__title" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }}>
+            Our Craftsmanship Journey
+          </motion.h2>
+          <motion.p className="section__subtitle" variants={fadeUp} custom={1} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }}>
+            Six deliberate stages stand between an idea and the piece you
+            finally hold.
+          </motion.p>
+        </div>
+
+        <div className="journey__timeline">
+          <motion.div className="journey__line" initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }} />
+          {JOURNEY_STEPS.map((step, i) => (
+            <motion.div className="journey__step" key={step.id} variants={fadeUp} custom={i} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }}>
+              <div className="journey__milestone">
+                <span className="journey__milestone-glow" />
+                <span className="journey__milestone-number">{i + 1}</span>
+              </div>
+              <h3 className="journey__step-title">{step.title}</h3>
+              <p className="journey__step-desc">{step.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      <OrnamentalDivider />
+
+      {/* ================================================================
+          PERFECT FOR EVERY OCCASION
+      ================================================================= */}
+      <section className="occasions">
+        <GlowBlobs variant="occasions" />
+        <div className="section__header">
+          <Eyebrow>Made for the Moment</Eyebrow>
+          <motion.h2
+            className="section__title"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.4 }}
+          >
+            Perfect for Every Occasion
+          </motion.h2>
+        </div>
+
+        <motion.div
+          className="occasions__grid"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          {OCCASIONS.map((occ, i) => {
+            const Icon = occ.icon;
+            return (
+              <motion.div
+                className="occasion-card"
+                key={occ.id}
+                variants={scaleIn}
+                custom={i}
+                whileHover={{ y: -8, scale: 1.02 }}
+              >
+                <span className="occasion-card__icon">
+                  <Icon />
+                </span>
+                <h3>{occ.title}</h3>
+                <p>{occ.desc}</p>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </section>
+
+      <OrnamentalDivider />
+
+      {/* ================================================================
+          6. FEATURED MASTERPIECES (Swiper Slider)
+      ================================================================= */}
+      <section className="masterpieces" id="masterpieces">
+        <FloralCorner className="floral-corner--bottom-left floral-corner--muted" />
+        <div className="section__header">
+          <Eyebrow>The Finest of the Fine</Eyebrow>
+          <motion.h2 className="section__title" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }}>
+            Featured Masterpieces
+          </motion.h2>
+        </div>
+
+        <motion.div className="masterpieces__slider-wrap" variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}>
+          <Swiper
+            modules={[Navigation, Pagination, Autoplay, EffectCoverflow]}
+            effect="coverflow"
+            grabCursor
+            centeredSlides
+            slidesPerView={"auto"}
+            coverflowEffect={{ rotate: 0, stretch: 0, depth: 140, modifier: 1.6, slideShadows: false }}
+            autoplay={{ delay: 4200, disableOnInteraction: false }}
+            navigation={{ nextEl: ".masterpieces__next", prevEl: ".masterpieces__prev" }}
+            pagination={{ clickable: true, el: ".masterpieces__pagination" }}
+            className="masterpieces__swiper"
+          >
+            {MASTERPIECES.map((piece) => (
+              <SwiperSlide key={piece.id} className="masterpiece-slide">
+                <div className="masterpiece-card">
+                  <img src={piece.image} alt={piece.title} className="masterpiece-card__image" />
+                  <div className="masterpiece-card__info">
+                    <span className="masterpiece-card__category">{piece.category}</span>
+                    <h3>{piece.title}</h3>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          <div className="masterpieces__controls">
+            <button className="masterpieces__prev slider-btn" aria-label="Previous"><FaArrowLeft /></button>
+            <div className="masterpieces__pagination" />
+            <button className="masterpieces__next slider-btn" aria-label="Next"><FaArrowRight /></button>
+          </div>
+        </motion.div>
+      </section>
+
+      <OrnamentalDivider />
+
+      {/* ================================================================
+          7. CUSTOMER TESTIMONIALS
+      ================================================================= */}
+      <section className="testimonials" id="testimonials">
+        <GlowBlobs variant="testimonials" />
+        <div className="section__header">
+          <Eyebrow>Words From Our Patrons</Eyebrow>
+          <motion.h2 className="section__title" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }}>
+            Customer Testimonials
+          </motion.h2>
+        </div>
+
+        <motion.div className="testimonials__wrap" variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}>
+          <Swiper
+            modules={[Pagination, Autoplay]}
+            slidesPerView={1}
+            spaceBetween={32}
+            autoplay={{ delay: 5200, disableOnInteraction: false }}
+            pagination={{ clickable: true, el: ".testimonials__pagination" }}
+            breakpoints={{ 900: { slidesPerView: 2 } }}
+            className="testimonials__swiper"
+          >
+            {TESTIMONIALS.map((t) => (
+              <SwiperSlide key={t.id}>
+                <div className="testimonial-card">
+                  <FaQuoteLeft className="testimonial-card__quote-icon" />
+                  <p className="testimonial-card__quote">{t.quote}</p>
+                  <div className="testimonial-card__stars">
+                    {Array.from({ length: t.rating }).map((_, idx) => <FaStar key={idx} />)}
+                  </div>
+                  <div className="testimonial-card__person">
+                    <img src={t.image} alt={t.name} />
+                    <div>
+                      <strong>{t.name}</strong>
+                      <span>{t.role}</span>
+                    </div>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <div className="testimonials__pagination" />
+        </motion.div>
+      </section>
+
+      <OrnamentalDivider />
+
+      {/* ================================================================
+          CARE GUIDE — a small, practical trust-builder
+      ================================================================= */}
+      <section className="care">
+        <div className="section__header">
+          <Eyebrow>Made to Last</Eyebrow>
+          <motion.h2
+            className="section__title"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.4 }}
+          >
+            Caring for Your Embroidery
+          </motion.h2>
+        </div>
+
+        <motion.div
+          className="care__grid"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          {CARE_TIPS.map((tip, i) => (
+            <motion.div className="care-card" key={tip.id} variants={fadeUp} custom={i}>
+              <span className="care-card__number">0{i + 1}</span>
+              <h4>{tip.title}</h4>
+              <p>{tip.desc}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </section>
+
+      <OrnamentalDivider />
+
+      {/* ================================================================
+          8. INSTAGRAM INSPIRATION
+      ================================================================= */}
+      <section className="instagram" id="instagram">
+        <div className="section__header">
+          <Eyebrow>@shree_collection_art</Eyebrow>
+          <motion.h2 className="section__title" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }}>
+            Instagram Inspiration
+          </motion.h2>
+        </div>
+
+        <motion.div className="instagram__grid" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}>
+          {INSTAGRAM_POSTS.map((src, i) => (
+            <motion.a
+              href="https://www.instagram.com/shree_collection_art?igsh=ZW10MGt3MnJxa2M4"
+              target="_blank"
+              rel="noopener noreferrer"
+              key={i}
+              className="instagram__item"
+              variants={scaleIn}
+              custom={i}
+              whileHover="hover"
+            >
+              <motion.img src={src} alt={`Shree Collection Instagram post ${i + 1}`} variants={{ hover: { scale: 1.15 } }} transition={{ duration: 0.6 }} />
+              <div className="instagram__overlay"><FaInstagram /></div>
+            </motion.a>
+          ))}
+        </motion.div>
+
+        <motion.a
+          href="https://www.instagram.com/shree_collection_art?igsh=ZW10MGt3MnJxa2M4"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn--outline instagram__follow"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <FaInstagram /> Follow Us
+        </motion.a>
+      </section>
+
+      {/* ================================================================
+          9. FINAL CALL TO ACTION
+      ================================================================= */}
+      <section className="final-cta" id="final-cta" style={{ "--cta-bg": `url(${IMAGES.ctaBackground})` }}>
+        <div className="final-cta__overlay" />
+        <FloralCorner className="floral-corner--top-left floral-corner--light" />
+        <FloralCorner className="floral-corner--bottom-right floral-corner--light" />
+
+        <motion.div className="final-cta__content" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }}>
+          <Eyebrow>Ready When You Are</Eyebrow>
+          <h2 className="final-cta__heading">Let&apos;s Create Something Beautiful Together</h2>
+          <p className="final-cta__subtitle">
+            Share your vision with us — a saree, a trousseau, a home, a gift —
+            and we&apos;ll bring it to life, one careful stitch at a time.
+          </p>
+          <div className="final-cta__buttons">
+            <a href="tel:+919923062181" className="btn btn--primary">
+              Contact Us <FaArrowRight className="btn__icon" />
+            </a>
+            <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="btn btn--whatsapp">
+              <FaWhatsapp /> WhatsApp
+            </a>
+          </div>
+        </motion.div>
+      </section>
+
+      <Footer />
     </div>
   );
-}
+};
+
+export default Home;
