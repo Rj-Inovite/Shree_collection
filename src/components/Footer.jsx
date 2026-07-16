@@ -85,44 +85,7 @@ export default function Footer() {
       <div className="footer-bg-flourish flourish-right"></div>
       <div className="floating-thread-particles"></div>
 
-      {/* --- SECTION 1: MASTER PIECE CALL TO ACTION --- */}
-      <section className="footer-cta-container">
-        <div className="cta-image-backdrop">
-          <div className="cta-tint-overlay"></div>
-        </div>
-        <div className="cta-content-inner">
-          <motion.h2 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            Let's Create Something Beautiful Together
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.15 }}
-          >
-            Every masterpiece begins with a single idea. Whether you dream of personalized embroidery, custom stitching, handcrafted home décor, or artistic fabric painting, Shree Collection is here to bring your imagination to life with love, precision, and timeless craftsmanship.
-          </motion.p>
-          <motion.div 
-            className="cta-buttons-row"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <Link to="/contact" className="cta-btn btn-luxury-fill stitch-border-hover">
-              Contact Us
-            </Link>
-            <button onClick={handleWhatsAppAction} className="cta-btn btn-whatsapp-fill stitch-border-hover-wa">
-              <WhatsAppIcon /> WhatsApp
-            </button>
-          </motion.div>
-        </div>
-      </section>
+   
 
       {/* --- SECTION 2: METICULOUS FOUR-COLUMN ROW --- */}
       <section className="footer-columns-directory">
