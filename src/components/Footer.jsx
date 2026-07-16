@@ -70,12 +70,12 @@ export default function Footer() {
   };
 
   const instagramStripImages = [
-    { src: "https://images.unsplash.com/photo-1613987549117-13c4781b32d3?auto=format&fit=crop&q=80&w=400", alt: "Embroidery Hoop Closeup" },
-    { src: "https://images.unsplash.com/photo-1595959183075-c1d0a161b0c6?auto=format&fit=crop&q=80&w=400", alt: "Embroidered Blouse Design" },
-    { src: "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&q=80&w=400", alt: "Handcrafted Cushion Covers" },
-    { src: "https://images.unsplash.com/photo-1550581190-9c1c48d21d6c?auto=format&fit=crop&q=80&w=400", alt: "Detailed Fabric Painting" },
-    { src: "https://images.unsplash.com/photo-1572085312730-23a6b6ec8fc1?auto=format&fit=crop&q=80&w=400", alt: "Colorful Embroidery Threads" },
-    { src: "https://images.unsplash.com/photo-1565193298564-ae98e2491267?auto=format&fit=crop&q=80&w=400", alt: "Artisan Workspace Details" }
+    { src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsP6A6aB9Np6cWe4xG8mRwsCVmJ9CEGwgHRdOQOWeVHWckh24NMNUtAs8&s=10", alt: "Embroidery Hoop Closeup" },
+    { src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWtIvZAjwfXg5D_nHOdDgOAQavtOAMHiN4viY2AdfX0dilPpALUJaKAvSR&s=10", alt: "Embroidered Shirt Design" },
+    { src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbBbHjT9epm7y2erMqb8yfCDq2gWJky4m3mefZ0JJOEBR9Awf1DlP-wvCY&s=10", alt: "Handcrafted Cushion Covers" },
+    { src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7vLX41lLtT6Rocix_RFfCU_nAg5ZtdV-juEFaxtsEoA&s=10", alt: "Detailed Fabric Painting" },
+    { src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwutJyspfUBrLVEFnZSxyUd_apEAEB96L8N6bbLJpPjNtRxfD5Am9_5kEX&s=10", alt: "Colorful Embroidery Threads" },
+    { src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfUhgza4UBRTe5yMslFCUS-r7GsqhVgts-Dw94Ic6vJQ&s=10", alt: "Artisan Workspace Details" }
   ];
 
   return (
