@@ -19,7 +19,7 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Lenis from "lenis";
+import Lenis from "@studio-freight/lenis";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
