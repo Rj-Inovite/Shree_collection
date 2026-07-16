@@ -70,7 +70,7 @@ const IMAGES = {
   cushionCovers:
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4QqlvGbnynE9rU7I7XZnyyekuldoi5O1xf2qDP3X3lrl57R1_1WHqFDvX&s=10",
   bedsheets:
-    "https://i.pinimg.com/originals/39/7f/36/397f36b37457a0e06cd2f35e9bd04d4e.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBWmWXV1j_qFCnG90Gnb7U9IchHCx3_yzFVDzr5WKKkQ&s",
   personalizedGifts:
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjuo43HKlyVPCXAJIkOdEDuu4z71hBs3MneesBg4m5EYt7XPdxvtkxuG6U&s=10",
   festivalCollection:
