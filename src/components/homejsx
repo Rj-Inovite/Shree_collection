@@ -1,19 +1,4 @@
-/* ============================================================================
-   Home.jsx
-   Shree Collection — Luxury Handmade Embroidery Brand Homepage
-   ----------------------------------------------------------------------------
-   Stack: React (Vite) + Framer Motion + GSAP/ScrollTrigger + Lenis + Swiper
-   Notes:
-   - All styling lives in Home.css (plain CSS, no CSS-in-JS, no Tailwind).
-   - Images are sourced from Unsplash (royalty-free) as high-res placeholders.
-     Swap the URLS in the `IMAGES` map below with your own studio photography
-     whenever it's ready — every reference in the file reads from that map.
-   - GSAP is used for the cinematic hero entrance + pinned parallax layers.
-     Lenis powers the buttery smooth scroll and is synced to GSAP's ticker.
-     Framer Motion handles scroll-triggered section reveals + hover/tap states.
-     Swiper powers the "Featured Masterpieces" slider and the testimonial
-     carousel.
-   ==========================================================================*/
+
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
