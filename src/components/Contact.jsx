@@ -111,11 +111,7 @@ const CUSTOMER_GALLERY = [
 ];
 
 const FAQS = [
-  {
-    id: "faq-01",
-    q: "How can I place a custom order?",
-    a: "Simply message us on WhatsApp or Instagram with your idea, occasion, and preferred fabric — we'll guide you through design, thread selection, and timelines from there.",
-  },
+ 
   {
     id: "faq-02",
     q: "What embroidery services do you provide?",
@@ -141,11 +137,7 @@ const FAQS = [
     q: "How can I contact Shree Collection?",
     a: `You can call us at ${PHONE_DISPLAY}, message us on WhatsApp, or reach out through Instagram at ${INSTAGRAM_HANDLE}.`,
   },
-  {
-    id: "faq-07",
-    q: "Can I order through Instagram or WhatsApp?",
-    a: "Yes — most of our custom orders begin as a simple DM or WhatsApp message. It's often the fastest way to reach us directly.",
-  },
+
 ];
 
 /* ============================================================================
@@ -339,103 +331,11 @@ const Contact = () => {
             Let&apos;s Create Something Beautiful Together
           </motion.h1>
           <motion.p className="ct-hero__subtitle" variants={fadeUp} custom={2}>
-            We would love to hear your ideas and help transform them into
-            handcrafted masterpieces. Whether you need custom embroidery,
-            stitching, fabric painting, or personalized creations, Shree
-            Collection is always happy to create something made especially
-            for you.
-          </motion.p>
+            </motion.p>
         </motion.div>
       </section>
 
-      {/* ================================================================
-          CONTACT INFORMATION — two cards
-      ================================================================= */}
-      <section className="ct-info">
-        <GlowBlobs variant="info" />
-        <div className="ct-info__grid">
-          <motion.div
-            className="ct-info-card"
-            variants={fadeLeft}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <Eyebrow>Reach Us Directly</Eyebrow>
-            <h2 className="ct-info-card__title">Contact Information</h2>
-
-            <a href={`tel:${PHONE_TEL}`} className="ct-contact-row">
-              <span className="ct-contact-row__icon">
-                <FaPhoneAlt />
-              </span>
-              <div>
-                <strong>Phone Number</strong>
-                <span>{PHONE_DISPLAY}</span>
-              </div>
-            </a>
-
-            <a
-              href={INSTAGRAM_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ct-contact-row"
-            >
-              <span className="ct-contact-row__icon">
-                <FaInstagram />
-              </span>
-              <div>
-                <strong>Instagram</strong>
-                <span>{INSTAGRAM_HANDLE}</span>
-              </div>
-            </a>
-
-            <a
-              href={YOUTUBE_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ct-contact-row"
-            >
-              <span className="ct-contact-row__icon">
-                <FaYoutube />
-              </span>
-              <div>
-                <strong>YouTube</strong>
-                <span>{YOUTUBE_NAME}</span>
-              </div>
-            </a>
-
-            <a
-              href={WHATSAPP_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ct-btn ct-btn--whatsapp ct-info-card__cta"
-            >
-              <FaWhatsapp /> Chat on WhatsApp
-            </a>
-          </motion.div>
-
-          <motion.div
-            className="ct-info-visual"
-            variants={fadeRight}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <div className="ct-info-visual__frame">
-              <img
-                src={IMG.illustration}
-                alt="A smiling artisan hand-stitching colourful floral embroidery in a wooden hoop"
-              />
-            </div>
-            <span className="ct-info-visual__petal ct-info-visual__petal--1" />
-            <span className="ct-info-visual__petal ct-info-visual__petal--2" />
-            <span className="ct-info-visual__petal ct-info-visual__petal--3" />
-          </motion.div>
-        </div>
-      </section>
-
-      <OrnamentalDivider />
-
+      
       {/* ================================================================
           CONTACT FORM
       ================================================================= */}
