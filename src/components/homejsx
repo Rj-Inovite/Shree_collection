@@ -1315,9 +1315,7 @@ const Home = () => {
           </div>
         </motion.div>
       </section>
-
-      
-    </div>
+</div>
   );
 };
 
