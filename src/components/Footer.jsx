@@ -185,18 +185,7 @@ export default function Footer() {
         <div className="running-thread-line"></div>
       </div>
 
-      {/* --- SECTION 4: LUXURY COPYRIGHT BOTTOM BAR --- */}
-      <section className="footer-copyright-bottom-bar">
-        <div className="bottom-bar-max">
-          <div className="bar-left-copyright">
-            <p>© 2026 Shree Collection. Crafted with Love, Creativity & Tradition. All Rights Reserved.</p>
-          </div>
-          <div className="bar-right-signature">
-            <p>Made with ❤️ in India</p>
-            <NeedleThreadIcon />
-          </div>
-        </div>
-      </section>
+   
 
       {/* --- FLOATING BACK TO TOP INTERACTIVE --- */}
       <button 
