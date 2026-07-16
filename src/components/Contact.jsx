@@ -1,526 +1,837 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import './Contact.css';
+/* ============================================================================
+   Contact.jsx
+   Shree Collection — Luxury Contact Page
+   ----------------------------------------------------------------------------
+   Stack: React (Vite) + Framer Motion + react-icons
+   Pairs with: Contact.css (plain CSS, class-prefixed `ct-`)
+   Reuses: <Navbar /> from Navbar.jsx (same nav used on Home.jsx / Collections.jsx)
+   ==========================================================================*/
 
-// --- SVGs & Icons (Self-contained for zero external dependencies) ---
-const StarIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="#D4AF37" stroke="#D4AF37" strokeWidth="2">
-    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+import React, { useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  FaPhoneAlt,
+  FaInstagram,
+  FaYoutube,
+  FaWhatsapp,
+  FaStar,
+  FaQuoteLeft,
+  FaPlus,
+  FaMinus,
+  FaPaperPlane,
+  FaUser,
+  FaEnvelope,
+  FaTag,
+  FaCommentDots,
+  FaArrowRight,
+  FaGem,
+  FaPalette,
+  FaAward,
+} from "react-icons/fa";
+
+import Navbar from "./Navbar";
+import "./Contact.css";
+
+/* ============================================================================
+   1. IMAGE MAP — swap with real studio photography whenever ready
+   ==========================================================================*/
+const IMG = {
+  hero: "https://images.unsplash.com/photo-1610030181087-540f14c1e2f6?q=80&w=1800&auto=format&fit=crop",
+  illustration: "https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?q=80&w=1200&auto=format&fit=crop",
+  ctaBg: "https://images.unsplash.com/photo-1600166898405-da9535204843?q=80&w=1800&auto=format&fit=crop",
+  igPreview: "https://images.unsplash.com/photo-1600369672771-4a6f3f6d0b5f?q=80&w=1000&auto=format&fit=crop",
+  ytThumb: "https://images.unsplash.com/photo-1592878849122-facb97520f9b?q=80&w=1000&auto=format&fit=crop",
+  t1: "https://randomuser.me/api/portraits/women/68.jpg",
+  t2: "https://randomuser.me/api/portraits/women/44.jpg",
+  t3: "https://randomuser.me/api/portraits/men/32.jpg",
+  t4: "https://randomuser.me/api/portraits/women/26.jpg",
+  t5: "https://randomuser.me/api/portraits/women/52.jpg",
+  t6: "https://randomuser.me/api/portraits/men/45.jpg",
+  c1: "https://randomuser.me/api/portraits/women/12.jpg",
+  c2: "https://randomuser.me/api/portraits/men/22.jpg",
+  c3: "https://randomuser.me/api/portraits/women/33.jpg",
+  c4: "https://randomuser.me/api/portraits/men/51.jpg",
+  c5: "https://randomuser.me/api/portraits/women/61.jpg",
+  c6: "https://randomuser.me/api/portraits/women/71.jpg",
+  c7: "https://randomuser.me/api/portraits/men/61.jpg",
+  c8: "https://randomuser.me/api/portraits/women/81.jpg",
+};
+
+/* ============================================================================
+   2. CONTACT + SOCIAL CONSTANTS
+   ==========================================================================*/
+const PHONE_DISPLAY = "+91 9923062181";
+const PHONE_TEL = "+919923062181";
+const WHATSAPP_NUMBER = "919923062181";
+const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  "Hello Shree Collection! I'd love to place a custom embroidery inquiry."
+)}`;
+const INSTAGRAM_LINK =
+  "https://www.instagram.com/shree_collection_art?igsh=ZW10MGt3MnJxa2M4";
+const INSTAGRAM_HANDLE = "@shree_collection_art";
+const YOUTUBE_LINK =
+  "https://youtube.com/@shree_hand_embroidery?si=yQ1gxB9E4spQr-pC";
+const YOUTUBE_NAME = "Shree Hand Embroidery";
+
+/* ============================================================================
+   3. STATIC CONTENT DATA
+   ==========================================================================*/
+const WHY_CARDS = [
+  {
+    id: "why-01",
+    icon: FaGem,
+    title: "100% Handmade",
+    desc: "Each creation is crafted carefully using premium threads and traditional embroidery techniques.",
+  },
+  {
+    id: "why-02",
+    icon: FaPalette,
+    title: "Custom Designs",
+    desc: "Personalized embroidery created exactly according to customer preferences.",
+  },
+  {
+    id: "why-03",
+    icon: FaAward,
+    title: "Quality Craftsmanship",
+    desc: "Every stitch reflects dedication, patience, and attention to detail.",
+  },
+];
+
+const TESTIMONIALS = [
+  { id: "t-01", name: "Ananya Rao", image: IMG.t1, review: "The embroidery exceeded my expectations. Every stitch was perfect." },
+  { id: "t-02", name: "Meera Nair", image: IMG.t2, review: "The fabric painting is incredibly detailed and beautiful." },
+  { id: "t-03", name: "Rohan Malhotra", image: IMG.t3, review: "Excellent finishing and amazing quality." },
+  { id: "t-04", name: "Priya Verma", image: IMG.t4, review: "Beautiful handmade work with great attention to detail." },
+  { id: "t-05", name: "Kavita Iyer", image: IMG.t5, review: "Highly recommended for custom embroidery." },
+  { id: "t-06", name: "Arjun Sharma", image: IMG.t6, review: "My blouse turned out exactly how I imagined." },
+];
+
+const CUSTOMER_GALLERY = [
+  IMG.c1, IMG.c2, IMG.c3, IMG.c4, IMG.c5, IMG.c6, IMG.c7, IMG.c8,
+];
+
+const FAQS = [
+  {
+    id: "faq-01",
+    q: "How can I place a custom order?",
+    a: "Simply message us on WhatsApp or Instagram with your idea, occasion, and preferred fabric — we'll guide you through design, thread selection, and timelines from there.",
+  },
+  {
+    id: "faq-02",
+    q: "What embroidery services do you provide?",
+    a: "We offer hand embroidery, fabric painting, custom stitching, blouse design, home décor pieces, and fully bespoke commissions.",
+  },
+  {
+    id: "faq-03",
+    q: "Can I request my own design?",
+    a: "Absolutely. Share a sketch, photo, or even a rough idea — our artists will translate it into a hand-drawn motif before any stitching begins.",
+  },
+  {
+    id: "faq-04",
+    q: "Do you make personalized gifts?",
+    a: "Yes — name embroidery, anniversary keepsakes, and personalised home textiles are some of our most loved commissions.",
+  },
+  {
+    id: "faq-05",
+    q: "How long does embroidery usually take?",
+    a: "Simple pieces take about a week; detailed bridal or festival commissions can take two to four weeks depending on intricacy.",
+  },
+  {
+    id: "faq-06",
+    q: "How can I contact Shree Collection?",
+    a: `You can call us at ${PHONE_DISPLAY}, message us on WhatsApp, or reach out through Instagram at ${INSTAGRAM_HANDLE}.`,
+  },
+  {
+    id: "faq-07",
+    q: "Can I order through Instagram or WhatsApp?",
+    a: "Yes — most of our custom orders begin as a simple DM or WhatsApp message. It's often the fastest way to reach us directly.",
+  },
+];
+
+/* ============================================================================
+   4. ANIMATION VARIANTS
+   ==========================================================================*/
+const fadeUp = {
+  hidden: { opacity: 0, y: 46 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.75, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
+const fadeLeft = {
+  hidden: { opacity: 0, x: -60 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] } },
+};
+
+const fadeRight = {
+  hidden: { opacity: 0, x: 60 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] } },
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.88 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.6, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+/* ============================================================================
+   5. DECORATIVE PRIMITIVES
+   ==========================================================================*/
+const FloralCorner = ({ className = "" }) => (
+  <svg
+    className={`ct-floral-corner ${className}`}
+    viewBox="0 0 200 200"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path
+      d="M10 10c30 0 40 20 40 40M10 10c0 30 20 40 40 40M10 10c50 5 90 45 95 95"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinecap="round"
+    />
+    <circle cx="52" cy="52" r="6" stroke="currentColor" strokeWidth="1.2" />
   </svg>
 );
 
-const PhoneIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-  </svg>
+const OrnamentalDivider = () => (
+  <div className="ct-divider" aria-hidden="true">
+    <span className="ct-divider__line" />
+    <svg viewBox="0 0 64 24" fill="none" className="ct-divider__glyph">
+      <path
+        d="M32 12c-4-8-12-8-16-2 4 4 10 4 16 2Zm0 0c4-8 12-8 16-2-4 4-10 4-16 2Z"
+        stroke="currentColor"
+        strokeWidth="1.4"
+      />
+      <circle cx="32" cy="12" r="3" fill="currentColor" />
+    </svg>
+    <span className="ct-divider__line" />
+  </div>
 );
 
-const InstagramIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-  </svg>
+const Eyebrow = ({ children, light = false }) => (
+  <motion.span
+    className={`ct-eyebrow ${light ? "ct-eyebrow--light" : ""}`}
+    variants={fadeUp}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true, amount: 0.6 }}
+  >
+    <span className="ct-eyebrow__dot" />
+    {children}
+  </motion.span>
 );
 
-const YouTubeIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
-    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
-  </svg>
+/** Soft blurred colour blobs used behind sections to avoid a flat, plain look. */
+const GlowBlobs = ({ variant = "default" }) => (
+  <div className={`ct-glow-blobs ct-glow-blobs--${variant}`} aria-hidden="true">
+    <span className="ct-glow-blob ct-glow-blob--1" />
+    <span className="ct-glow-blob ct-glow-blob--2" />
+  </div>
 );
 
-const WhatsAppIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-  </svg>
+/* ============================================================================
+   6. FLOATING-LABEL FORM FIELD
+   ==========================================================================*/
+const FormField = ({ id, label, type = "text", icon: Icon, textarea, value, onChange }) => (
+  <div className={`ct-field ${value ? "ct-field--filled" : ""}`}>
+    <span className="ct-field__icon">
+      <Icon />
+    </span>
+    {textarea ? (
+      <textarea
+        id={id}
+        name={id}
+        rows={5}
+        value={value}
+        onChange={onChange}
+        className="ct-field__input ct-field__input--textarea"
+        required
+      />
+    ) : (
+      <input
+        id={id}
+        name={id}
+        type={type}
+        value={value}
+        onChange={onChange}
+        className="ct-field__input"
+        required
+      />
+    )}
+    <label htmlFor={id} className="ct-field__label">
+      {label}
+    </label>
+  </div>
 );
 
-export default function Contact() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeFaq, setActiveFaq] = useState(null);
-  
-  // Form State
+/* ============================================================================
+   7. MAIN COMPONENT
+   ==========================================================================*/
+const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    subject: '',
-    message: ''
+    fullName: "",
+    phone: "",
+    email: "",
+    subject: "",
+    message: "",
   });
+  const [submitted, setSubmitted] = useState(false);
+  const [openFaq, setOpenFaq] = useState(null);
 
-  // Track scrolling for Navbar styling
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleInputChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  }, []);
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    alert(`Thank you, ${formData.name}! Your custom request has been sent to Shree Collection.`);
-  };
-
-  const toggleFaq = (index) => {
-    setActiveFaq(activeFaq === index ? null : index);
-  };
-
-  const triggerWhatsApp = () => {
-    const messageText = `Hello Shree Collection! I'm interested in placing a custom order. 
-Name: ${formData.name}
-Phone: ${formData.phone}
-Subject: ${formData.subject}
-Message: ${formData.message}`;
-    const encoded = encodeURIComponent(messageText);
-    window.open(`https://wa.me/919923062181?text=${encoded}`, '_blank');
-  };
-
-  // Static Data
-  const benefits = [
-    {
-      title: '100% Handmade',
-      desc: 'Each creation is crafted carefully using premium threads and traditional embroidery techniques.',
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-.1-8.716-.418m17.432 0L12 21m0 0l-8.716-10.918" />
-        </svg>
-      )
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      // In production, wire this up to your email/API endpoint of choice.
+      setSubmitted(true);
+      setFormData({ fullName: "", phone: "", email: "", subject: "", message: "" });
+      setTimeout(() => setSubmitted(false), 5000);
     },
-    {
-      title: 'Custom Designs',
-      desc: 'Personalized embroidery created exactly according to customer preferences.',
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122l9.37-9.37m0 0l-1.06-1.061m1.06 1.061L18.47 7.184m2.651-2.651a1.5 1.5 0 112.122 2.122L10.75 19.146a4.5 4.5 0 01-1.801 1.069l-4.147 1.213a.5.5 0 01-.613-.612l1.213-4.147a4.5 4.5 0 011.069-1.801L18.47 4.533z" />
-        </svg>
-      )
-    },
-    {
-      title: 'Quality Craftsmanship',
-      desc: 'Every stitch reflects dedication, patience and attention to detail.',
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-        </svg>
-      )
-    }
-  ];
+    []
+  );
 
-  const testimonials = [
-    { name: "Anjali Mehta", review: "The embroidery exceeded my expectations. Every stitch was perfect.", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyFMEOm9tA8YA9K4cfSkKOIuoMJV97DPQJDUfpN3g8fA&s=10" },
-    { name: "Priya Sharma", review: "The fabric painting is incredibly detailed and beautiful.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrLDVaQNIMwJbjDA5vCz9o0vkJTaNkKc4imB_dfufH4A&s" },
-    { name: "Kiran Deshmukh", review: "Excellent finishing and amazing quality.", img: "https://i.pinimg.com/236x/75/6c/9e/756c9e501f9543d088a067cde56f90fd.jpg" },
-    { name: "Riya Patil", review: "Beautiful handmade work with great attention to detail.", img: "https://i.pinimg.com/236x/f4/43/ca/f443caaceb1ddaf53e0cdbd11549bdd2.jpg" },
-    { name: "Sneha Rao", review: "Highly recommended for custom embroidery.", img: "https://i.pinimg.com/236x/43/2a/2e/432a2e13e893d63db5c11594b4af2d31.jpg" },
-    { name: "Aditi Joshi", review: "My blouse turned out exactly how I imagined.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqrWr_ClfDYCbF9sBTT9yc9AlmGFWla8cVXlCWPXy6Lg&s=10" }
-  ];
-
-  const galleryImages = [
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2qV_o9PhkzrAkSqsN-c3wWKMpJVZCOaN7eMw2Zy_K8w&s=10",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD4VIXdZKF2E0zns6SmZ73dykEg7cogdEH0rSGkUA8og&s=10",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7L5htVQwpAdwxIrbWVMcA8NbFSU9-A6p6kJnN5ih0Dg&s=10",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGq2NhZD_r19J9J2TcO-pJVIHAgMZYoACpzcF0V_N2dQ&s=10",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXFidDo9XGkrWrB_8nVj63DxVvwGR3xs7tb8fqOY_xbQ&s",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzY7nTDSNXSwgB2o-5KtWhQ5HikU0QTdMpqGvTrV-11Xi9WPtHqTXeyg0&s=10",
-    "https://i.pinimg.com/236x/fe/4e/4f/fe4e4f6bf460c0b2211629039dd2b634.jpg",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiH0HHg90eNoo-YRaDPPLvMbUBFU9yZR_MyzZSna8ViABmORccb-WHYuo&s=10"
-  ];
-
-  const faqs = [
-    { q: "How can I place a custom order?", a: "You can submit your custom requirements using the design form on this page, or directly message us on WhatsApp with details regarding fabric choice, sizing, and pattern design." },
-    { q: "What embroidery services do you provide?", a: "We specialize in custom hand embroidery (Aari, French Knots, Zardosi, Bullion stitches, etc.), customized fabric paintings, luxury embroidered cushion covers, and heavy bridal blouses." },
-    { q: "Can I request my own design?", a: "Absolutely! You can provide references, sketches, or design pictures. We will meticulously customize every stitch to transform your digital inspiration into a handmade reality." },
-    { q: "Do you make personalized gifts?", a: "Yes, we design stunning personalized embroidery hoops featuring initials, anniversaries, wedding vows, and custom family portraits crafted out of fine thread and beads." },
-    { q: "How long does embroidery usually take?", a: "Depending on design complexity and backlog, custom projects require anywhere from 5 to 15 business days. We will share a precise timeline once we finalize your design details." },
-    { q: "How can I contact Shree Collection?", a: "You can reach us through our contact number, send us an email, or simply connect with us via our verified Instagram or YouTube handles." },
-    { q: "Can I order through Instagram or WhatsApp?", a: "Yes, we take direct commissions on both Instagram DM and WhatsApp. Simply shoot us a message with your idea, and our design artisan will get back to you immediately!" }
-  ];
+  const toggleFaq = useCallback((id) => {
+    setOpenFaq((prev) => (prev === id ? null : id));
+  }, []);
 
   return (
-    <div className="shree-contact-wrapper">
-      
-      {/* Decorative Floating Embroidery Florals in BG */}
-      <div className="decor-flower flower-top-left"></div>
-      <div className="decor-flower flower-bottom-right"></div>
+    <div className="ct-root">
+      <Navbar />
 
-      {/* --- STICKY NAVIGATION --- */}
-      <header className={`shree-navbar ${isScrolled ? 'scrolled' : ''}`}>
-        <div className="nav-container">
-          <div className="brand-logo">
-            <h2>Shree Collection</h2>
-            <span className="sub-logo">Handmade Artistry</span>
-          </div>
-          
-          <nav className="desktop-menu">
-            <a href="#home">Home</a>
-            <a href="#collections">Collections</a>
-            <a href="#contact" className="active">Contact</a>
-          </nav>
-
-          <button className="mobile-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            {mobileMenuOpen ? '✕' : '☰'}
-          </button>
+      {/* ================================================================
+          HERO SECTION
+      ================================================================= */}
+      <section className="ct-hero">
+        <div className="ct-hero__bg">
+          <img
+            src={IMG.hero}
+            alt="Artisan workspace with embroidery hoop, colourful threads, and warm golden sunlight"
+          />
+          <div className="ct-hero__overlay" />
         </div>
+        <FloralCorner className="ct-floral-corner--top-left ct-floral-corner--light" />
+        <FloralCorner className="ct-floral-corner--bottom-right ct-floral-corner--light" />
 
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div 
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="mobile-dropdown"
+        <motion.div
+          className="ct-hero__content"
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+        >
+          <Eyebrow light>Get in Touch</Eyebrow>
+          <motion.h1 className="ct-hero__heading" variants={fadeUp} custom={1}>
+            Let&apos;s Create Something Beautiful Together
+          </motion.h1>
+          <motion.p className="ct-hero__subtitle" variants={fadeUp} custom={2}>
+            We would love to hear your ideas and help transform them into
+            handcrafted masterpieces. Whether you need custom embroidery,
+            stitching, fabric painting, or personalized creations, Shree
+            Collection is always happy to create something made especially
+            for you.
+          </motion.p>
+        </motion.div>
+      </section>
+
+      {/* ================================================================
+          CONTACT INFORMATION — two cards
+      ================================================================= */}
+      <section className="ct-info">
+        <GlowBlobs variant="info" />
+        <div className="ct-info__grid">
+          <motion.div
+            className="ct-info-card"
+            variants={fadeLeft}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <Eyebrow>Reach Us Directly</Eyebrow>
+            <h2 className="ct-info-card__title">Contact Information</h2>
+
+            <a href={`tel:${PHONE_TEL}`} className="ct-contact-row">
+              <span className="ct-contact-row__icon">
+                <FaPhoneAlt />
+              </span>
+              <div>
+                <strong>Phone Number</strong>
+                <span>{PHONE_DISPLAY}</span>
+              </div>
+            </a>
+
+            <a
+              href={INSTAGRAM_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ct-contact-row"
             >
-              <a href="#home" onClick={() => setMobileMenuOpen(false)}>Home</a>
-              <a href="#collections" onClick={() => setMobileMenuOpen(false)}>Collections</a>
-              <a href="#contact" className="active" onClick={() => setMobileMenuOpen(false)}>Contact</a>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </header>
+              <span className="ct-contact-row__icon">
+                <FaInstagram />
+              </span>
+              <div>
+                <strong>Instagram</strong>
+                <span>{INSTAGRAM_HANDLE}</span>
+              </div>
+            </a>
 
-      {/* --- HERO SECTION --- */}
-      <section className="contact-hero">
-        <div className="hero-overlay"></div>
-        <div className="hero-content-container">
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="hero-inner"
-          >
-            <span className="section-subtitle">Connect With Us</span>
-            <h1>Let's Create Something Beautiful Together</h1>
-            <p>
-              We would love to hear your ideas and help transform them into handcrafted masterpieces. Whether you need custom embroidery, stitching, fabric painting or personalized creations, Shree Collection is always happy to create something made especially for you.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+            <a
+              href={YOUTUBE_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ct-contact-row"
+            >
+              <span className="ct-contact-row__icon">
+                <FaYoutube />
+              </span>
+              <div>
+                <strong>YouTube</strong>
+                <span>{YOUTUBE_NAME}</span>
+              </div>
+            </a>
 
-      {/* --- CONTACT INFORMATION & ARTISAN CARD --- */}
-      <section className="contact-details-section">
-        <div className="grid-container">
-          {/* Left Card: Info */}
-          <motion.div 
-            whileInView={{ opacity: 1, x: 0 }}
-            initial={{ opacity: 0, x: -50 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="info-card"
-          >
-            <h3>Contact Information</h3>
-            <p className="card-intro">Reach out to us directly through any of these platforms or give us a ring. We are eager to bring your vision to life.</p>
-            
-            <div className="social-links-container">
-              <a href="tel:+919923062181" className="contact-item-link">
-                <div className="icon-badge phone"><PhoneIcon /></div>
-                <div className="contact-text-wrap">
-                  <span className="label">Phone</span>
-                  <span className="val">+91 9923062181</span>
-                </div>
-              </a>
-
-              <a href="https://www.instagram.com/shree_collection_art?igsh=ZW10MGt3MnJxa2M4" target="_blank" rel="noopener noreferrer" className="contact-item-link">
-                <div className="icon-badge instagram"><InstagramIcon /></div>
-                <div className="contact-text-wrap">
-                  <span className="label">Instagram</span>
-                  <span className="val">@shree_collection_art</span>
-                </div>
-              </a>
-
-              <a href="https://youtube.com/@shree_hand_embroidery?si=yQ1gxB9E4spQr-pC" target="_blank" rel="noopener noreferrer" className="contact-item-link">
-                <div className="icon-badge youtube"><YouTubeIcon /></div>
-                <div className="contact-text-wrap">
-                  <span className="label">YouTube</span>
-                  <span className="val">Shree Hand Embroidery</span>
-                </div>
-              </a>
-            </div>
+            <a
+              href={WHATSAPP_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ct-btn ct-btn--whatsapp ct-info-card__cta"
+            >
+              <FaWhatsapp /> Chat on WhatsApp
+            </a>
           </motion.div>
 
-          {/* Right Card: Portrait */}
-          <motion.div 
-            whileInView={{ opacity: 1, x: 0 }}
-            initial={{ opacity: 0, x: 50 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="artisan-portrait-card"
+          <motion.div
+            className="ct-info-visual"
+            variants={fadeRight}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
           >
-            <div className="portrait-image-wrapper">
-              <img 
-                src="https://images.unsplash.com/photo-1613987549117-13c4781b32d3?auto=format&fit=crop&q=80&w=800" 
-                alt="Artisan embroidery detailing" 
+            <div className="ct-info-visual__frame">
+              <img
+                src={IMG.illustration}
+                alt="A smiling artisan hand-stitching colourful floral embroidery in a wooden hoop"
               />
-              <div className="floating-hoop-stamp">
-                <span>Handmade with Care</span>
-              </div>
             </div>
+            <span className="ct-info-visual__petal ct-info-visual__petal--1" />
+            <span className="ct-info-visual__petal ct-info-visual__petal--2" />
+            <span className="ct-info-visual__petal ct-info-visual__petal--3" />
           </motion.div>
         </div>
       </section>
 
-      {/* --- CONTACT FORM --- */}
-      <section className="contact-form-section">
-        <div className="container-narrow">
-          <motion.div 
-            whileInView={{ opacity: 1, y: 40 }}
-            initial={{ opacity: 0, y: 100 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="form-luxury-card"
+      <OrnamentalDivider />
+
+      {/* ================================================================
+          CONTACT FORM
+      ================================================================= */}
+      <section className="ct-form-section">
+        <GlowBlobs variant="form" />
+        <div className="ct-section__header">
+          <Eyebrow>Custom Orders</Eyebrow>
+          <motion.h2
+            className="ct-section__title"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.4 }}
           >
-            <h2>Send Us Your Custom Order</h2>
-            <p className="form-subtext">Fill in the options below, and we will contact you shortly to lock in your custom handcrafted details.</p>
-            
-            <form onSubmit={handleFormSubmit} className="premium-form">
-              <div className="form-grid">
-                <div className="input-group">
-                  <input 
-                    type="text" 
-                    name="name" 
-                    required 
-                    value={formData.name} 
-                    onChange={handleInputChange} 
-                    placeholder=" "
-                  />
-                  <label>Full Name</label>
-                </div>
-
-                <div className="input-group">
-                  <input 
-                    type="tel" 
-                    name="phone" 
-                    required 
-                    value={formData.phone} 
-                    onChange={handleInputChange} 
-                    placeholder=" "
-                  />
-                  <label>Phone Number</label>
-                </div>
-
-                <div className="input-group">
-                  <input 
-                    type="email" 
-                    name="email" 
-                    required 
-                    value={formData.email} 
-                    onChange={handleInputChange} 
-                    placeholder=" "
-                  />
-                  <label>Email Address</label>
-                </div>
-
-                <div className="input-group">
-                  <input 
-                    type="text" 
-                    name="subject" 
-                    required 
-                    value={formData.subject} 
-                    onChange={handleInputChange} 
-                    placeholder=" "
-                  />
-                  <label>Subject</label>
-                </div>
-
-                <div className="input-group span-full">
-                  <textarea 
-                    name="message" 
-                    rows="4" 
-                    required 
-                    value={formData.message} 
-                    onChange={handleInputChange} 
-                    placeholder=" "
-                  ></textarea>
-                  <label>Message</label>
-                </div>
-              </div>
-
-              <div className="button-group">
-                <button type="submit" className="btn-primary stitch-effect">
-                  Send Message
-                </button>
-                <button type="button" onClick={triggerWhatsApp} className="btn-secondary stitch-effect-green">
-                  <WhatsAppIcon /> WhatsApp Us
-                </button>
-              </div>
-            </form>
-          </motion.div>
+            Send Us Your Custom Order
+          </motion.h2>
         </div>
-      </section>
 
-      {/* --- WHY CUSTOMERS LOVE US --- */}
-      <section className="why-love-section">
-        <div className="container">
-          <h2 className="section-title">Why Customers Love Us</h2>
-          <div className="benefits-grid">
-            {benefits.map((benefit, i) => (
-              <motion.div 
-                key={i}
-                whileHover={{ y: -10 }}
-                className="benefit-card"
-              >
-                <div className="benefit-icon">{benefit.icon}</div>
-                <h4>{benefit.title}</h4>
-                <p>{benefit.desc}</p>
-              </motion.div>
-            ))}
+        <motion.form
+          className="ct-form"
+          onSubmit={handleSubmit}
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          <div className="ct-form__row">
+            <FormField
+              id="fullName"
+              label="Full Name"
+              icon={FaUser}
+              value={formData.fullName}
+              onChange={handleChange}
+            />
+            <FormField
+              id="phone"
+              label="Phone Number"
+              type="tel"
+              icon={FaPhoneAlt}
+              value={formData.phone}
+              onChange={handleChange}
+            />
           </div>
-        </div>
+          <div className="ct-form__row">
+            <FormField
+              id="email"
+              label="Email Address"
+              type="email"
+              icon={FaEnvelope}
+              value={formData.email}
+              onChange={handleChange}
+            />
+            <FormField
+              id="subject"
+              label="Subject"
+              icon={FaTag}
+              value={formData.subject}
+              onChange={handleChange}
+            />
+          </div>
+          <FormField
+            id="message"
+            label="Your Message"
+            icon={FaCommentDots}
+            value={formData.message}
+            onChange={handleChange}
+            textarea
+          />
+
+          <div className="ct-form__actions">
+            <button type="submit" className="ct-btn ct-btn--primary ct-btn--stitched">
+              <FaPaperPlane /> Send Message
+            </button>
+            <a
+              href={WHATSAPP_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ct-btn ct-btn--whatsapp ct-btn--stitched"
+            >
+              <FaWhatsapp /> WhatsApp Us
+            </a>
+          </div>
+
+          <AnimatePresence>
+            {submitted && (
+              <motion.p
+                className="ct-form__success"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+              >
+                Thank you — your message has been received. We&apos;ll be in touch soon!
+              </motion.p>
+            )}
+          </AnimatePresence>
+        </motion.form>
       </section>
 
-      {/* --- TESTIMONIALS --- */}
-      <section className="testimonials-section">
-        <div className="container">
-          <h2 className="section-title">Words That Inspire Us</h2>
-          <div className="testimonials-grid">
-            {testimonials.map((test, index) => (
-              <motion.div 
-                key={index}
-                whileInView={{ opacity: 1, y: 0 }}
-                initial={{ opacity: 0, y: 30 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.6 }}
-                whileHover={{ y: -5 }}
-                className="testimonial-card"
+      <OrnamentalDivider />
+
+      {/* ================================================================
+          WHY CUSTOMERS LOVE US
+      ================================================================= */}
+      <section className="ct-why">
+        <div className="ct-section__header">
+          <Eyebrow>Our Promise</Eyebrow>
+          <motion.h2
+            className="ct-section__title"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.4 }}
+          >
+            Why Customers Love Us
+          </motion.h2>
+        </div>
+
+        <motion.div
+          className="ct-why__grid"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          {WHY_CARDS.map((card, i) => {
+            const Icon = card.icon;
+            return (
+              <motion.div
+                className="ct-why-card"
+                key={card.id}
+                variants={fadeUp}
+                custom={i}
+                whileHover={{ y: -10 }}
               >
-                <div className="testimonial-header">
-                  <img src={test.img} alt={test.name} className="testimonial-avatar" />
-                  <div className="testimonial-meta">
-                    <h5>{test.name}</h5>
-                    <div className="stars-row">
-                      <StarIcon />
-                      <StarIcon />
-                      <StarIcon />
-                      <StarIcon />
-                      <StarIcon />
-                    </div>
+                <span className="ct-why-card__icon">
+                  <Icon />
+                </span>
+                <h3>{card.title}</h3>
+                <p>{card.desc}</p>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </section>
+
+      <OrnamentalDivider />
+
+      {/* ================================================================
+          CUSTOMER TESTIMONIALS
+      ================================================================= */}
+      <section className="ct-testimonials">
+        <GlowBlobs variant="testimonials" />
+        <div className="ct-section__header">
+          <Eyebrow>What They Say</Eyebrow>
+          <motion.h2
+            className="ct-section__title"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.4 }}
+          >
+            Words That Inspire Us
+          </motion.h2>
+        </div>
+
+        <motion.div
+          className="ct-testimonials__grid"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+        >
+          {TESTIMONIALS.map((t, i) => (
+            <motion.div
+              className="ct-testimonial-card"
+              key={t.id}
+              variants={fadeUp}
+              custom={i}
+              whileHover={{ y: -8 }}
+            >
+              <FaQuoteLeft className="ct-testimonial-card__quote-icon" />
+              <p className="ct-testimonial-card__review">{t.review}</p>
+              <div className="ct-testimonial-card__stars">
+                {Array.from({ length: 5 }).map((_, idx) => (
+                  <FaStar key={idx} />
+                ))}
+              </div>
+              <div className="ct-testimonial-card__person">
+                <img src={t.image} alt={t.name} />
+                <strong>{t.name}</strong>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </section>
+
+      <OrnamentalDivider />
+
+      {/* ================================================================
+          CUSTOMER GALLERY
+      ================================================================= */}
+      <section className="ct-gallery">
+        <div className="ct-section__header">
+          <Eyebrow>Happy Customers</Eyebrow>
+          <motion.h2
+            className="ct-section__title"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.4 }}
+          >
+            Customer Gallery
+          </motion.h2>
+        </div>
+
+        <motion.div
+          className="ct-gallery__grid"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+        >
+          {CUSTOMER_GALLERY.map((src, i) => (
+            <motion.div
+              className="ct-gallery__item"
+              key={i}
+              variants={scaleIn}
+              custom={i}
+              whileHover={{ scale: 1.06 }}
+            >
+              <img src={src} alt={`Happy Shree Collection customer ${i + 1}`} loading="lazy" />
+            </motion.div>
+          ))}
+        </motion.div>
+      </section>
+
+      <OrnamentalDivider />
+
+      {/* ================================================================
+          FAQ ACCORDION
+      ================================================================= */}
+      <section className="ct-faq">
+        <div className="ct-section__header">
+          <Eyebrow>Good to Know</Eyebrow>
+          <motion.h2
+            className="ct-section__title"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.4 }}
+          >
+            Frequently Asked Questions
+          </motion.h2>
+        </div>
+
+        <div className="ct-faq__list">
+          {FAQS.map((faq, i) => {
+            const isOpen = openFaq === faq.id;
+            return (
+              <motion.div
+                className={`ct-faq-item ${isOpen ? "ct-faq-item--open" : ""}`}
+                key={faq.id}
+                variants={fadeUp}
+                custom={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.4 }}
+              >
+                <button
+                  className="ct-faq-item__question"
+                  onClick={() => toggleFaq(faq.id)}
+                  aria-expanded={isOpen}
+                  aria-controls={`${faq.id}-answer`}
+                >
+                  <span>{faq.q}</span>
+                  <span className="ct-faq-item__toggle">
+                    {isOpen ? <FaMinus /> : <FaPlus />}
+                  </span>
+                </button>
+                <div className="ct-faq-item__answer-wrap" id={`${faq.id}-answer`}>
+                  <div className="ct-faq-item__answer-inner">
+                    <p>{faq.a}</p>
                   </div>
                 </div>
-                <p className="testimonial-text">"{test.review}"</p>
               </motion.div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </section>
 
-      {/* --- CUSTOMER GALLERY --- */}
-      <section className="gallery-section">
-        <div className="container">
-          <h2 className="section-title">Happy Threads</h2>
-          <p className="section-sub-center">A glimpse of our cherished community showcasing customized creations and beautiful moments.</p>
-          <div className="circular-gallery-row">
-            {galleryImages.map((img, idx) => (
-              <motion.div 
-                key={idx}
-                whileHover={{ scale: 1.15, zIndex: 10 }}
-                className="gallery-bubble"
-              >
-                <img src={img} alt={`Happy customer ${idx + 1}`} />
-              </motion.div>
-            ))}
-          </div>
+      <OrnamentalDivider />
+
+      {/* ================================================================
+          SOCIAL MEDIA SECTION
+      ================================================================= */}
+      <section className="ct-social">
+        <div className="ct-section__header">
+          <Eyebrow>Stay Connected</Eyebrow>
+          <motion.h2
+            className="ct-section__title"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.4 }}
+          >
+            Follow Our Creative Journey
+          </motion.h2>
         </div>
+
+        <motion.div
+          className="ct-social__grid"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          <motion.div className="ct-social-card" variants={fadeLeft}>
+            <div className="ct-social-card__image-wrap">
+              <img src={IMG.igPreview} alt="Preview of Shree Collection's Instagram embroidery feed" />
+              <span className="ct-social-card__icon">
+                <FaInstagram />
+              </span>
+            </div>
+            <h3>Instagram</h3>
+            <p>Daily glimpses of our embroidery hoops, works-in-progress, and finished pieces.</p>
+            <a
+              href={INSTAGRAM_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ct-btn ct-btn--outline"
+            >
+              Follow on Instagram <FaArrowRight />
+            </a>
+          </motion.div>
+
+          <motion.div className="ct-social-card" variants={fadeRight}>
+            <div className="ct-social-card__image-wrap">
+              <img src={IMG.ytThumb} alt="Preview of Shree Collection's YouTube embroidery tutorials" />
+              <span className="ct-social-card__icon">
+                <FaYoutube />
+              </span>
+            </div>
+            <h3>YouTube</h3>
+            <p>Slow-stitch process videos and behind-the-scenes footage from our workshop.</p>
+            <a
+              href={YOUTUBE_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ct-btn ct-btn--outline"
+            >
+              Subscribe on YouTube <FaArrowRight />
+            </a>
+          </motion.div>
+        </motion.div>
       </section>
 
-      {/* --- FAQ SECTION --- */}
-      <section className="faq-section">
-        <div className="container-narrow">
-          <h2 className="section-title">Frequently Asked Questions</h2>
-          <div className="faq-list">
-            {faqs.map((faq, index) => (
-              <div 
-                key={index} 
-                className={`faq-item ${activeFaq === index ? 'active' : ''}`}
-                onClick={() => toggleFaq(index)}
-              >
-                <div className="faq-header">
-                  <h4>{faq.q}</h4>
-                  <span className="faq-trigger">{activeFaq === index ? '−' : '+'}</span>
-                </div>
-                <AnimatePresence>
-                  {activeFaq === index && (
-                    <motion.div 
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="faq-body"
-                    >
-                      <p>{faq.a}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ================================================================
+          FINAL CALL TO ACTION
+      ================================================================= */}
+      <section className="ct-final-cta" style={{ "--ct-cta-bg": `url(${IMG.ctaBg})` }}>
+        <div className="ct-final-cta__overlay" />
+        <FloralCorner className="ct-floral-corner--top-left ct-floral-corner--light" />
+        <FloralCorner className="ct-floral-corner--bottom-right ct-floral-corner--light" />
 
-      {/* --- SOCIAL MEDIA PREVIEWS --- */}
-      <section className="social-journey-section">
-        <div className="container">
-          <h2 className="section-title">Follow Our Creative Journey</h2>
-          <div className="grid-container">
-            {/* Instagram Social Card */}
-            <motion.div whileHover={{ y: -8 }} className="social-media-card insta-accent">
-              <div className="social-card-img-wrap">
-                <img src="https://images.unsplash.com/photo-1572085312730-23a6b6ec8fc1?auto=format&fit=crop&q=80&w=500" alt="Instagram Embroidery feed preview" />
-                <div className="sc-overlay"><InstagramIcon /></div>
-              </div>
-              <div className="social-card-body">
-                <h4>Embroidery Reels & Behind The Scenes</h4>
-                <a href="https://www.instagram.com/shree_collection_art?igsh=ZW10MGt3MnJxa2M4" target="_blank" rel="noopener noreferrer" className="btn-social-follow stitch-effect">
-                  Follow on Instagram
-                </a>
-              </div>
-            </motion.div>
-
-            {/* YouTube Social Card */}
-            <motion.div whileHover={{ y: -8 }} className="social-media-card yt-accent">
-              <div className="social-card-img-wrap">
-                <img src="https://images.unsplash.com/photo-1550581190-9c1c48d21d6c?auto=format&fit=crop&q=80&w=500" alt="YouTube stitching tutorials preview" />
-                <div className="sc-overlay"><YouTubeIcon /></div>
-              </div>
-              <div className="social-card-body">
-                <h4>Detailed Hand Embroidery Tutorials</h4>
-                <a href="https://youtube.com/@shree_hand_embroidery?si=yQ1gxB9E4spQr-pC" target="_blank" rel="noopener noreferrer" className="btn-social-follow stitch-effect-yt">
-                  Subscribe on YouTube
-                </a>
-              </div>
-            </motion.div>
+        <motion.div
+          className="ct-final-cta__content"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.4 }}
+        >
+          <Eyebrow light>One Message Away</Eyebrow>
+          <h2 className="ct-final-cta__heading">Ready to Bring Your Ideas to Life?</h2>
+          <p className="ct-final-cta__subtitle">
+            Let&apos;s create something beautiful together with handcrafted
+            embroidery made especially for you.
+          </p>
+          <div className="ct-final-cta__buttons">
+            <a href="#contact-form" className="ct-btn ct-btn--primary">
+              Contact Us <FaArrowRight />
+            </a>
+            <a
+              href={WHATSAPP_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ct-btn ct-btn--whatsapp"
+            >
+              <FaWhatsapp /> WhatsApp
+            </a>
           </div>
-        </div>
-      </section>
-
-      {/* --- FINAL CALL TO ACTION --- */}
-      <section className="final-cta-section">
-        <div className="cta-overlay-accent"></div>
-        <div className="cta-content">
-          <h2>Ready to Bring Your Ideas to Life?</h2>
-          <p>Let's create something beautiful together with handcrafted embroidery made especially for you.</p>
-          <div className="cta-buttons">
-            <a href="#contact" className="btn-cta-primary stitch-effect">Contact Us</a>
-            <button onClick={triggerWhatsApp} className="btn-cta-whatsapp stitch-effect-green">
-              <WhatsAppIcon /> WhatsApp Us
-            </button>
-          </div>
-        </div>
+        </motion.div>
       </section>
 
      
-
     </div>
   );
-}
+};
+
+export default Contact;
