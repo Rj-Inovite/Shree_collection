@@ -60,7 +60,7 @@ const SERVICES = [
     longDesc:
       "Crystal, kundan, sequin and pearl embellishments that add a soft, royal sparkle to every bridal and occasion outfit.",
     icon: "✦",
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-OP0i0J5zCFqbHqWcuzRQ6-7catr_zDdFHTGI-e92zBt3-iAnzRil38GK&s=10",
+    img: "https://www.laganwedding.com/cdn/shop/files/IMG_1182.jpg?v=1747917306&width=1445",
     grad: "linear-gradient(135deg,#FFE2B8 0%,#FFD089 100%)",
   },
   {
@@ -77,19 +77,19 @@ const SERVICES = [
 // 4 images for the Glimpse gallery
 const COLLECTIONS = [
   {
-    src: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1400&q=95",
+    src: "https://isadoralife.com/cdn/shop/files/DSC05045_38801028-603f-45be-9324-025f279f63d5.jpg?v=1762262665&width=1333",
     title: "Floral Thread Embroidery",
   },
   {
-    src: "https://images.unsplash.com/photo-1602573991155-21f0143bb45a?auto=format&fit=crop&w=1400&q=95",
+    src: "https://img.theloom.in/live/media/catalog/product/cache/101a419f04e4161b4f9f2458eaa9a195/c/5/c515kswhcurd3_1_.jpg",
     title: "Painted Designer Kurta",
   },
   {
-    src: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1400&q=95",
+    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3WPMbKaO20L4zuLhuu-QnRCKrWCuXJgAE8DNTcWXVqQ&s=10",
     title: "Embroidered Saree",
   },
   {
-    src: "https://images.unsplash.com/photo-1610189025573-5a7c9f51f2a3?auto=format&fit=crop&w=1400&q=95",
+    src: "https://img.perniaspopupshop.com/catalog/product/w/e/WEAS062202_2.jpg?impolicy=detailimageprod",
     title: "Custom Bridal Blouse",
   },
 ];
