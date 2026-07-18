@@ -97,13 +97,13 @@ const COLLECTIONS = [
 // 3 items for Handcrafted With Heart — no text on images
 const SHOWCASE = [
   {
-    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1oaWAwHthtWdebNpeXkxz_khkr4Lu_UYIDSPl2cVhGKNQUR1MSNDOXBk&s=10",
+    src: "https://i.pinimg.com/236x/2e/a6/1d/2ea61d8640735957ed64b2876aee4bd4.jpg",
   },
   {
     src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJUVQoRdXUArRUjfbcmEc_qFrj5OTtIB8YWI6Out1Tyw&s=10",
   },
   {
-    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJUVQoRdXUArRUjfbcmEc_qFrj5OTtIB8YWI6Out1Tyw&s=10",
+    src: "https://i.pinimg.com/736x/2d/de/d0/2dded0246013a684521a7d1007752dc6.jpg",
   },
 ];
 
@@ -111,10 +111,6 @@ const FEATURES = [
   { title: "Handmade with Love", icon: "♥", desc: "Every piece is created stitch by stitch — never mass produced." },
   { title: "100% Custom Designs", icon: "✦", desc: "Send your idea, reference or sketch — we craft it just for you." },
   { title: "Premium Quality", icon: "❀", desc: "Only trusted threads, beads, stones and color-fast paints." },
-  { title: "Personalised Orders", icon: "✶", desc: "Names, initials, dates, custom colors — fully personal to you." },
-  { title: "Fine Detailing", icon: "❖", desc: "Clean finishing, neat backs, sharp motifs — premium by design." },
-  { title: "Affordable Pricing", icon: "✿", desc: "Direct-from-artisan pricing — luxury that doesn't break the bank." },
-  { title: "Traditional Craft", icon: "✤", desc: "Indian hand embroidery techniques passed through generations." },
   { title: "Customer Happiness", icon: "♥", desc: "Hundreds of happy customers and counting — your joy is our goal." },
 ];
 
@@ -332,38 +328,16 @@ const Home = () => {
             Handcrafted <em>Elegance</em>,
             <br /> Made with <span className="sc-gold">Love</span>.
           </h1>
-          <p className="sc-hero-sub">
-            From intricate aari embroidery to soft hand-painted florals, every design at
-            Shree Collection is created carefully by skilled hands — with creativity,
-            patience and a whole lot of passion.
-          </p>
-          <div className="sc-hero-cta">
-            <Link to="/collections" className="sc-btn sc-btn-primary">
-              <span>Explore Collection</span>
-              <span className="sc-btn-icon">→</span>
-            </Link>
-            <a href="#contact" className="sc-btn sc-btn-ghost">
-              <span className="sc-btn-icon">✦</span>
-              <span>Custom Order</span>
-            </a>
-          </div>
+         
 
           {/* Hero stats inline */}
           <div className="sc-hero-stats">
             <div className="sc-hero-stat">
-              <strong>1250+</strong>
+              <strong>50+</strong>
               <span>Happy Customers</span>
             </div>
-            <div className="sc-hero-stat-divider" />
-            <div className="sc-hero-stat">
-              <strong>12+</strong>
-              <span>Years of Artistry</span>
-            </div>
-            <div className="sc-hero-stat-divider" />
-            <div className="sc-hero-stat">
-              <strong>4.9★</strong>
-              <span>Customer Rating</span>
-            </div>
+           
+           
           </div>
 
           {/* Slide indicators */}
