@@ -1,30 +1,3 @@
-/* ============================================================================
-   Navbar.jsx
-   Shree Collection — Luxury Handmade Embroidery Brand Navigation
-   ----------------------------------------------------------------------------
-   Single-file deliverable: markup, animation logic, AND styling all live here.
-   CSS is plain CSS (no Tailwind, no CSS-in-JS library) injected via a single
-   <style> tag so nothing outside this file is required to make it look right.
-
-   Usage — import and drop it at the top of every routed page:
-
-     import Navbar from "./Navbar";
-
-     function Home() {
-       return (
-         <>
-           <Navbar />
-           ...page content...
-         </>
-       );
-     }
-
-   Routing — this component renders React Router <NavLink> elements pointing
-   at "/", "/collections" and "/contact". Wrap your app in a <BrowserRouter>
-   and register those three routes (Home.jsx, Collections.jsx, Contact.jsx)
-   in App.jsx — see the App.jsx example provided alongside this file.
-   ==========================================================================*/
-
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
