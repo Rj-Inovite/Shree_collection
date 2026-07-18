@@ -5,300 +5,154 @@
 // =====================================================================
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import "./Home.css";
 
 // ---------------------------------------------------------------------
-// 1) STATIC DATA — defined outside the component so they're not
-//    re-created on every render. Easy to maintain, easy to extend.
+// 1) STATIC DATA
 // ---------------------------------------------------------------------
 
 const HERO_SLIDES = [
   {
-    src: "https://images.unsplash.com/photo-1606293459275-87df2057c1ec?auto=format&fit=crop&w=1920&q=80",
+    src: "https://images.unsplash.com/photo-1606293459275-87df2057c1ec?auto=format&fit=crop&w=2400&q=95",
     alt: "Hand embroidery close up with golden thread",
   },
   {
-    src: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1920&q=80",
+    src: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=2400&q=95",
     alt: "Floral thread work on pastel fabric",
   },
   {
-    src: "https://images.unsplash.com/photo-1602573991155-21f0143bb45a?auto=format&fit=crop&w=1920&q=80",
+    src: "https://images.unsplash.com/photo-1602573991155-21f0143bb45a?auto=format&fit=crop&w=2400&q=95",
     alt: "Hand painted designer kurta",
   },
   {
-    src: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1920&q=80",
+    src: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=2400&q=95",
     alt: "Embroidered saree with intricate motifs",
   },
   {
-    src: "https://images.unsplash.com/photo-1610189025573-5a7c9f51f2a3?auto=format&fit=crop&w=1920&q=80",
+    src: "https://images.unsplash.com/photo-1610189025573-5a7c9f51f2a3?auto=format&fit=crop&w=2400&q=95",
     alt: "Stone work on bridal blouse",
   },
-  {
-    src: "https://images.unsplash.com/photo-1610189000264-3f06d7be0b14?auto=format&fit=crop&w=1920&q=80",
-    alt: "Embroidery hoop with colorful threads",
-  },
-];
-
-const HERO_COLLAGE = [
-  "https://images.unsplash.com/photo-1606293459207-fff61ceaeb38?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1620331317943-ee5b5a4c3a4b?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1606293459407-44db5d2cd72f?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1591946614720-90a587da4a36?auto=format&fit=crop&w=600&q=80",
 ];
 
 const SERVICES = [
   {
     title: "Hand Embroidery",
-    desc: "Aari, zardosi, thread work and mirror work — every stitch is placed by patient, loving hands.",
+    shortDesc: "Aari, zardosi & thread work",
+    longDesc:
+      "Aari, zardosi, thread work and mirror work — every stitch is placed by patient, loving hands trained in traditional Indian craft.",
     icon: "✶",
-    img: "https://images.unsplash.com/photo-1606293459275-87df2057c1ec?auto=format&fit=crop&w=900&q=80",
-    grad: "linear-gradient(135deg,#F6E6DC 0%,#FFFDF8 100%)",
+    img: "https://images.unsplash.com/photo-1606293459275-87df2057c1ec?auto=format&fit=crop&w=1600&q=95",
+    grad: "linear-gradient(135deg,#FFE9D6 0%,#FFD0C2 100%)",
   },
   {
     title: "Fabric Painting",
-    desc: "Hand-painted florals, peacocks, Radha Krishna motifs and abstract art on fabric that lasts generations.",
+    shortDesc: "Florals, peacocks & motifs",
+    longDesc:
+      "Hand-painted florals, peacocks, Radha Krishna motifs and abstract art on fabric that lasts generations — soft, color-fast, beautiful.",
     icon: "❀",
-    img: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=900&q=80",
-    grad: "linear-gradient(135deg,#E8C8C2 0%,#F8F4EC 100%)",
+    img: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=1600&q=95",
+    grad: "linear-gradient(135deg,#FFD9DC 0%,#FFC0A8 100%)",
   },
   {
     title: "Stone & Bead Work",
-    desc: "Crystal, kundan, sequin and pearl embellishments that add a soft, royal sparkle to every outfit.",
+    shortDesc: "Crystal, kundan & sequins",
+    longDesc:
+      "Crystal, kundan, sequin and pearl embellishments that add a soft, royal sparkle to every bridal and occasion outfit.",
     icon: "✦",
-    img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=900&q=80",
-    grad: "linear-gradient(135deg,#F8F4EC 0%,#F6E6DC 100%)",
+    img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1600&q=95",
+    grad: "linear-gradient(135deg,#FFE2B8 0%,#FFD089 100%)",
   },
   {
-    title: "Custom Blouse Stitching",
-    desc: "Designer blouses tailored to your measurements, with custom necklines, sleeves and embroidery patterns.",
+    title: "Bespoke Tailoring",
+    shortDesc: "Made-to-measure perfection",
+    longDesc:
+      "Made-to-measure blouses, kurtas, lehengas and dresses — cut to your measurements, finished with our signature clean seams.",
     icon: "❖",
-    img: "https://images.unsplash.com/photo-1610189025573-5a7c9f51f2a3?auto=format&fit=crop&w=900&q=80",
-    grad: "linear-gradient(135deg,#FFFDF8 0%,#E8C8C2 100%)",
-  },
-  {
-    title: "Designer Kurtas",
-    desc: "Hand painted and embroidered kurtas for festivals, haldi, mehendi, casual elegance and gifting.",
-    icon: "❀",
-    img: "https://images.unsplash.com/photo-1602573991155-21f0143bb45a?auto=format&fit=crop&w=900&q=80",
-    grad: "linear-gradient(135deg,#F6E6DC 0%,#E8C8C2 100%)",
-  },
-  {
-    title: "Embroidered Lehengas",
-    desc: "Bridal and occasion lehengas with intricate hand embroidery, scallop edges and rich finishing.",
-    icon: "✶",
-    img: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=900&q=80",
-    grad: "linear-gradient(135deg,#F8F4EC 0%,#FFFDF8 100%)",
-  },
-  {
-    title: "Custom Orders",
-    desc: "Send us your design reference, fabric or idea — we'll turn it into a one-of-a-kind handcrafted piece.",
-    icon: "✦",
-    img: "https://images.unsplash.com/photo-1606293459407-44db5d2cd72f?auto=format&fit=crop&w=900&q=80",
-    grad: "linear-gradient(135deg,#E8C8C2 0%,#F6E6DC 100%)",
-  },
-  {
-    title: "Personalized Gifts",
-    desc: "Embroidered hoops, hand-painted tote bags, name initials, baby gifts — thoughtful, personal, handmade.",
-    icon: "❖",
-    img: "https://images.unsplash.com/photo-1606293459207-fff61ceaeb38?auto=format&fit=crop&w=900&q=80",
-    grad: "linear-gradient(135deg,#FFFDF8 0%,#F8F4EC 100%)",
-  },
-  {
-    title: "Decorative Wall Art",
-    desc: "Framed embroidery hoops, fabric paintings and tapestries that bring handcrafted warmth to your walls.",
-    icon: "✶",
-    img: "https://images.unsplash.com/photo-1620331317943-ee5b5a4c3a4b?auto=format&fit=crop&w=900&q=80",
-    grad: "linear-gradient(135deg,#F6E6DC 0%,#F8F4EC 100%)",
-  },
-  {
-    title: "Bridal Customization",
-    desc: "Bridal blouses, lehengas, dupattas and trousseau pieces — designed, embroidered and finished with love.",
-    icon: "✦",
-    img: "https://images.unsplash.com/photo-1591946614720-90a587da4a36?auto=format&fit=crop&w=900&q=80",
-    grad: "linear-gradient(135deg,#F8F4EC 0%,#E8C8C2 100%)",
+    img: "https://images.unsplash.com/photo-1610189025573-5a7c9f51f2a3?auto=format&fit=crop&w=1600&q=95",
+    grad: "linear-gradient(135deg,#E8D8FF 0%,#C9B6F0 100%)",
   },
 ];
 
+// 4 images for the Glimpse gallery
 const COLLECTIONS = [
   {
-    src: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
+    src: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1400&q=95",
     title: "Floral Thread Embroidery",
-    tag: "Thread Work",
   },
   {
-    src: "https://images.unsplash.com/photo-1606293459275-87df2057c1ec?auto=format&fit=crop&w=800&q=80",
-    title: "Peacock Motif Embroidery",
-    tag: "Hand Embroidery",
+    src: "https://images.unsplash.com/photo-1602573991155-21f0143bb45a?auto=format&fit=crop&w=1400&q=95",
+    title: "Painted Designer Kurta",
   },
   {
-    src: "https://images.unsplash.com/photo-1602573991155-21f0143bb45a?auto=format&fit=crop&w=800&q=80",
-    title: "Radha Krishna Painted Kurta",
-    tag: "Fabric Painting",
+    src: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1400&q=95",
+    title: "Embroidered Saree",
   },
   {
-    src: "https://images.unsplash.com/photo-1610189025573-5a7c9f51f2a3?auto=format&fit=crop&w=800&q=80",
+    src: "https://images.unsplash.com/photo-1610189025573-5a7c9f51f2a3?auto=format&fit=crop&w=1400&q=95",
     title: "Custom Bridal Blouse",
-    tag: "Bridal",
+  },
+];
+
+// 3 items for Handcrafted With Heart — no text on images
+const SHOWCASE = [
+  {
+    src: "https://images.unsplash.com/photo-1606293459407-44db5d2cd72f?auto=format&fit=crop&w=1600&q=95",
   },
   {
-    src: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=800&q=80",
-    title: "Embroidered Bedsheet Set",
-    tag: "Home Decor",
+    src: "https://images.unsplash.com/photo-1620331317943-ee5b5a4c3a4b?auto=format&fit=crop&w=1600&q=95",
   },
   {
-    src: "https://images.unsplash.com/photo-1606293459407-44db5d2cd72f?auto=format&fit=crop&w=800&q=80",
-    title: "Stone Work Lehenga",
-    tag: "Stone & Bead",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1620331317943-ee5b5a4c3a4b?auto=format&fit=crop&w=800&q=80",
-    title: "Hand Painted Dupatta",
-    tag: "Fabric Painting",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1606293459207-fff61ceaeb38?auto=format&fit=crop&w=800&q=80",
-    title: "Designer Anarkali",
-    tag: "Designer Wear",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1591946614720-90a587da4a36?auto=format&fit=crop&w=800&q=80",
-    title: "Embroidered Cushion Covers",
-    tag: "Home Decor",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1610189000264-3f06d7be0b14?auto=format&fit=crop&w=800&q=80",
-    title: "Floral Hoop Art",
-    tag: "Wall Art",
+    src: "https://images.unsplash.com/photo-1606293459207-fff61ceaeb38?auto=format&fit=crop&w=1600&q=95",
   },
 ];
 
 const FEATURES = [
-  { title: "Handmade with Love", icon: "♥", desc: "Every piece is created stitch by stitch, never mass produced." },
+  { title: "Handmade with Love", icon: "♥", desc: "Every piece is created stitch by stitch — never mass produced." },
   { title: "100% Custom Designs", icon: "✦", desc: "Send your idea, reference or sketch — we craft it just for you." },
-  { title: "Premium Quality Threads", icon: "❀", desc: "We use only trusted, color-fast threads, beads and stones." },
+  { title: "Premium Quality", icon: "❀", desc: "Only trusted threads, beads, stones and color-fast paints." },
   { title: "Personalised Orders", icon: "✶", desc: "Names, initials, dates, custom colors — fully personal to you." },
   { title: "Fine Detailing", icon: "❖", desc: "Clean finishing, neat backs, sharp motifs — premium by design." },
   { title: "Affordable Pricing", icon: "✿", desc: "Direct-from-artisan pricing — luxury that doesn't break the bank." },
-  { title: "Traditional Craft", icon: "✤", desc: "Indian hand embroidery techniques passed down through generations." },
-  { title: "Modern Fusion", icon: "✥", desc: "Heritage craft meets contemporary cuts, colors and silhouettes." },
-  { title: "Fast & Safe Delivery", icon: "✜", desc: "Carefully packed and shipped across India and worldwide." },
+  { title: "Traditional Craft", icon: "✤", desc: "Indian hand embroidery techniques passed through generations." },
   { title: "Customer Happiness", icon: "♥", desc: "Hundreds of happy customers and counting — your joy is our goal." },
-];
-
-const PROCESS = [
-  {
-    step: "01",
-    title: "Sketch & Concept",
-    desc: "We start with your idea — a sketch, reference image, fabric piece or even a rough thought. We translate it into a thoughtful design.",
-    img: "https://images.unsplash.com/photo-1606293459207-fff61ceaeb38?auto=format&fit=crop&w=900&q=80",
-  },
-  {
-    step: "02",
-    title: "Design Planning",
-    desc: "Motif placement, thread colors, fabric choice and technique — every detail is planned before a single stitch is placed.",
-    img: "https://images.unsplash.com/photo-1620331317943-ee5b5a4c3a4b?auto=format&fit=crop&w=900&q=80",
-  },
-  {
-    step: "03",
-    title: "Hand Embroidery",
-    desc: "Skilled hands bring the design to life — aari, zardosi, thread work or mirror work, exactly as planned.",
-    img: "https://images.unsplash.com/photo-1606293459275-87df2057c1ec?auto=format&fit=crop&w=900&q=80",
-  },
-  {
-    step: "04",
-    title: "Painting or Stone Work",
-    desc: "Fabric painting, stone, sequin and bead embellishments are added layer by layer for a rich, royal finish.",
-    img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=900&q=80",
-  },
-  {
-    step: "05",
-    title: "Finishing & Delivery",
-    desc: "Clean finishing, neat backs, careful pressing, premium packaging and safe doorstep delivery to your home.",
-    img: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=900&q=80",
-  },
-];
-
-const SHOWCASE = [
-  {
-    title: "Blouse Embroidery",
-    desc: "Custom blouses with intricate thread and stone work, designed to match your saree or lehenga. From elegant everyday florals to heavy bridal masterpieces — every blouse is stitched to your measurements and embroidered to perfection.",
-    img: "https://images.unsplash.com/photo-1610189025573-5a7c9f51f2a3?auto=format&fit=crop&w=1200&q=80",
-    points: ["Custom necklines", "Stone & thread", "Perfect fit"],
-  },
-  {
-    title: "Kurta Embroidery & Painting",
-    desc: "Hand painted kurtas with traditional motifs — peacock, Radha Krishna, florals, mandalas. We work on cotton, silk, georgette and chanderi, with matching dupattas and bottoms available.",
-    img: "https://images.unsplash.com/photo-1602573991155-21f0143bb45a?auto=format&fit=crop&w=1200&q=80",
-    points: ["All fabrics", "Custom motifs", "Matching sets"],
-  },
-  {
-    title: "Fabric Painting",
-    desc: "From sarees and dupattas to kurtas and home linen — we hand paint every piece with love. Soft water based colors, sharp outlines, and a finish that stays beautiful wash after wash.",
-    img: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=1200&q=80",
-    points: ["Color fast", "Sharp detail", "Soft feel"],
-  },
-  {
-    title: "Bridal Customization",
-    desc: "Your wedding deserves pieces made only for you. We work closely with brides to design custom bridal blouses, lehengas, dupattas and trousseau pieces — fully embroidered and painted.",
-    img: "https://images.unsplash.com/photo-1591946614720-90a587da4a36?auto=format&fit=crop&w=1200&q=80",
-    points: ["Bridal lehenga", "Custom blouse", "Trousseau sets"],
-  },
-  {
-    title: "Bedsheet Embroidery",
-    desc: "Hand embroidered bedsheets, pillow covers and cushion covers that turn your bedroom into a soft, luxurious haven. Floral borders, scallop edges and matching sets available.",
-    img: "https://images.unsplash.com/photo-1606293459407-44db5d2cd72f?auto=format&fit=crop&w=1200&q=80",
-    points: ["Full sets", "Custom sizes", "Soft threads"],
-  },
-  {
-    title: "Personalised Embroidery Gifts",
-    desc: "Names, initials, dates, baby names, wedding dates — embroidered onto hoops, tote bags, baby rompers, towels and more. The most thoughtful, personal gift you can give.",
-    img: "https://images.unsplash.com/photo-1606293459207-fff61ceaeb38?auto=format&fit=crop&w=1200&q=80",
-    points: ["Names & initials", "Baby gifts", "Wedding favors"],
-  },
 ];
 
 const TESTIMONIALS = [
   {
     name: "Aanya Sharma",
     role: "Bride, Jaipur",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=95",
     quote:
       "My bridal blouse and lehenga were nothing short of a dream. The stone work, the finish, the patience with my endless changes — I felt so cared for. I cannot recommend Shree Collection enough.",
   },
   {
     name: "Meera Iyer",
     role: "Designer, Mumbai",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80",
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=95",
     quote:
       "I sent them a reference image of my grandmother's saree and they recreated the embroidery so beautifully I cried. Real craftsmanship, real people, real love in every stitch.",
   },
   {
     name: "Roshni Patel",
     role: "Customer, Ahmedabad",
-    avatar: "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=crop&w=200&q=80",
+    avatar: "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=crop&w=200&q=95",
     quote:
       "The hand painted kurta I ordered is honestly the most beautiful thing in my wardrobe. Colors are so soft, the fabric feels rich, and the fit is perfect. Already planning my next order!",
   },
   {
     name: "Kavya Reddy",
     role: "Content Creator, Hyderabad",
-    avatar: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=200&q=80",
+    avatar: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=200&q=95",
     quote:
       "I bought personalised embroidery hoops as wedding favors for my sister. Every single guest asked where they came from. The packaging, the detailing — premium from start to finish.",
   },
   {
     name: "Sneha Kapoor",
     role: "Doctor, Delhi",
-    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80",
+    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=95",
     quote:
       "I have ordered three blouses and a bedsheet set from Shree Collection. Every single piece has been flawless. The team is warm, the delivery is fast, and the work is just stunning.",
-  },
-  {
-    name: "Priya Nair",
-    role: "Homemaker, Bengaluru",
-    avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=200&q=80",
-    quote:
-      "The cushion covers and wall hoops I ordered completely changed the vibe of my living room. People literally think I got them from a high-end boutique. Thank you for the love!",
   },
 ];
 
@@ -310,23 +164,8 @@ const STATS = [
   { value: 4.9, suffix: "★", label: "Average Customer Rating", decimals: 1 },
 ];
 
-const INSTAGRAM = [
-  "https://images.unsplash.com/photo-1606293459275-87df2057c1ec?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1602573991155-21f0143bb45a?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1610189025573-5a7c9f51f2a3?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1606293459407-44db5d2cd72f?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1620331317943-ee5b5a4c3a4b?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1606293459207-fff61ceaeb38?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1591946614720-90a587da4a36?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1610189000264-3f06d7be0b14?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1606293459287-3f6b1d9b0a93?auto=format&fit=crop&w=600&q=80",
-];
-
 // ---------------------------------------------------------------------
-// 2) SMALL REUSABLE SUB-COMPONENTS
+// 2) REUSABLE SUB-COMPONENTS
 // ---------------------------------------------------------------------
 
 const SectionHeading = ({ eyebrow, title, subtitle, light }) => (
@@ -342,13 +181,10 @@ const SectionHeading = ({ eyebrow, title, subtitle, light }) => (
   </div>
 );
 
-// ---------------------------------------------------------------------
-// 3) CUSTOM HOOK — IntersectionObserver-based reveal-on-scroll
-// ---------------------------------------------------------------------
-const useReveal = (options = { threshold: 0.15 }) => {
+// IntersectionObserver-based reveal hook
+const useReveal = (options = { threshold: 0.12 }) => {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
-
   useEffect(() => {
     if (!ref.current) return;
     const el = ref.current;
@@ -367,15 +203,15 @@ const useReveal = (options = { threshold: 0.15 }) => {
     return () => obs.disconnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return [ref, visible];
 };
 
 // ---------------------------------------------------------------------
-// 4) MAIN HOME COMPONENT
+// 3) MAIN HOME COMPONENT
 // ---------------------------------------------------------------------
+
 const Home = () => {
-  // ------- Hero slider state -------
+  // Hero slider
   const [slide, setSlide] = useState(0);
   useEffect(() => {
     const id = setInterval(() => {
@@ -384,30 +220,28 @@ const Home = () => {
     return () => clearInterval(id);
   }, []);
 
-  // ------- Scroll reveal triggers for staggered children -------
+  // Section reveal triggers
   const [craftRef, craftVisible] = useReveal();
   const [serviceRef, serviceVisible] = useReveal();
   const [galleryRef, galleryVisible] = useReveal();
   const [whyRef, whyVisible] = useReveal();
-  const [processRef, processVisible] = useReveal();
   const [showcaseRef, showcaseVisible] = useReveal();
   const [testiRef, testiVisible] = useReveal();
   const [statsRef, statsVisible] = useReveal();
-  const [instaRef, instaVisible] = useReveal();
   const [ctaRef, ctaVisible] = useReveal();
 
-  // ------- Testimonial slider state -------
+  // Testimonials slider
   const [tIndex, setTIndex] = useState(0);
   const nextTesti = () => setTIndex((i) => (i + 1) % TESTIMONIALS.length);
   const prevTesti = () => setTIndex((i) => (i - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
 
-  // ------- Animated counters -------
+  // Counters
   const [counted, setCounted] = useState(false);
   useEffect(() => {
     if (statsVisible) setCounted(true);
   }, [statsVisible]);
 
-  // ------- Instagram lightbox state -------
+  // Lightbox for any image click (collections + showcase)
   const [lightbox, setLightbox] = useState(null);
   useEffect(() => {
     const onKey = (e) => {
@@ -416,8 +250,6 @@ const Home = () => {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
-
-  // Lock body scroll when lightbox open
   useEffect(() => {
     document.body.style.overflow = lightbox ? "hidden" : "";
     return () => {
@@ -425,7 +257,7 @@ const Home = () => {
     };
   }, [lightbox]);
 
-  // ------- Memoized visible testimonial slice -------
+  // Compute visible testimonials
   const visibleTestimonials = useMemo(() => {
     const arr = [];
     for (let i = 0; i < 3; i++) {
@@ -434,14 +266,11 @@ const Home = () => {
     return arr;
   }, [tIndex]);
 
-  // -----------------------------------------------------------------
-  // RENDER
-  // -----------------------------------------------------------------
   return (
     <main className="sc-home">
       {/* ============== 1. HERO BANNER ============== */}
       <section className="sc-hero" id="home">
-        {/* Background slider */}
+        {/* Background slider — sharp HD images, no blur */}
         <div className="sc-hero-slider">
           {HERO_SLIDES.map((s, i) => (
             <div
@@ -451,17 +280,20 @@ const Home = () => {
               aria-hidden={i !== slide}
             />
           ))}
+          {/* Soft warm gradient — keeps text readable, doesn't blur photo */}
           <div className="sc-hero-overlay" />
+          {/* Vignette for premium feel */}
+          <div className="sc-hero-vignette" />
         </div>
 
-        {/* Floating decorative SVG threads */}
+        {/* Floating decorative SVG threads + florals */}
         <div className="sc-hero-threads" aria-hidden="true">
           <svg className="sc-thread sc-thread-1" viewBox="0 0 200 200">
             <path
               d="M20,100 C50,40 150,160 180,100"
               fill="none"
               stroke="#C8A96A"
-              strokeWidth="1.2"
+              strokeWidth="1.4"
               strokeLinecap="round"
               strokeDasharray="4 6"
             />
@@ -471,7 +303,7 @@ const Home = () => {
               d="M10,150 Q90,30 190,150"
               fill="none"
               stroke="#E8C8C2"
-              strokeWidth="1.4"
+              strokeWidth="1.6"
               strokeLinecap="round"
               strokeDasharray="2 8"
             />
@@ -481,7 +313,7 @@ const Home = () => {
               d="M30,40 C100,180 140,20 180,170"
               fill="none"
               stroke="#6F8A5E"
-              strokeWidth="1.2"
+              strokeWidth="1.4"
               strokeLinecap="round"
               strokeDasharray="3 7"
             />
@@ -490,9 +322,10 @@ const Home = () => {
           <span className="sc-float-flower sc-flower-2">✿</span>
           <span className="sc-float-flower sc-flower-3">✦</span>
           <span className="sc-float-flower sc-flower-4">❖</span>
+          <span className="sc-float-flower sc-flower-5">✦</span>
         </div>
 
-        {/* Hero content */}
+        {/* Hero text content */}
         <div className="sc-hero-content">
           <span className="sc-hero-eyebrow">~ Handcrafted with love since 2013 ~</span>
           <h1 className="sc-hero-title">
@@ -505,14 +338,32 @@ const Home = () => {
             patience and a whole lot of passion.
           </p>
           <div className="sc-hero-cta">
-            <a href="#collections" className="sc-btn sc-btn-primary">
+            <Link to="/collections" className="sc-btn sc-btn-primary">
               <span>Explore Collection</span>
               <span className="sc-btn-icon">→</span>
-            </a>
+            </Link>
             <a href="#contact" className="sc-btn sc-btn-ghost">
               <span className="sc-btn-icon">✦</span>
               <span>Custom Order</span>
             </a>
+          </div>
+
+          {/* Hero stats inline */}
+          <div className="sc-hero-stats">
+            <div className="sc-hero-stat">
+              <strong>1250+</strong>
+              <span>Happy Customers</span>
+            </div>
+            <div className="sc-hero-stat-divider" />
+            <div className="sc-hero-stat">
+              <strong>12+</strong>
+              <span>Years of Artistry</span>
+            </div>
+            <div className="sc-hero-stat-divider" />
+            <div className="sc-hero-stat">
+              <strong>4.9★</strong>
+              <span>Customer Rating</span>
+            </div>
           </div>
 
           {/* Slide indicators */}
@@ -528,20 +379,11 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Right side collage */}
-        <div className="sc-hero-collage" aria-hidden="true">
-          {HERO_COLLAGE.map((src, i) => (
-            <div key={i} className={`sc-collage-item sc-collage-${i + 1}`}>
-              <img src={src} alt="" loading="lazy" />
-            </div>
-          ))}
-        </div>
-
         {/* Scroll cue */}
-        <div className="sc-scroll-cue">
+        <a href="#craft" className="sc-scroll-cue" aria-label="Scroll down">
           <span>Scroll</span>
           <div className="sc-scroll-line" />
-        </div>
+        </a>
       </section>
 
       {/* ============== 2. OUR CRAFTSMANSHIP ============== */}
@@ -551,7 +393,7 @@ const Home = () => {
             <div className="sc-craft-image">
               <div className="sc-craft-frame">
                 <img
-                  src="https://images.unsplash.com/photo-1606293459275-87df2057c1ec?auto=format&fit=crop&w=1000&q=80"
+                  src="https://images.unsplash.com/photo-1606293459275-87df2057c1ec?auto=format&fit=crop&w=1400&q=95"
                   alt="Hand embroidery in progress"
                   loading="lazy"
                 />
@@ -605,21 +447,21 @@ const Home = () => {
                   </div>
                 </li>
               </ul>
-              <a href="#process" className="sc-link-arrow">
-                See how we create <span>→</span>
-              </a>
+              <Link to="/collections" className="sc-link-arrow">
+                Explore our work <span>→</span>
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ============== 3. OUR SERVICES ============== */}
+      {/* ============== 3. OUR SERVICES (4 signature) ============== */}
       <section className="sc-services" ref={serviceRef} id="services">
         <div className="sc-container">
           <SectionHeading
             eyebrow="What We Create"
             title="Our Signature Services"
-            subtitle="From intricate embroidery to personalised gifts — every service is handcrafted with patience, premium materials and a lot of heart."
+            subtitle="Four signature crafts we pour our heart into — every piece is handcrafted with patience, premium materials and love."
           />
 
           <div className={`sc-services-grid ${serviceVisible ? "is-visible" : ""}`}>
@@ -627,7 +469,7 @@ const Home = () => {
               <article
                 key={s.title}
                 className="sc-service-card"
-                style={{ background: s.grad, animationDelay: `${i * 80}ms` }}
+                style={{ background: s.grad, animationDelay: `${i * 110}ms` }}
               >
                 <div className="sc-service-corner sc-corner-tl">❀</div>
                 <div className="sc-service-corner sc-corner-br">❀</div>
@@ -638,40 +480,47 @@ const Home = () => {
                   {s.icon}
                 </div>
                 <h3 className="sc-service-title">{s.title}</h3>
-                <p className="sc-service-desc">{s.desc}</p>
-                <a href="#contact" className="sc-service-cta">
+                <p className="sc-service-short">{s.shortDesc}</p>
+                <p className="sc-service-desc">{s.longDesc}</p>
+                <Link to="/collections" className="sc-service-cta">
                   Enquire Now <span>→</span>
-                </a>
+                </Link>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ============== 4. FEATURED COLLECTIONS ============== */}
+      {/* ============== 4. A GLIMPSE INTO OUR WORK (4 images) ============== */}
       <section className="sc-collections" ref={galleryRef} id="collections">
         <div className="sc-container">
           <SectionHeading
             eyebrow="Featured Gallery"
             title="A Glimpse Into Our Work"
-            subtitle="A curated collection of recent pieces — embroidery, fabric painting, stone work, bridal wear and personalised art. Hover to see the story behind each design."
+            subtitle="A curated peek at recent pieces — embroidery, fabric painting, stone work and bridal wear. Click any image to view it larger."
           />
 
-          <div className={`sc-masonry ${galleryVisible ? "is-visible" : ""}`}>
+          <div className={`sc-glimpse-grid ${galleryVisible ? "is-visible" : ""}`}>
             {COLLECTIONS.map((c, i) => (
-              <figure
+              <button
                 key={c.title}
-                className={`sc-masonry-item sc-masonry-${(i % 5) + 1}`}
-                style={{ animationDelay: `${i * 70}ms` }}
+                className="sc-glimpse-tile"
+                onClick={() => setLightbox(c.src)}
+                aria-label={`View ${c.title}`}
+                style={{ animationDelay: `${i * 90}ms` }}
               >
                 <img src={c.src} alt={c.title} loading="lazy" />
-                <figcaption className="sc-masonry-caption">
-                  <span className="sc-masonry-tag">{c.tag}</span>
-                  <h4>{c.title}</h4>
-                  <button className="sc-masonry-btn">View Design →</button>
-                </figcaption>
-              </figure>
+                <span className="sc-glimpse-zoom" aria-hidden="true">+</span>
+                <span className="sc-glimpse-glow" aria-hidden="true" />
+              </button>
             ))}
+          </div>
+
+          <div className="sc-glimpse-more-wrap">
+            <Link to="/collections" className="sc-btn sc-btn-primary sc-btn-lg">
+              <span>See More</span>
+              <span className="sc-btn-icon">→</span>
+            </Link>
           </div>
         </div>
       </section>
@@ -690,7 +539,7 @@ const Home = () => {
               <div
                 key={f.title}
                 className="sc-why-card"
-                style={{ animationDelay: `${i * 60}ms` }}
+                style={{ animationDelay: `${i * 70}ms` }}
               >
                 <div className="sc-why-icon">{f.icon}</div>
                 <h3>{f.title}</h3>
@@ -702,78 +551,33 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ============== 6. OUR WORKING PROCESS ============== */}
-      <section className="sc-process" ref={processRef} id="process">
-        <div className="sc-container">
-          <SectionHeading
-            eyebrow="From Idea to Art"
-            title="Our Working Process"
-            subtitle="A simple, transparent journey — from your first idea to a finished handcrafted piece delivered to your door."
-          />
-
-          <div className={`sc-timeline ${processVisible ? "is-visible" : ""}`}>
-            <div className="sc-timeline-line" aria-hidden="true" />
-            {PROCESS.map((p, i) => (
-              <div
-                key={p.step}
-                className={`sc-timeline-step sc-step-${i + 1}`}
-                style={{ animationDelay: `${i * 120}ms` }}
-              >
-                <div className="sc-step-dot" aria-hidden="true">
-                  {p.step}
-                </div>
-                <div className="sc-step-card">
-                  <div className="sc-step-img">
-                    <img src={p.img} alt={p.title} loading="lazy" />
-                  </div>
-                  <h3>{p.title}</h3>
-                  <p>{p.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============== 7. IMAGE SHOWCASE ============== */}
+      {/* ============== 6. HANDCRAFTED WITH HEART (3 images) ============== */}
       <section className="sc-showcase" ref={showcaseRef} id="showcase">
         <div className="sc-container">
           <SectionHeading
             eyebrow="The Artistry"
             title="Handcrafted With Heart"
-            subtitle="A deeper look at the work we love — six signature crafts that define Shree Collection."
+            subtitle="Three signature pieces that capture everything we love about our craft — pure, hand-made, beautiful."
           />
 
-          <div className={`sc-showcase-list ${showcaseVisible ? "is-visible" : ""}`}>
-            {SHOWCASE.map((b, i) => (
-              <article
-                key={b.title}
-                className={`sc-showcase-block ${i % 2 === 1 ? "is-reverse" : ""}`}
-                style={{ animationDelay: `${i * 100}ms` }}
+          <div className={`sc-showcase-grid ${showcaseVisible ? "is-visible" : ""}`}>
+            {SHOWCASE.map((s, i) => (
+              <button
+                key={i}
+                className="sc-showcase-tile"
+                onClick={() => setLightbox(s.src)}
+                aria-label={`View handcrafted piece ${i + 1}`}
+                style={{ animationDelay: `${i * 120}ms` }}
               >
-                <div className="sc-showcase-img">
-                  <img src={b.img} alt={b.title} loading="lazy" />
-                  <span className="sc-showcase-deco">❀</span>
-                </div>
-                <div className="sc-showcase-content">
-                  <span className="sc-eyebrow">Craft No. {String(i + 1).padStart(2, "0")}</span>
-                  <h3 className="sc-h3">{b.title}</h3>
-                  <p>{b.desc}</p>
-                  <ul className="sc-showcase-points">
-                    {b.points.map((pt) => (
-                      <li key={pt}>
-                        <span>✦</span> {pt}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
+                <img src={s.src} alt={`Handcrafted piece ${i + 1}`} loading="lazy" />
+                <span className="sc-showcase-zoom" aria-hidden="true">+</span>
+              </button>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ============== 8. CUSTOMER TESTIMONIALS ============== */}
+      {/* ============== 7. CUSTOMER TESTIMONIALS ============== */}
       <section className="sc-testimonials" ref={testiRef} id="testimonials">
         <div className="sc-container">
           <SectionHeading
@@ -823,12 +627,12 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ============== 9. STATISTICS COUNTER ============== */}
+      {/* ============== 8. STATISTICS COUNTER ============== */}
       <section className="sc-stats" ref={statsRef} id="stats">
         <div className="sc-container">
           <div className={`sc-stats-grid ${statsVisible ? "is-visible" : ""}`}>
             {STATS.map((s, i) => (
-              <div key={s.label} className="sc-stat" style={{ animationDelay: `${i * 90}ms` }}>
+              <div key={s.label} className="sc-stat" style={{ animationDelay: `${i * 100}ms` }}>
                 <span className="sc-stat-value">
                   {counted ? (
                     <CountUp end={s.value} decimals={s.decimals || 0} />
@@ -845,42 +649,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ============== 10. INSTAGRAM GALLERY ============== */}
-      <section className="sc-insta" ref={instaRef} id="instagram">
-        <div className="sc-container">
-          <SectionHeading
-            eyebrow="Follow Along"
-            title="Instagram Inspiration"
-            subtitle="A peek into our daily handcraft life — embroidery, painting, packaging and happy customers. Follow @shreecollection on Instagram."
-          />
-
-          <div className={`sc-insta-grid ${instaVisible ? "is-visible" : ""}`}>
-            {INSTAGRAM.map((src, i) => (
-              <button
-                key={i}
-                className="sc-insta-tile"
-                onClick={() => setLightbox(src)}
-                aria-label={`Open Instagram image ${i + 1}`}
-                style={{ animationDelay: `${i * 50}ms` }}
-              >
-                <img src={src} alt={`Instagram inspiration ${i + 1}`} loading="lazy" />
-                <span className="sc-insta-zoom">+</span>
-              </button>
-            ))}
-          </div>
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="sc-btn sc-btn-outline sc-insta-cta"
-          >
-            <span>Follow on Instagram</span>
-            <span className="sc-btn-icon">→</span>
-          </a>
-        </div>
-      </section>
-
-      {/* ============== 11. CALL TO ACTION ============== */}
+      {/* ============== 9. CALL TO ACTION ============== */}
       <section className="sc-cta" ref={ctaRef} id="contact">
         <div className="sc-cta-border" aria-hidden="true">
           <span>❀</span>
@@ -909,10 +678,10 @@ const Home = () => {
                 <span>Start Your Custom Order</span>
                 <span className="sc-btn-icon">✦</span>
               </a>
-              <a href="#collections" className="sc-btn sc-btn-ghost sc-btn-lg">
+              <Link to="/collections" className="sc-btn sc-btn-ghost sc-btn-lg">
                 <span>Browse Collection</span>
                 <span className="sc-btn-icon">→</span>
-              </a>
+              </Link>
             </div>
             <div className="sc-cta-meta">
               <div className="sc-cta-meta-item">
@@ -942,9 +711,7 @@ const Home = () => {
   );
 };
 
-// ---------------------------------------------------------------------
-// 5) CountUp — small sub-component for animated statistics
-// ---------------------------------------------------------------------
+// CountUp sub-component
 const CountUp = ({ end, duration = 1800, decimals = 0 }) => {
   const [val, setVal] = useState(0);
   useEffect(() => {
@@ -953,7 +720,7 @@ const CountUp = ({ end, duration = 1800, decimals = 0 }) => {
     const step = (ts) => {
       if (!start) start = ts;
       const progress = Math.min((ts - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+      const eased = 1 - Math.pow(1 - progress, 3);
       setVal(end * eased);
       if (progress < 1) raf = requestAnimationFrame(step);
       else setVal(end);
