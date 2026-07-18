@@ -14,23 +14,23 @@ import "./Home.css";
 
 const HERO_SLIDES = [
   {
-    src: "https://images.unsplash.com/photo-1606293459275-87df2057c1ec?auto=format&fit=crop&w=2400&q=95",
+    src: "https://i.pinimg.com/474x/68/87/6e/68876ecba001a07cc552d4125cce2976.jpg",
     alt: "Hand embroidery close up with golden thread",
   },
   {
-    src: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=2400&q=95",
+    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-OP0i0J5zCFqbHqWcuzRQ6-7catr_zDdFHTGI-e92zBt3-iAnzRil38GK&s=10",
     alt: "Floral thread work on pastel fabric",
   },
   {
-    src: "https://images.unsplash.com/photo-1602573991155-21f0143bb45a?auto=format&fit=crop&w=2400&q=95",
+    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJUVQoRdXUArRUjfbcmEc_qFrj5OTtIB8YWI6Out1Tyw&s=10",
     alt: "Hand painted designer kurta",
   },
   {
-    src: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=2400&q=95",
+    src: "https://i.pinimg.com/564x/88/99/0e/88990e7035e73632c707bfc0ca8c97d9.jpg",
     alt: "Embroidered saree with intricate motifs",
   },
   {
-    src: "https://images.unsplash.com/photo-1610189025573-5a7c9f51f2a3?auto=format&fit=crop&w=2400&q=95",
+    src: "https://cdn0.weddingwire.in/article/2168/original/1280/jpg/98612-types-of-blouse-embroidery-designs-13.jpeg",
     alt: "Stone work on bridal blouse",
   },
 ];
@@ -42,7 +42,7 @@ const SERVICES = [
     longDesc:
       "Aari, zardosi, thread work and mirror work — every stitch is placed by patient, loving hands trained in traditional Indian craft.",
     icon: "✶",
-    img: "https://images.unsplash.com/photo-1606293459275-87df2057c1ec?auto=format&fit=crop&w=1600&q=95",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-OP0i0J5zCFqbHqWcuzRQ6-7catr_zDdFHTGI-e92zBt3-iAnzRil38GK&s=10",
     grad: "linear-gradient(135deg,#FFE9D6 0%,#FFD0C2 100%)",
   },
   {
@@ -51,7 +51,7 @@ const SERVICES = [
     longDesc:
       "Hand-painted florals, peacocks, Radha Krishna motifs and abstract art on fabric that lasts generations — soft, color-fast, beautiful.",
     icon: "❀",
-    img: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=1600&q=95",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1oaWAwHthtWdebNpeXkxz_khkr4Lu_UYIDSPl2cVhGKNQUR1MSNDOXBk&s=10",
     grad: "linear-gradient(135deg,#FFD9DC 0%,#FFC0A8 100%)",
   },
   {
@@ -60,7 +60,7 @@ const SERVICES = [
     longDesc:
       "Crystal, kundan, sequin and pearl embellishments that add a soft, royal sparkle to every bridal and occasion outfit.",
     icon: "✦",
-    img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1600&q=95",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-OP0i0J5zCFqbHqWcuzRQ6-7catr_zDdFHTGI-e92zBt3-iAnzRil38GK&s=10",
     grad: "linear-gradient(135deg,#FFE2B8 0%,#FFD089 100%)",
   },
   {
@@ -69,8 +69,8 @@ const SERVICES = [
     longDesc:
       "Made-to-measure blouses, kurtas, lehengas and dresses — cut to your measurements, finished with our signature clean seams.",
     icon: "❖",
-    img: "https://images.unsplash.com/photo-1610189025573-5a7c9f51f2a3?auto=format&fit=crop&w=1600&q=95",
-    grad: "linear-gradient(135deg,#E8D8FF 0%,#C9B6F0 100%)",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJUVQoRdXUArRUjfbcmEc_qFrj5OTtIB8YWI6Out1Tyw&s=10",
+    grad: "linear-gradient(135deg,#E8D8FF 0%,#C9B6F0 100%)"
   },
 ];
 
@@ -97,13 +97,13 @@ const COLLECTIONS = [
 // 3 items for Handcrafted With Heart — no text on images
 const SHOWCASE = [
   {
-    src: "https://images.unsplash.com/photo-1606293459407-44db5d2cd72f?auto=format&fit=crop&w=1600&q=95",
+    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1oaWAwHthtWdebNpeXkxz_khkr4Lu_UYIDSPl2cVhGKNQUR1MSNDOXBk&s=10",
   },
   {
-    src: "https://images.unsplash.com/photo-1620331317943-ee5b5a4c3a4b?auto=format&fit=crop&w=1600&q=95",
+    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJUVQoRdXUArRUjfbcmEc_qFrj5OTtIB8YWI6Out1Tyw&s=10",
   },
   {
-    src: "https://images.unsplash.com/photo-1606293459207-fff61ceaeb38?auto=format&fit=crop&w=1600&q=95",
+    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJUVQoRdXUArRUjfbcmEc_qFrj5OTtIB8YWI6Out1Tyw&s=10",
   },
 ];
 
@@ -122,7 +122,7 @@ const TESTIMONIALS = [
   {
     name: "Aanya Sharma",
     role: "Bride, Jaipur",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=95",
+    avatar: "https://www.embroiderywale.com/wp-content/uploads/2025/07/JMD027-3-1300x1733.jpg",
     quote:
       "My bridal blouse and lehenga were nothing short of a dream. The stone work, the finish, the patience with my endless changes — I felt so cared for. I cannot recommend Shree Collection enough.",
   },
@@ -136,21 +136,21 @@ const TESTIMONIALS = [
   {
     name: "Roshni Patel",
     role: "Customer, Ahmedabad",
-    avatar: "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=crop&w=200&q=95",
+    avatar: "https://www.zilikaa.com/cdn/shop/files/i-4_f07ce4ca-bc7d-4c8b-ad3a-69239f04c835.jpg?v=1746691573",
     quote:
       "The hand painted kurta I ordered is honestly the most beautiful thing in my wardrobe. Colors are so soft, the fabric feels rich, and the fit is perfect. Already planning my next order!",
   },
   {
     name: "Kavya Reddy",
     role: "Content Creator, Hyderabad",
-    avatar: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=200&q=95",
+    avatar: "https://hyderabad.ksethnic.com/blouse/2025/03/elegant-white-zardosi-work-raw-silk-blouse-1.webp",
     quote:
       "I bought personalised embroidery hoops as wedding favors for my sister. Every single guest asked where they came from. The packaging, the detailing — premium from start to finish.",
   },
   {
     name: "Sneha Kapoor",
     role: "Doctor, Delhi",
-    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=95",
+    avatar: "https://tiimg.tistatic.com/fp/1/005/043/plain-cotton-embroidered-bed-sheets-829.jpg",
     quote:
       "I have ordered three blouses and a bedsheet set from Shree Collection. Every single piece has been flawless. The team is warm, the delivery is fast, and the work is just stunning.",
   },
@@ -393,7 +393,7 @@ const Home = () => {
             <div className="sc-craft-image">
               <div className="sc-craft-frame">
                 <img
-                  src="https://images.unsplash.com/photo-1606293459275-87df2057c1ec?auto=format&fit=crop&w=1400&q=95"
+                  src="https://tiimg.tistatic.com/fp/1/005/043/plain-cotton-embroidered-bed-sheets-829.jpg"
                   alt="Hand embroidery in progress"
                   loading="lazy"
                 />
